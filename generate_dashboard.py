@@ -2963,14 +2963,27 @@ details.chdeals .dl span{font-size:11px;background:rgba(104,209,245,.1);border:1
 .ls-list li::before{content:"•";position:absolute;left:2px;color:var(--brand);font-weight:800}
 .ls-col.b .ls-list li::before{color:var(--warn)}
 @media(max-width:820px){.lead-strat{grid-template-columns:1fr}}
-.flow-intro{margin-top:20px;margin-bottom:14px}
-.flow-steps{display:flex;flex-direction:column;align-items:stretch;gap:6px}
-.flow-step{display:flex;gap:14px;align-items:flex-start;background:linear-gradient(165deg,rgba(24,52,38,.6),rgba(19,41,30,.4));border:1px solid var(--line2);border-radius:14px;padding:14px 18px}
-.fs-ico{font-size:22px;line-height:1;flex:0 0 auto;margin-top:1px}
-.fs-body{flex:1 1 auto}
-.fs-t{font-size:13px;font-weight:800;color:var(--ink);margin-bottom:4px}
-.fs-d{font-size:12.5px;color:var(--ink2);line-height:1.55}
-.flow-arrow{align-self:center;color:var(--brand);font-size:16px;font-weight:800;line-height:1}
+.journey{display:flex;align-items:stretch;gap:0;flex-wrap:nowrap}
+.jr-stage{flex:1 1 0;border-radius:16px;padding:16px 16px 15px;border:1px solid var(--line2);position:relative;min-width:0}
+.jr-stage.lead{background:linear-gradient(165deg,rgba(87,224,138,.10),rgba(87,224,138,.03));border-color:rgba(87,224,138,.30)}
+.jr-stage.mql{background:linear-gradient(165deg,rgba(34,211,238,.11),rgba(34,211,238,.03));border-color:rgba(34,211,238,.32)}
+.jr-stage.demo{background:linear-gradient(165deg,rgba(200,166,255,.12),rgba(200,166,255,.03));border-color:rgba(200,166,255,.34)}
+.jr-badge{display:inline-block;font-size:12px;font-weight:900;letter-spacing:.04em;padding:4px 10px;border-radius:999px;background:rgba(255,255,255,.06);margin-bottom:9px}
+.jr-stage.lead .jr-badge{color:var(--brand)} .jr-stage.mql .jr-badge{color:var(--sky)} .jr-stage.demo .jr-badge{color:var(--violet)}
+.jr-cap{font-size:12px;color:var(--ink2);line-height:1.5}
+.jr-act{font-size:12px;color:var(--ink);line-height:1.5;margin-top:9px}
+.jr-fuel{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+.fuel{font-size:11px;font-weight:700;color:var(--ink2);background:rgba(255,255,255,.05);border:1px solid var(--line2);border-radius:8px;padding:4px 8px;white-space:nowrap}
+.jr-cta{margin-top:9px;font-size:12px;font-weight:800;color:var(--sky);background:rgba(34,211,238,.08);border:1px dashed rgba(34,211,238,.4);border-radius:10px;padding:8px 10px;text-align:center}
+.jr-conn{flex:0 0 74px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:0 4px}
+.jr-arrow{font-size:22px;font-weight:900;color:var(--mut);line-height:1}
+.jr-lbl{font-size:10px;color:var(--mut);text-align:center;line-height:1.35;font-weight:700}
+.jr-fit{margin-top:14px;font-size:12px;color:var(--ink2);line-height:1.55;background:rgba(255,202,92,.06);border:1px solid rgba(255,202,92,.25);border-radius:12px;padding:12px 14px}
+@media(max-width:860px){
+  .journey{flex-direction:column}
+  .jr-conn{flex-basis:auto;flex-direction:row;gap:8px;padding:6px 0}
+  .jr-arrow{transform:rotate(90deg)}
+}
 .strat b{color:var(--brand)}
 .note{background:linear-gradient(150deg,rgba(111,240,162,.12),rgba(111,240,162,.02));border:1px solid var(--line2);border-radius:14px;padding:16px 18px;font-size:13px;color:var(--ink2);margin-top:18px}
 .note b{color:var(--brand)}
@@ -4050,26 +4063,35 @@ def render_exec(d):
   </div>
   <div class="section-label" style="margin:4px 0 10px">Origen / contenido de los leads inbound <small>· {fmt(cum["lead"])}</small></div>
   <div class="bars">{leads_html}</div>
-  <div class="flow-intro sd">Qué hacemos con estos contactos según lo que sabemos de ellos: <b>en cuanto un contacto interactúa con contenido de marketing</b> (se descarga un ebook, asiste a un webinar, consume un artículo…) <b>pasa a MQL</b>. Solo se quedan en <b>etapa lead</b> los contactos de los que <b>aún no tenemos información</b>, y a los que vamos <b>nutriendo</b> para empujarlos en el embudo. <b>Ningún contacto se elimina ni se descarta</b>: aprendemos de todos y los retomamos en el momento que corresponda.</div>
-  <div class="flow-steps">
-    <div class="flow-step">
-      <div class="fs-ico">🌱</div>
-      <div class="fs-body"><div class="fs-t">Lead · sin información todavía</div>
-      <div class="fs-d">Se <b>nutre</b> con contenido de GuruSup (ebooks, webinars, artículos) en secuencias. En cuanto <b>interactúa con contenido</b>, se identifica una señal y <b>pasa a MQL</b>.</div></div>
+  <div class="section-label" style="margin:22px 0 10px">La estrategia · de contacto anónimo a demo pedida por el propio cliente</div>
+  <div class="journey">
+    <!-- Etapa 1 · LEAD -->
+    <div class="jr-stage lead">
+      <div class="jr-badge">🌱 LEAD</div>
+      <div class="jr-cap">No conocemos su intención ni su estado.</div>
+      <div class="jr-act">Lo <b>nutrimos</b> con contenido de marketing:</div>
+      <div class="jr-fuel">
+        <span class="fuel">📘 Guía</span><span class="fuel">🎥 Webinar</span><span class="fuel">🎬 Vídeo</span>
+        <span class="fuel">🏆 Caso de éxito</span><span class="fuel">📰 Artículo</span>
+      </div>
     </div>
-    <div class="flow-arrow">↓</div>
-    <div class="flow-step">
-      <div class="fs-ico">🎯</div>
-      <div class="fs-body"><div class="fs-t">MQL · identificado · nurturing con CTA</div>
-      <div class="fs-d">A los MQL ya identificados se les hace <b>nurturing con secuencias de contenido de valor</b> que, al final de cada secuencia, empujan con un <b>CTA</b>: <i>book a demo</i>, pedir una llamada o hablar con ventas.</div></div>
+    <div class="jr-conn"><span class="jr-arrow">→</span><span class="jr-lbl">descarga contenido<br>= señal de necesidad</span></div>
+    <!-- Etapa 2 · MQL -->
+    <div class="jr-stage mql">
+      <div class="jr-badge">🎯 MQL</div>
+      <div class="jr-cap">Necesidad detectada. Aquí ponemos el <b>máximo esfuerzo</b>.</div>
+      <div class="jr-act"><b>Secuencias</b> de distintos contenidos que empujan, de forma natural, hacia un CTA:</div>
+      <div class="jr-cta">📝 Solicita tu demo · 💬 Habla con ventas</div>
+      <div class="jr-cap" style="margin-top:8px">Que sea <b>el cliente quien pide la demo</b>, no una llamada en frío nuestra.</div>
     </div>
-    <div class="flow-arrow">↓</div>
-    <div class="flow-step">
-      <div class="fs-ico">📝</div>
-      <div class="fs-body"><div class="fs-t">Precualificación con formulario</div>
-      <div class="fs-d">El <b>formulario</b> precualifica automáticamente. <b>Si cualifica → pasa a Agustín</b>, que valora la oportunidad. <b>Si no cualifica ahora</b>, se marca la <b>razón de descarte / descalificación</b> en su etapa y se <b>retoma más adelante</b> — no se elimina.</div></div>
+    <div class="jr-conn"><span class="jr-arrow">→</span><span class="jr-lbl">formulario de<br>precualificación</span></div>
+    <!-- Etapa 3 · DEMO / VENTAS -->
+    <div class="jr-stage demo">
+      <div class="jr-badge">🚀 DEMO · VENTAS</div>
+      <div class="jr-cap">Pide demo por sí mismo y <b>pasa a ventas</b> (Agustín) ya precualificado.</div>
     </div>
   </div>
+  <div class="jr-fit">🧭 <b>Fit score</b> — puntuamos el encaje de cada contacto (perfil + comportamiento) para <b>adaptar las comunicaciones</b>: más push a los que mejor encajan, más nurturing a los que aún no. <b>Nadie se elimina</b>: aprendemos de todos y los retomamos cuando toca.</div>
 </section>
 
 <section>
