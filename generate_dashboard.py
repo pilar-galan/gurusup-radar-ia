@@ -2975,9 +2975,15 @@ details.chdeals .dl span{font-size:11px;background:rgba(104,209,245,.1);border:1
 .jr-fuel{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
 .fuel{font-size:11px;font-weight:700;color:var(--ink2);background:rgba(255,255,255,.05);border:1px solid var(--line2);border-radius:8px;padding:4px 8px;white-space:nowrap}
 .jr-cta{margin-top:9px;font-size:12px;font-weight:800;color:var(--sky);background:rgba(34,211,238,.08);border:1px dashed rgba(34,211,238,.4);border-radius:10px;padding:8px 10px;text-align:center}
-.jr-conn{flex:0 0 74px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:0 4px}
+.jr-conn{flex:0 0 92px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:0 6px}
 .jr-arrow{font-size:22px;font-weight:900;color:var(--mut);line-height:1}
-.jr-lbl{font-size:10px;color:var(--mut);text-align:center;line-height:1.35;font-weight:700}
+.jr-lbl{font-size:11px;color:var(--ink2);text-align:center;line-height:1.4;font-weight:800}
+.jr-branch{border-radius:11px;padding:9px 11px;margin-top:9px}
+.jr-branch.ok{background:rgba(87,224,138,.09);border:1px solid rgba(87,224,138,.28)}
+.jr-branch.hold{background:rgba(255,202,92,.07);border:1px solid rgba(255,202,92,.28)}
+.br-h{font-size:12px;font-weight:900;margin-bottom:4px}
+.jr-branch.ok .br-h{color:var(--brand)} .jr-branch.hold .br-h{color:var(--warn)}
+.br-c{font-size:11.5px;color:var(--ink2);line-height:1.5}
 .jr-fit{margin-top:14px;font-size:12px;color:var(--ink2);line-height:1.55;background:rgba(255,202,92,.06);border:1px solid rgba(255,202,92,.25);border-radius:12px;padding:12px 14px}
 @media(max-width:860px){
   .journey{flex-direction:column}
@@ -4075,20 +4081,27 @@ def render_exec(d):
         <span class="fuel">🏆 Caso de éxito</span><span class="fuel">📰 Artículo</span>
       </div>
     </div>
-    <div class="jr-conn"><span class="jr-arrow">→</span><span class="jr-lbl">descarga contenido<br>= señal de necesidad</span></div>
+    <div class="jr-conn"><span class="jr-arrow">→</span><span class="jr-lbl">🔎 Señal de interés</span></div>
     <!-- Etapa 2 · MQL -->
     <div class="jr-stage mql">
       <div class="jr-badge">🎯 MQL</div>
-      <div class="jr-cap">Necesidad detectada. Aquí ponemos el <b>máximo esfuerzo</b>.</div>
-      <div class="jr-act"><b>Secuencias</b> de distintos contenidos que empujan, de forma natural, hacia un CTA:</div>
+      <div class="jr-cap">Empieza a investigar el tema. <b>Máximo esfuerzo.</b></div>
+      <div class="jr-act"><b>Secuencias</b> de contenido que empujan, natural, al CTA:</div>
       <div class="jr-cta">📝 Solicita tu demo · 💬 Habla con ventas</div>
-      <div class="jr-cap" style="margin-top:8px">Que sea <b>el cliente quien pide la demo</b>, no una llamada en frío nuestra.</div>
+      <div class="jr-cap" style="margin-top:8px">Que <b>lo pida el cliente</b>, no una llamada en frío.</div>
     </div>
-    <div class="jr-conn"><span class="jr-arrow">→</span><span class="jr-lbl">formulario de<br>precualificación</span></div>
+    <div class="jr-conn"><span class="jr-arrow">→</span><span class="jr-lbl">📝 Formulario de<br>precualificación</span></div>
     <!-- Etapa 3 · DEMO / VENTAS -->
     <div class="jr-stage demo">
       <div class="jr-badge">🚀 DEMO · VENTAS</div>
-      <div class="jr-cap">Pide demo por sí mismo y <b>pasa a ventas</b> (Agustín) ya precualificado.</div>
+      <div class="jr-branch ok">
+        <div class="br-h">✅ Cualifica</div>
+        <div class="br-c"><b>+3.000</b> consultas/mes <b>o +5</b> personas en atención al cliente → salta <b>alerta</b> y el contacto pasa a <b>Agustín (ventas)</b> para precualificarlo y contactarlo.</div>
+      </div>
+      <div class="jr-branch hold">
+        <div class="br-h">⏸️ No cualifica</div>
+        <div class="br-c">Menos de 3.000 o menos de 5 personas → se queda como <b>SQL con razón de descarte</b>, recibe un <b>mail de descarte</b> y queda <b>en el radar</b> para reactivar en el futuro según cada motivo.</div>
+      </div>
     </div>
   </div>
   <div class="jr-fit">🧭 <b>Fit score</b> — puntuamos el encaje de cada contacto (perfil + comportamiento) para <b>adaptar las comunicaciones</b>: más push a los que mejor encajan, más nurturing a los que aún no. <b>Nadie se elimina</b>: aprendemos de todos y los retomamos cuando toca.</div>
