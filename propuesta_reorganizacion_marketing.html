@@ -1,0 +1,539 @@
+<title>GuruSup · Reorganización de Marketing</title>
+<style>
+:root{
+  color-scheme:light dark;
+  /* light "papel esmeralda" */
+  --bg:#eef4ef; --bg2:#e4ede6;
+  --surface:#ffffff; --surface2:#f4f8f5;
+  --line:#d3e1d7; --line2:#bcd3c3;
+  --ink:#0d2119; --ink2:#33513f; --mut:#5f7d6c;
+  --brand:#0f9d5a; --brand-2:#0b7d47; --brand-deep:#0a5e37; --brand-soft:#e0f3e8;
+  --ok:#0f9d5a; --sky:#0e7fa6; --warn:#b3781a; --bad:#c23d54; --violet:#7a4fd0;
+  --ok-b:#d3f0df; --sky-b:#d5eef7; --warn-b:#f6ead0; --bad-b:#f7dde3; --violet-b:#ece3fb;
+  --shadow:0 1px 2px rgba(13,33,25,.05),0 8px 30px rgba(13,33,25,.07);
+  --shadow-lg:0 20px 60px rgba(10,60,40,.14);
+  --hero-grad:radial-gradient(1200px 500px at 78% -8%,rgba(15,157,90,.14),transparent 60%),radial-gradient(900px 420px at 8% 10%,rgba(11,125,71,.10),transparent 55%);
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --bg:#0c1b15; --bg2:#10251b;
+    --surface:#16302340; --surface2:#183426;
+    --line:#2c5443; --line2:#3a6b54;
+    --ink:#f2fff8; --ink2:#bcdccd; --mut:#83a593;
+    --brand:#6ff0a2; --brand-2:#57e08a; --brand-deep:#0f4a30; --brand-soft:rgba(111,240,162,.10);
+    --ok:#57e08a; --sky:#68d1f5; --warn:#ffca5c; --bad:#ff7189; --violet:#c8a6ff;
+    --ok-b:rgba(87,224,138,.14); --sky-b:rgba(104,209,245,.14); --warn-b:rgba(255,202,92,.14); --bad-b:rgba(255,113,137,.14); --violet-b:rgba(200,166,255,.14);
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 12px 40px rgba(0,0,0,.35);
+    --shadow-lg:0 24px 70px rgba(0,0,0,.5);
+    --hero-grad:radial-gradient(1200px 520px at 80% -10%,rgba(111,240,162,.16),transparent 60%),radial-gradient(900px 460px at 6% 8%,rgba(87,224,138,.10),transparent 55%);
+  }
+}
+:root[data-theme="light"]{
+  color-scheme:light;
+  --bg:#eef4ef; --bg2:#e4ede6; --surface:#ffffff; --surface2:#f4f8f5;
+  --line:#d3e1d7; --line2:#bcd3c3; --ink:#0d2119; --ink2:#33513f; --mut:#5f7d6c;
+  --brand:#0f9d5a; --brand-2:#0b7d47; --brand-deep:#0a5e37; --brand-soft:#e0f3e8;
+  --ok:#0f9d5a; --sky:#0e7fa6; --warn:#b3781a; --bad:#c23d54; --violet:#7a4fd0;
+  --ok-b:#d3f0df; --sky-b:#d5eef7; --warn-b:#f6ead0; --bad-b:#f7dde3; --violet-b:#ece3fb;
+  --shadow:0 1px 2px rgba(13,33,25,.05),0 8px 30px rgba(13,33,25,.07);
+  --shadow-lg:0 20px 60px rgba(10,60,40,.14);
+  --hero-grad:radial-gradient(1200px 500px at 78% -8%,rgba(15,157,90,.14),transparent 60%),radial-gradient(900px 420px at 8% 10%,rgba(11,125,71,.10),transparent 55%);
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0c1b15; --bg2:#10251b; --surface:#16302340; --surface2:#183426;
+  --line:#2c5443; --line2:#3a6b54; --ink:#f2fff8; --ink2:#bcdccd; --mut:#83a593;
+  --brand:#6ff0a2; --brand-2:#57e08a; --brand-deep:#0f4a30; --brand-soft:rgba(111,240,162,.10);
+  --ok:#57e08a; --sky:#68d1f5; --warn:#ffca5c; --bad:#ff7189; --violet:#c8a6ff;
+  --ok-b:rgba(87,224,138,.14); --sky-b:rgba(104,209,245,.14); --warn-b:rgba(255,202,92,.14); --bad-b:rgba(255,113,137,.14); --violet-b:rgba(200,166,255,.14);
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 12px 40px rgba(0,0,0,.35);
+  --shadow-lg:0 24px 70px rgba(0,0,0,.5);
+  --hero-grad:radial-gradient(1200px 520px at 80% -10%,rgba(111,240,162,.16),transparent 60%),radial-gradient(900px 460px at 6% 8%,rgba(87,224,138,.10),transparent 55%);
+}
+
+*{box-sizing:border-box}
+.mkt{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  font-feature-settings:"ss01","cv01";
+}
+.wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+.mkt h1,.mkt h2,.mkt h3{margin:0;text-wrap:balance;letter-spacing:-.02em;line-height:1.08}
+.mkt p{margin:0}
+.eyebrow{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.14em;color:var(--brand-2)}
+:root[data-theme="dark"] .eyebrow,@media(prefers-color-scheme:dark){}
+.lead{max-width:70ch;text-align:justify;text-justify:inter-word;text-wrap:pretty;color:var(--ink2)}
+
+/* ---------- HERO ---------- */
+.hero{position:relative;overflow:hidden;background:var(--bg2);border-bottom:1px solid var(--line);background-image:var(--hero-grad)}
+.hero .wrap{padding-top:72px;padding-bottom:58px}
+.brandline{display:flex;align-items:center;gap:12px;margin-bottom:40px}
+.logo{display:flex;align-items:center;gap:9px;font-weight:800;font-size:15px;letter-spacing:-.01em}
+.logo .dot{width:11px;height:11px;border-radius:50%;background:var(--brand);box-shadow:0 0 0 4px var(--brand-soft)}
+.brandline .sep{flex:1;height:1px;background:var(--line)}
+.brandline .doc{font-size:12px;font-weight:700;color:var(--mut);text-transform:uppercase;letter-spacing:.1em}
+.hero h1{font-size:clamp(34px,6vw,62px);font-weight:900;margin:16px 0 22px;max-width:16ch}
+.hero h1 em{font-style:normal;color:var(--brand-2);position:relative}
+:root[data-theme="dark"] .hero h1 em{color:var(--brand)}
+@media(prefers-color-scheme:dark){.hero h1 em{color:var(--brand)}}
+.hero .lead{font-size:clamp(16px,2vw,19px);max-width:64ch}
+.thesis{margin-top:30px;padding:18px 22px;border-left:3px solid var(--brand);background:var(--brand-soft);border-radius:0 14px 14px 0;font-size:15.5px;color:var(--ink);max-width:78ch;font-weight:500}
+.thesis b{color:var(--brand-2);font-weight:800}
+:root[data-theme="dark"] .thesis b{color:var(--brand)}
+@media(prefers-color-scheme:dark){.thesis b{color:var(--brand)}}
+
+/* section shell */
+.sec{padding:60px 0}
+.sec.alt{background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.sechead{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:30px;flex-wrap:wrap}
+.sechead h2{font-size:clamp(24px,3.4vw,34px);font-weight:800}
+.sechead .sd{max-width:56ch;text-align:justify;text-justify:inter-word;text-wrap:pretty;color:var(--ink2);font-size:14.5px}
+.knum{font-variant-numeric:tabular-nums}
+
+/* ---------- PRINCIPIOS ---------- */
+.principios{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.prin{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px 18px;box-shadow:var(--shadow);display:flex;gap:14px;align-items:flex-start}
+.prin .pi{flex:none;width:34px;height:34px;border-radius:10px;background:var(--brand-soft);color:var(--brand-2);display:grid;place-items:center;font-weight:900;font-size:15px}
+:root[data-theme="dark"] .prin .pi{color:var(--brand)}
+@media(prefers-color-scheme:dark){.prin .pi{color:var(--brand)}}
+.prin p{font-size:14.5px;font-weight:600;line-height:1.4}
+.prin p span{display:block;font-size:12.5px;font-weight:500;color:var(--mut);margin-top:3px}
+
+/* ---------- SISTEMA OPERATIVO ---------- */
+.grid-os{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.card{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px 22px 20px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:12px}
+.card .top{display:flex;align-items:center;gap:12px}
+.card .tag-mod{font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--mut)}
+.card h3{font-size:19px;font-weight:800}
+.card .cadence{margin-left:auto;font-size:11px;font-weight:800;padding:5px 11px;border-radius:999px;background:var(--brand-soft);color:var(--brand-2);white-space:nowrap}
+:root[data-theme="dark"] .card .cadence{color:var(--brand)}
+@media(prefers-color-scheme:dark){.card .cadence{color:var(--brand)}}
+.card .desc{font-size:14px;color:var(--ink2);line-height:1.55}
+.card ul{margin:0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:7px}
+.card ul li{font-size:12px;font-weight:600;color:var(--ink2);background:var(--surface2);border:1px solid var(--line);border-radius:8px;padding:4px 10px}
+.obj{margin-top:auto;display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:12px;background:var(--brand-soft);border:1px solid var(--line2)}
+.obj .ok-ic{flex:none;font-size:13px;color:var(--brand-2);font-weight:900;margin-top:1px}
+:root[data-theme="dark"] .obj .ok-ic{color:var(--brand)}
+@media(prefers-color-scheme:dark){.obj .ok-ic{color:var(--brand)}}
+.obj .ot{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);display:block;margin-bottom:2px}
+.obj p{font-size:13px;font-weight:700;color:var(--ink);line-height:1.4}
+.card.feat{grid-column:1 / -1;background:linear-gradient(150deg,var(--brand-soft),transparent 70%);border-color:var(--line2)}
+
+/* reunion 3 preguntas mini */
+.qs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;width:100%}
+.qs div{font-size:11.5px;font-weight:700;color:var(--ink2);background:var(--surface2);border:1px solid var(--line);border-radius:10px;padding:9px 10px;text-align:center;line-height:1.3}
+
+/* ---------- CADENCIA ---------- */
+.cad{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.cadbox{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:var(--shadow)}
+.cadbox .ch{display:flex;align-items:baseline;gap:10px;margin-bottom:16px}
+.cadbox .ch b{font-size:18px;font-weight:800}
+.cadbox .ch em{font-style:normal;font-size:12px;font-weight:800;color:var(--brand-2);text-transform:uppercase;letter-spacing:.08em}
+:root[data-theme="dark"] .cadbox .ch em{color:var(--brand)}
+@media(prefers-color-scheme:dark){.cadbox .ch em{color:var(--brand)}}
+.rhythm{display:flex;flex-direction:column;gap:10px}
+.rl{display:flex;gap:12px;align-items:flex-start;font-size:13.5px}
+.rl .tik{flex:none;width:8px;height:8px;border-radius:50%;background:var(--brand);margin-top:7px}
+.rl b{font-weight:800;color:var(--ink)}
+.rl span{color:var(--ink2)}
+
+/* ---------- EXPERIMENTOS ---------- */
+.exp{display:grid;grid-template-columns:1.05fr .95fr;gap:18px;align-items:stretch}
+.schema{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:var(--shadow)}
+.schema h3{font-size:17px;margin-bottom:6px}
+.schema .sub{font-size:13px;color:var(--ink2);margin-bottom:16px}
+.flowrow{display:flex;flex-wrap:wrap;gap:8px}
+.chipf{display:flex;flex-direction:column;gap:2px;flex:1;min-width:88px;background:var(--surface2);border:1px solid var(--line);border-radius:12px;padding:11px 12px}
+.chipf b{font-size:13px;font-weight:800}
+.chipf span{font-size:10.5px;color:var(--mut);font-weight:600}
+.arrowx{align-self:center;color:var(--mut);font-weight:800}
+.decisions{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:var(--shadow);display:flex;flex-direction:column}
+.decisions h3{font-size:17px;margin-bottom:6px}
+.decisions .sub{font-size:13px;color:var(--ink2);margin-bottom:16px}
+.decgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.dec{border-radius:13px;padding:13px 14px;border:1px solid;display:flex;flex-direction:column;gap:2px}
+.dec b{font-size:14px;font-weight:800}
+.dec span{font-size:11.5px;font-weight:600;opacity:.9}
+.dec.escalar{background:var(--ok-b);border-color:var(--ok);color:var(--ok)}
+.dec.repetir{background:var(--sky-b);border-color:var(--sky);color:var(--sky)}
+.dec.mejorar{background:var(--warn-b);border-color:var(--warn);color:var(--warn)}
+.dec.parar{background:var(--bad-b);border-color:var(--bad);color:var(--bad)}
+.dec b,.dec span{color:inherit}
+
+/* ---------- AGOSTO ---------- */
+.agosto{position:relative;background:linear-gradient(135deg,var(--brand-deep),var(--bg2));border:1px solid var(--line2);border-radius:22px;padding:34px;overflow:hidden;box-shadow:var(--shadow-lg)}
+:root[data-theme="light"] .agosto{background:linear-gradient(135deg,#0b7d47,#0f9d5a)}
+.agosto,.agosto *{color:#f2fff8}
+.agosto .flag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;background:rgba(255,255,255,.16);padding:6px 12px;border-radius:999px;margin-bottom:16px}
+.agosto h2{font-size:clamp(22px,3vw,30px);font-weight:900;max-width:22ch}
+.agosto .ag-lead{margin:12px 0 22px;max-width:70ch;font-size:15px;opacity:.94;text-align:justify;text-justify:inter-word;text-wrap:pretty}
+.aglist{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.aglist div{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:12px 13px;font-size:13px;font-weight:700;line-height:1.3}
+.agfoot{margin-top:22px;font-size:14.5px;font-weight:800}
+
+/* ---------- KPIs ---------- */
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.kcol{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:var(--shadow)}
+.kcol .kh{display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+.kcol .kh .kbadge{width:10px;height:26px;border-radius:6px}
+.kcol.negocio .kbadge{background:var(--brand)}
+.kcol.marketing .kbadge{background:var(--sky)}
+.kcol.operacion .kbadge{background:var(--violet)}
+.kcol .kh b{font-size:16px;font-weight:800}
+.kcol .kh em{font-style:normal;font-size:11px;color:var(--mut);font-weight:700;margin-left:auto;text-transform:uppercase;letter-spacing:.06em}
+.kcol ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:9px}
+.kcol li{display:flex;align-items:center;gap:10px;font-size:13.5px;color:var(--ink2);font-weight:600}
+.kcol li::before{content:"";width:6px;height:6px;border-radius:2px;flex:none}
+.kcol.negocio li::before{background:var(--brand)}
+.kcol.marketing li::before{background:var(--sky)}
+.kcol.operacion li::before{background:var(--violet)}
+.kcol li b{color:var(--ink);font-weight:800}
+.kstar{margin-top:16px;padding:11px 13px;border-radius:12px;font-size:12.5px;font-weight:700;line-height:1.4}
+.kcol.negocio .kstar{background:var(--ok-b);color:var(--ok)}
+
+/* ---------- ROADMAP ---------- */
+.road{display:grid;grid-template-columns:repeat(4,1fr);gap:0;counter-reset:ph}
+.phase{position:relative;padding:0 18px}
+.phase:not(:last-child){border-right:1px dashed var(--line2)}
+.phdot{width:16px;height:16px;border-radius:50%;background:var(--surface);border:3px solid var(--brand);margin-bottom:16px;position:relative}
+.phase.done .phdot{background:var(--brand);box-shadow:0 0 0 5px var(--brand-soft)}
+.phline{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--brand-2)}
+:root[data-theme="dark"] .phline{color:var(--brand)}
+@media(prefers-color-scheme:dark){.phline{color:var(--brand)}}
+.phase h3{font-size:17px;font-weight:800;margin:6px 0 4px}
+.phwhen{font-size:12px;color:var(--mut);font-weight:700;margin-bottom:12px}
+.phase ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:7px}
+.phase li{font-size:13px;color:var(--ink2);display:flex;gap:8px;line-height:1.4}
+.phase li::before{content:"–";color:var(--brand-2);font-weight:800}
+:root[data-theme="dark"] .phase li::before{color:var(--brand)}
+@media(prefers-color-scheme:dark){.phase li::before{color:var(--brand)}}
+.phase.done li::before{content:"✓";color:var(--ok)}
+.stbadge{display:inline-block;margin-top:12px;font-size:10.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:4px 9px;border-radius:999px}
+.phase.done .stbadge{background:var(--ok-b);color:var(--ok)}
+.phase.now .stbadge{background:var(--warn-b);color:var(--warn)}
+
+/* ---------- CIERRE ---------- */
+.cierre{background:var(--surface);border:1px solid var(--line2);border-radius:22px;padding:38px;box-shadow:var(--shadow-lg);position:relative;overflow:hidden}
+.cierre::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--brand),var(--sky),var(--violet))}
+.cierre .to{font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--mut)}
+.cierre h2{font-size:clamp(22px,3vw,30px);font-weight:900;margin:10px 0 18px;max-width:20ch}
+.cierre p{font-size:16px;color:var(--ink2);max-width:74ch;text-align:justify;text-justify:inter-word;text-wrap:pretty;line-height:1.7}
+.cierre p b{color:var(--ink);font-weight:800}
+.pillars{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.pillars span{font-size:13px;font-weight:800;padding:9px 16px;border-radius:999px;background:var(--brand-soft);color:var(--brand-2);border:1px solid var(--line2)}
+:root[data-theme="dark"] .pillars span{color:var(--brand)}
+@media(prefers-color-scheme:dark){.pillars span{color:var(--brand)}}
+
+/* ---------- FOOTER ---------- */
+.foot{padding:34px 0 46px;border-top:1px solid var(--line)}
+.foot .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.foot .logo{opacity:.85}
+.foot p{font-size:12.5px;color:var(--mut)}
+
+@media(max-width:860px){
+  .principios,.grid-os,.cad,.exp,.kpis,.road,.decgrid{grid-template-columns:1fr}
+  .aglist,.qs{grid-template-columns:1fr 1fr}
+  .card.feat{grid-column:auto}
+  .phase{padding:0 0 26px}
+  .phase:not(:last-child){border-right:none;border-bottom:1px dashed var(--line2)}
+}
+@media(max-width:640px){
+  .lead,.sechead .sd,.cierre p,.agosto .ag-lead{text-align:left}
+  .hero .wrap{padding-top:52px;padding-bottom:44px}
+  .aglist{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="mkt">
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="wrap">
+      <div class="brandline">
+        <span class="logo"><span class="dot"></span>GuruSup</span>
+        <span class="sep"></span>
+        <span class="doc">Propuesta interna · Marketing</span>
+      </div>
+      <p class="eyebrow">Reorganización del departamento</p>
+      <h1>Marketing como <em>motor de negocio</em></h1>
+      <p class="lead">Convertir Marketing en un área orientada a negocio, donde cada acción contribuye a generar pipeline, aprender rápido y escalar únicamente aquello que demuestra resultados. Menos volumen, más impacto medible.</p>
+      <div class="thesis">La idea no es hacer <b>más acciones</b>, sino trabajar con un <b>sistema</b> que nos permita priorizar, medir, aprender y escalar. Cada iniciativa con un objetivo de negocio claro, un responsable, una medición y una decisión.</div>
+    </div>
+  </header>
+
+  <!-- PRINCIPIOS -->
+  <section class="sec">
+    <div class="wrap">
+      <div class="sechead">
+        <h2>Principios de trabajo</h2>
+        <p class="sd">Las reglas del juego que comparten Marketing y Ventas. Todo lo demás se construye encima de estas seis decisiones.</p>
+      </div>
+      <div class="principios">
+        <div class="prin"><span class="pi">1</span><p>Un único objetivo compartido<span>Marketing y Ventas reman hacia la misma meta.</span></p></div>
+        <div class="prin"><span class="pi">2</span><p>Impacto antes que volumen<span>Priorizamos lo que mueve la aguja de negocio.</span></p></div>
+        <div class="prin"><span class="pi">3</span><p>Experimentos pequeños y medibles<span>Apuestas acotadas, con métrica desde el día uno.</span></p></div>
+        <div class="prin"><span class="pi">4</span><p>Análisis semanal<span>Revisamos resultados cada semana, sin excepción.</span></p></div>
+        <div class="prin"><span class="pi">5</span><p>Escalar solo lo que funciona<span>El dato decide qué crece, no la intuición.</span></p></div>
+        <div class="prin"><span class="pi">6</span><p>Eliminar lo que no aporta<span>Parar sin drama libera foco y presupuesto.</span></p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SISTEMA OPERATIVO -->
+  <section class="sec alt">
+    <div class="wrap">
+      <div class="sechead">
+        <h2>El sistema operativo</h2>
+        <p class="sd">Ocho módulos que hacen que el sistema funcione solo. Cada uno tiene su cadencia y un objetivo accionable que sabemos cuándo se ha cumplido.</p>
+      </div>
+      <div class="grid-os">
+
+        <div class="card">
+          <div class="top"><span class="tag-mod">Módulo 01</span><span class="cadence">Cada 2 semanas</span></div>
+          <h3>Planificación conjunta</h3>
+          <p class="desc">Marketing y Ventas definen juntos el plan quincenal para trabajar hacia el mismo objetivo.</p>
+          <ul><li>Objetivos</li><li>Campañas prioritarias</li><li>Contenidos</li><li>Recursos</li><li>Tests a lanzar</li><li>KPIs esperados</li></ul>
+          <div class="obj"><span class="ok-ic">▹</span><div><span class="ot">Objetivo accionable</span><p>Un plan quincenal firmado por Marketing y Ventas con tests y KPIs esperados.</p></div></div>
+        </div>
+
+        <div class="card">
+          <div class="top"><span class="tag-mod">Módulo 02</span><span class="cadence">Semanal · 30 min</span></div>
+          <h3>Reunión de Marketing</h3>
+          <p class="desc">Formato ultra operativo. Cada responsable responde solo cuatro preguntas; sin detalle técnico.</p>
+          <div class="qs"><div>Qué he conseguido</div><div>Qué haré la próxima</div><div>Qué me bloquea</div><div>Qué he aprendido</div></div>
+          <div class="obj"><span class="ok-ic">▹</span><div><span class="ot">Objetivo accionable</span><p>Reunión de 30 min con avances, bloqueos y un aprendizaje por persona.</p></div></div>
+        </div>
+
+        <div class="card">
+          <div class="top"><span class="tag-mod">Módulo 03</span><span class="cadence">Continuo</span></div>
+          <h3>Sync Marketing + Ventas</h3>
+          <p class="desc">Ya iniciado y uno de los mayores aciertos. Marketing construye mensajes desde la realidad comercial.</p>
+          <ul><li>Pain points</li><li>Objeciones</li><li>Casos reales</li><li>Diferenciadores</li><li>Competidores</li><li>Mensajes que convierten</li></ul>
+          <div class="obj"><span class="ok-ic">▹</span><div><span class="ot">Objetivo accionable</span><p>Documento vivo de mensajes y objeciones actualizado con el equipo comercial.</p></div></div>
+        </div>
+
+        <div class="card">
+          <div class="top"><span class="tag-mod">Módulo 04</span><span class="cadence">Backlog vivo</span></div>
+          <h3>Seguimiento de experimentos</h3>
+          <p class="desc">Un backlog único de iniciativas. Cada acción se define y se cierra con una decisión clara.</p>
+          <ul><li>Hipótesis</li><li>Responsable</li><li>Fecha</li><li>Resultado</li><li>Decisión</li></ul>
+          <div class="obj"><span class="ok-ic">▹</span><div><span class="ot">Objetivo accionable</span><p>Backlog donde el 100% de tests cierran con decisión: escalar, repetir, mejorar o parar.</p></div></div>
+        </div>
+
+        <div class="card">
+          <div class="top"><span class="tag-mod">Módulo 05</span><span class="cadence">Quincenal · 15 min</span></div>
+          <h3>Seguimiento del equipo</h3>
+          <p class="desc">Además de lo operativo, un espacio corto para detectar problemas antes de que afecten al rendimiento.</p>
+          <ul><li>¿Qué funciona?</li><li>¿Qué te bloquea?</li><li>¿Qué dejarías?</li><li>¿Qué empezarías?</li><li>¿Dónde necesitas ayuda?</li><li>¿Qué idea propones?</li></ul>
+          <div class="obj"><span class="ok-ic">▹</span><div><span class="ot">Objetivo accionable</span><p>Un check quincenal de 15 min que convierte señales del equipo en acciones.</p></div></div>
+        </div>
+
+        <div class="card">
+          <div class="top"><span class="tag-mod">Módulo 06</span><span class="cadence">Continuo</span></div>
+          <h3>Necesidades del departamento</h3>
+          <p class="desc">Identificar de forma continua qué falta para no frenar la ejecución.</p>
+          <ul><li>Recursos</li><li>Automatizaciones</li><li>Herramientas</li><li>Formación</li><li>Procesos</li><li>Dependencias</li></ul>
+          <div class="obj"><span class="ok-ic">▹</span><div><span class="ot">Objetivo accionable</span><p>Lista priorizada de necesidades y dependencias revisada en la planificación.</p></div></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CADENCIA -->
+  <section class="sec">
+    <div class="wrap">
+      <div class="sechead">
+        <h2>Cadencia de trabajo</h2>
+        <p class="sd">El ritmo que sostiene el sistema: qué pasa cada semana y qué pasa cada dos. Predecible y ligero.</p>
+      </div>
+      <div class="cad">
+        <div class="cadbox">
+          <div class="ch"><b>Cada semana</b><em>Ejecutar y aprender</em></div>
+          <div class="rhythm">
+            <div class="rl"><span class="tik"></span><span><b>Reunión operativa de 30 min</b> — avances, próximos pasos, bloqueos y aprendizajes.</span></div>
+            <div class="rl"><span class="tik"></span><span><b>Medición de tests activos</b> — se revisan resultados y se toma la primera lectura.</span></div>
+            <div class="rl"><span class="tik"></span><span><b>Optimización rápida</b> — ajustes sobre lo que está en marcha, especialmente Paid.</span></div>
+          </div>
+        </div>
+        <div class="cadbox">
+          <div class="ch"><b>Cada dos semanas</b><em>Planificar y cuidar</em></div>
+          <div class="rhythm">
+            <div class="rl"><span class="tik"></span><span><b>Planificación conjunta</b> con Ventas — objetivos, campañas, contenidos, tests y KPIs.</span></div>
+            <div class="rl"><span class="tik"></span><span><b>Seguimiento del equipo</b> — 15 min para detectar bloqueos y nuevas ideas.</span></div>
+            <div class="rl"><span class="tik"></span><span><b>Revisión de necesidades</b> — recursos, automatizaciones y dependencias.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIMENTOS -->
+  <section class="sec alt">
+    <div class="wrap">
+      <div class="sechead">
+        <h2>Cómo corre cada experimento</h2>
+        <p class="sd">Toda iniciativa recorre el mismo camino y termina en una única decisión. Sin ambigüedad: cada test se escala, se repite, se mejora o se para.</p>
+      </div>
+      <div class="exp">
+        <div class="schema">
+          <h3>Ficha de cada iniciativa</h3>
+          <p class="sub">Cinco campos obligatorios, del planteamiento a la decisión.</p>
+          <div class="flowrow">
+            <div class="chipf"><b>Hipótesis</b><span>Qué esperamos</span></div>
+            <span class="arrowx">→</span>
+            <div class="chipf"><b>Responsable</b><span>Quién lo lleva</span></div>
+            <span class="arrowx">→</span>
+            <div class="chipf"><b>Fecha</b><span>Cuándo</span></div>
+            <span class="arrowx">→</span>
+            <div class="chipf"><b>Resultado</b><span>Qué pasó</span></div>
+            <span class="arrowx">→</span>
+            <div class="chipf"><b>Decisión</b><span>Qué hacemos</span></div>
+          </div>
+        </div>
+        <div class="decisions">
+          <h3>Las cuatro decisiones posibles</h3>
+          <p class="sub">Ningún experimento queda abierto. Siempre una salida.</p>
+          <div class="decgrid">
+            <div class="dec escalar"><b>Escalar</b><span>Funciona · le damos más</span></div>
+            <div class="dec repetir"><b>Repetir</b><span>Confirmar la señal</span></div>
+            <div class="dec mejorar"><b>Mejorar</b><span>Potencial · iterar</span></div>
+            <div class="dec parar"><b>Parar</b><span>No aporta · liberar foco</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AGOSTO -->
+  <section class="sec">
+    <div class="wrap">
+      <div class="agosto">
+        <span class="flag">Prioridad inmediata · Agosto</span>
+        <h2>Foco total en apoyar Paid</h2>
+        <p class="ag-lead">Con el resto de áreas en menor actividad, concentramos el esfuerzo en el canal Paid para generar resultados rápidos y recuperar la confianza en el canal.</p>
+        <div class="aglist">
+          <div>Mejores creatividades</div>
+          <div>Mejores mensajes</div>
+          <div>Landing pages</div>
+          <div>Formularios</div>
+          <div>Automatizaciones</div>
+          <div>Seguimiento de leads</div>
+          <div>Optimización semanal</div>
+          <div>Resultados rápidos</div>
+        </div>
+        <p class="agfoot">Objetivo accionable → resultados visibles en Paid antes de cerrar agosto.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- KPIs -->
+  <section class="sec alt">
+    <div class="wrap">
+      <div class="sechead">
+        <h2>KPIs del departamento</h2>
+        <p class="sd">No medimos solo leads. Tres capas que conectan la ejecución de Marketing con el pipeline real de negocio.</p>
+      </div>
+      <div class="kpis">
+        <div class="kcol negocio">
+          <div class="kh"><span class="kbadge"></span><b>Negocio</b><em>El norte</em></div>
+          <ul>
+            <li>Pipeline generado</li>
+            <li>Oportunidades creadas</li>
+            <li>SQL</li>
+            <li>Coste por SQL</li>
+            <li>Conversión <b>MQL → SQL</b></li>
+            <li>Conversión <b>SQL → Opportunity</b></li>
+          </ul>
+          <div class="kstar">Métrica estrella compartida con Ventas.</div>
+        </div>
+        <div class="kcol marketing">
+          <div class="kh"><span class="kbadge"></span><b>Marketing</b><em>Ejecución</em></div>
+          <ul>
+            <li>CTR</li>
+            <li>CPL</li>
+            <li>Conversión de landing</li>
+            <li>Engagement de contenido</li>
+            <li>Apertura de emails</li>
+            <li>Clic en emails</li>
+          </ul>
+        </div>
+        <div class="kcol operacion">
+          <div class="kh"><span class="kbadge"></span><b>Operación</b><em>Velocidad</em></div>
+          <ul>
+            <li>Tests ejecutados</li>
+            <li>Tests escalados</li>
+            <li>Tiempo medio de lanzamiento</li>
+            <li>Tiempo hasta el aprendizaje</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROADMAP -->
+  <section class="sec">
+    <div class="wrap">
+      <div class="sechead">
+        <h2>Roadmap</h2>
+        <p class="sd">De la alineación ya conseguida a un sistema estable con forecast de pipeline. Cuatro fases, un crecimiento basado en datos.</p>
+      </div>
+      <div class="road">
+        <div class="phase done">
+          <div class="phdot"></div>
+          <p class="phline">Fase 1</p>
+          <h3>Alineación</h3>
+          <p class="phwhen">Ya iniciada</p>
+          <ul><li>Alineación Marketing + Ventas</li><li>Estrategia común</li><li>Definición de mensajes</li><li>Contenidos coordinados</li></ul>
+          <span class="stbadge">Completada</span>
+        </div>
+        <div class="phase now">
+          <div class="phdot"></div>
+          <p class="phline">Fase 2</p>
+          <h3>Impulso Paid</h3>
+          <p class="phwhen">Agosto</p>
+          <ul><li>Apoyo intensivo a Paid</li><li>Pequeños tests</li><li>Medición semanal</li><li>Optimización rápida</li></ul>
+          <span class="stbadge">En curso</span>
+        </div>
+        <div class="phase">
+          <div class="phdot"></div>
+          <p class="phline">Fase 3</p>
+          <h3>Escalar</h3>
+          <p class="phwhen">Septiembre</p>
+          <ul><li>Escalar lo que funciona</li><li>Automatizar procesos</li><li>Definir playbooks</li><li>Consolidar KPIs</li></ul>
+          <span class="stbadge" style="background:var(--surface2);color:var(--mut)">Planificada</span>
+        </div>
+        <div class="phase">
+          <div class="phdot"></div>
+          <p class="phline">Fase 4</p>
+          <h3>Sistema estable</h3>
+          <p class="phwhen">Q4</p>
+          <ul><li>Sistema estable</li><li>Forecast de pipeline</li><li>Alineación total con Ventas</li><li>Crecimiento basado en datos</li></ul>
+          <span class="stbadge" style="background:var(--surface2);color:var(--mut)">Planificada</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CIERRE -->
+  <section class="sec alt">
+    <div class="wrap">
+      <div class="cierre">
+        <p class="to">Cierre para Víctor</p>
+        <h2>Un sistema, no más ruido</h2>
+        <p>La idea no es hacer más acciones, sino trabajar con un sistema que nos permita <b>priorizar, medir, aprender y escalar</b>. Cada iniciativa debe tener un objetivo de negocio claro, un responsable, una medición y una decisión. Así conseguiremos <b>resultados a corto plazo</b>, generaremos <b>confianza en el equipo</b> y construiremos una <b>forma de trabajo sostenible</b> para el crecimiento de GuruSup.</p>
+        <div class="pillars"><span>Priorizar</span><span>Medir</span><span>Aprender</span><span>Escalar</span></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <div class="wrap">
+      <span class="logo"><span class="dot"></span>GuruSup</span>
+      <p>Propuesta de reorganización · Departamento de Marketing</p>
+    </div>
+  </footer>
+
+</div>
