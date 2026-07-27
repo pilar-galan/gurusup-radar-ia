@@ -2,10 +2,9 @@
   "2026-07": {
     "lead_mql": 31,
     "mql_sql": 35,
-    "sql_opp": 41,
+    "sql_opp": 40,
     "opp_cli": 55,
     "cli_churn": 14,
-    "captured": "2026-07-23",
-    "nota": "Referencia base fijada a 23 jul 2026 (tasas de conversion etapa a etapa de los KPIs principales)."
+    "captured": "2026-07-27"
   }
 }
