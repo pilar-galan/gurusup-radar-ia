@@ -520,6 +520,14 @@ details.chdeals .dl span{font-size:11px;background:rgba(104,209,245,.1);border:1
 .ls-list li::before{content:"•";position:absolute;left:2px;color:var(--brand);font-weight:800}
 .ls-col.b .ls-list li::before{color:var(--warn)}
 @media(max-width:820px){.lead-strat{grid-template-columns:1fr}}
+.flow-intro{margin-top:20px;margin-bottom:14px}
+.flow-steps{display:flex;flex-direction:column;align-items:stretch;gap:6px}
+.flow-step{display:flex;gap:14px;align-items:flex-start;background:linear-gradient(165deg,rgba(24,52,38,.6),rgba(19,41,30,.4));border:1px solid var(--line2);border-radius:14px;padding:14px 18px}
+.fs-ico{font-size:22px;line-height:1;flex:0 0 auto;margin-top:1px}
+.fs-body{flex:1 1 auto}
+.fs-t{font-size:13px;font-weight:800;color:var(--ink);margin-bottom:4px}
+.fs-d{font-size:12.5px;color:var(--ink2);line-height:1.55}
+.flow-arrow{align-self:center;color:var(--brand);font-size:16px;font-weight:800;line-height:1}
 .strat b{color:var(--brand)}
 .note{background:linear-gradient(150deg,rgba(111,240,162,.12),rgba(111,240,162,.02));border:1px solid var(--line2);border-radius:14px;padding:16px 18px;font-size:13px;color:var(--ink2);margin-top:18px}
 .note b{color:var(--brand)}
@@ -561,7 +569,7 @@ footer{padding:34px 0 56px;text-align:center;color:var(--mut);font-size:12px;bor
   </div>
   <h1>Dashboard <span>ejecutivo</span> global</h1>
   <p class="hero-1l">Qué entra, cómo evoluciona y dónde se pierde negocio. Datos en vivo desde HubSpot; embudo acumulado desde el 1 de enero de 2026.</p>
-  <div class="upd">Última actualización: <b>27 Jul 2026 · 12:57</b> (hora España) · se refresca automáticamente</div>
+  <div class="upd">Última actualización: <b>27 Jul 2026 · 13:05</b> (hora España) · se refresca automáticamente</div>
 </header>
 
 <section style="padding-top:30px;margin-top:16px">
@@ -764,14 +772,24 @@ footer{padding:34px 0 56px;text-align:center;color:var(--mut);font-size:12px;bor
   </div>
   <div class="section-label" style="margin:4px 0 10px">Origen / contenido de los leads inbound <small>· 1.512</small></div>
   <div class="bars"><div class="brow"><span class="bl">Formulario de demo</span><div class="bt"><div class="bf" style="width:100%"></div></div><span class="bn tnum">790<br><small>52%</small></span></div><div class="brow"><span class="bl">Blog / artículo</span><div class="bt"><div class="bf" style="width:50%"></div></div><span class="bn tnum">395<br><small>26%</small></span></div><div class="brow"><span class="bl">Webinar</span><div class="bt"><div class="bf" style="width:13%"></div></div><span class="bn tnum">99<br><small>7%</small></span></div><div class="brow"><span class="bl">Herramienta / calculadora</span><div class="bt"><div class="bf" style="width:9%"></div></div><span class="bn tnum">74<br><small>5%</small></span></div><details class="chdeals"><summary><span class="bl">Lead Ads (paid) · paid media</span><div class="bt"><div class="bf" style="width:7%;background:linear-gradient(90deg,#155e7a,var(--sky))"></div></div><span class="bn tnum">59<br><small>4%</small></span></summary><div class="dl"><span>Facebook · Ebook (contenido) · <b style="color:var(--sky)">49</b></span><span>LinkedIn · Formulario CG · <b style="color:var(--sky)">7</b></span><span>Lead Ad · Formulario genérico · <b style="color:var(--sky)">3</b></span></div></details><div class="brow"><span class="bl">Ebook / descargable</span><div class="bt"><div class="bf" style="width:5%"></div></div><span class="bn tnum">40<br><small>3%</small></span></div><div class="brow"><span class="bl">Sin información</span><div class="bt"><div class="bf" style="width:3%"></div></div><span class="bn tnum">23<br><small>2%</small></span></div><div class="brow"><span class="bl">Otro formulario</span><div class="bt"><div class="bf" style="width:2%"></div></div><span class="bn tnum">15<br><small>1%</small></span></div><div class="brow"><span class="bl">GuruSup Brain</span><div class="bt"><div class="bf" style="width:1%"></div></div><span class="bn tnum">7<br><small>0%</small></span></div></div>
-  <div class="lead-strat">
-    <div class="ls-col">
-      <div class="ls-h">🌱 Qué hacemos con los leads</div>
-      <ul class="ls-list">
-        <li><b>Nurturing</b> con contenido de GuruSup (ebooks, webinars, artículos) en <b>secuencias</b>.</li>
-        <li>Objetivo: <b>identificar y generar la necesidad</b> según lo que consume cada contacto.</li>
-        <li>Cuando encaja con el <b>perfil target</b>, salta <b>alerta a ventas</b> con la necesidad detectada.</li>
-      </ul>
+  <div class="flow-intro sd">Qué hacemos con estos contactos según lo que sabemos de ellos: <b>en cuanto un contacto interactúa con contenido de marketing</b> (se descarga un ebook, asiste a un webinar, consume un artículo…) <b>pasa a MQL</b>. Solo se quedan en <b>etapa lead</b> los contactos de los que <b>aún no tenemos información</b>, y a los que vamos <b>nutriendo</b> para empujarlos en el embudo. <b>Ningún contacto se elimina ni se descarta</b>: aprendemos de todos y los retomamos en el momento que corresponda.</div>
+  <div class="flow-steps">
+    <div class="flow-step">
+      <div class="fs-ico">🌱</div>
+      <div class="fs-body"><div class="fs-t">Lead · sin información todavía</div>
+      <div class="fs-d">Se <b>nutre</b> con contenido de GuruSup (ebooks, webinars, artículos) en secuencias. En cuanto <b>interactúa con contenido</b>, se identifica una señal y <b>pasa a MQL</b>.</div></div>
+    </div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-step">
+      <div class="fs-ico">🎯</div>
+      <div class="fs-body"><div class="fs-t">MQL · identificado · nurturing con CTA</div>
+      <div class="fs-d">A los MQL ya identificados se les hace <b>nurturing con secuencias de contenido de valor</b> que, al final de cada secuencia, empujan con un <b>CTA</b>: <i>book a demo</i>, pedir una llamada o hablar con ventas.</div></div>
+    </div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-step">
+      <div class="fs-ico">📝</div>
+      <div class="fs-body"><div class="fs-t">Precualificación con formulario</div>
+      <div class="fs-d">El <b>formulario</b> precualifica automáticamente. <b>Si cualifica → pasa a Agustín</b>, que valora la oportunidad. <b>Si no cualifica ahora</b>, se marca la <b>razón de descarte / descalificación</b> en su etapa y se <b>retoma más adelante</b> — no se elimina.</div></div>
     </div>
   </div>
 </section>
@@ -905,6 +923,6 @@ footer{padding:34px 0 56px;text-align:center;color:var(--mut);font-size:12px;bor
   <div class="note">Churn real medido por <b>cuenta de cliente</b> en el pipeline «Clientes» (etapas Churned + Dormidos/Inactivos). La <b>tasa de churn</b> = cuentas perdidas / (perdidas + activas). La etapa «Churn» del <i>ciclo de vida del contacto</i> casi no se usa en el CRM (solo la tienen contactos sueltos), por eso el churn fiable es el de cuentas del pipeline.</div>
 </section>
 
-<footer>GuruSup · Dashboard ejecutivo · datos HubSpot en vivo · 27 Jul 2026 · 12:57 (hora España) · documento confidencial</footer>
+<footer>GuruSup · Dashboard ejecutivo · datos HubSpot en vivo · 27 Jul 2026 · 13:05 (hora España) · documento confidencial</footer>
 </div>
 </body></html>
