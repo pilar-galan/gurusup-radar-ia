@@ -2963,6 +2963,14 @@ details.chdeals .dl span{font-size:11px;background:rgba(104,209,245,.1);border:1
 .ls-list li::before{content:"•";position:absolute;left:2px;color:var(--brand);font-weight:800}
 .ls-col.b .ls-list li::before{color:var(--warn)}
 @media(max-width:820px){.lead-strat{grid-template-columns:1fr}}
+.flow-intro{margin-top:20px;margin-bottom:14px}
+.flow-steps{display:flex;flex-direction:column;align-items:stretch;gap:6px}
+.flow-step{display:flex;gap:14px;align-items:flex-start;background:linear-gradient(165deg,rgba(24,52,38,.6),rgba(19,41,30,.4));border:1px solid var(--line2);border-radius:14px;padding:14px 18px}
+.fs-ico{font-size:22px;line-height:1;flex:0 0 auto;margin-top:1px}
+.fs-body{flex:1 1 auto}
+.fs-t{font-size:13px;font-weight:800;color:var(--ink);margin-bottom:4px}
+.fs-d{font-size:12.5px;color:var(--ink2);line-height:1.55}
+.flow-arrow{align-self:center;color:var(--brand);font-size:16px;font-weight:800;line-height:1}
 .strat b{color:var(--brand)}
 .note{background:linear-gradient(150deg,rgba(111,240,162,.12),rgba(111,240,162,.02));border:1px solid var(--line2);border-radius:14px;padding:16px 18px;font-size:13px;color:var(--ink2);margin-top:18px}
 .note b{color:var(--brand)}
@@ -4042,14 +4050,24 @@ def render_exec(d):
   </div>
   <div class="section-label" style="margin:4px 0 10px">Origen / contenido de los leads inbound <small>· {fmt(cum["lead"])}</small></div>
   <div class="bars">{leads_html}</div>
-  <div class="lead-strat">
-    <div class="ls-col">
-      <div class="ls-h">🌱 Qué hacemos con los leads</div>
-      <ul class="ls-list">
-        <li><b>Nurturing</b> con contenido de GuruSup (ebooks, webinars, artículos) en <b>secuencias</b>.</li>
-        <li>Objetivo: <b>identificar y generar la necesidad</b> según lo que consume cada contacto.</li>
-        <li>Cuando encaja con el <b>perfil target</b>, salta <b>alerta a ventas</b> con la necesidad detectada.</li>
-      </ul>
+  <div class="flow-intro sd">Qué hacemos con estos contactos según lo que sabemos de ellos: <b>en cuanto un contacto interactúa con contenido de marketing</b> (se descarga un ebook, asiste a un webinar, consume un artículo…) <b>pasa a MQL</b>. Solo se quedan en <b>etapa lead</b> los contactos de los que <b>aún no tenemos información</b>, y a los que vamos <b>nutriendo</b> para empujarlos en el embudo. <b>Ningún contacto se elimina ni se descarta</b>: aprendemos de todos y los retomamos en el momento que corresponda.</div>
+  <div class="flow-steps">
+    <div class="flow-step">
+      <div class="fs-ico">🌱</div>
+      <div class="fs-body"><div class="fs-t">Lead · sin información todavía</div>
+      <div class="fs-d">Se <b>nutre</b> con contenido de GuruSup (ebooks, webinars, artículos) en secuencias. En cuanto <b>interactúa con contenido</b>, se identifica una señal y <b>pasa a MQL</b>.</div></div>
+    </div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-step">
+      <div class="fs-ico">🎯</div>
+      <div class="fs-body"><div class="fs-t">MQL · identificado · nurturing con CTA</div>
+      <div class="fs-d">A los MQL ya identificados se les hace <b>nurturing con secuencias de contenido de valor</b> que, al final de cada secuencia, empujan con un <b>CTA</b>: <i>book a demo</i>, pedir una llamada o hablar con ventas.</div></div>
+    </div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-step">
+      <div class="fs-ico">📝</div>
+      <div class="fs-body"><div class="fs-t">Precualificación con formulario</div>
+      <div class="fs-d">El <b>formulario</b> precualifica automáticamente. <b>Si cualifica → pasa a Agustín</b>, que valora la oportunidad. <b>Si no cualifica ahora</b>, se marca la <b>razón de descarte / descalificación</b> en su etapa y se <b>retoma más adelante</b> — no se elimina.</div></div>
     </div>
   </div>
 </section>
