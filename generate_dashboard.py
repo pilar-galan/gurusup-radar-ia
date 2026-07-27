@@ -3119,10 +3119,11 @@ def render_exec(d):
     _cli_ct = ex.get("cli_split", {}).get("contactos", 0)
     # ── Referencia mensual de tasas de conversión: se guarda una foto por mes y se compara con el mes anterior ──
     import json as _json, os as _os
+    _tz = timezone(timedelta(hours=2))   # Europe/Madrid (verano); tz no está en el ámbito de render_exec
     def _rp(n, dd):
         try: return round(n / dd * 100) if dd else 0
         except Exception: return 0
-    _cur_mo = datetime.now(timezone.utc).astimezone(tz).strftime("%Y-%m")
+    _cur_mo = datetime.now(timezone.utc).astimezone(_tz).strftime("%Y-%m")
     _cur_rates = {
         "lead_mql": _rp(g_mql, g_lead), "mql_sql": _rp(g_sql_reached, g_mql),
         "sql_opp": _rp(_opp_ct, g_sql_reached), "opp_cli": _rp(_cli_emp, _opp_emp),
@@ -3134,7 +3135,7 @@ def render_exec(d):
     except Exception: _hist = {}
     _prev_key = max([k for k in _hist if k < _cur_mo], default=None)
     _prev_rates = _hist.get(_prev_key, {}) if _prev_key else {}
-    _hist[_cur_mo] = {**_cur_rates, "captured": datetime.now(timezone.utc).astimezone(tz).strftime("%Y-%m-%d")}
+    _hist[_cur_mo] = {**_cur_rates, "captured": datetime.now(timezone.utc).astimezone(_tz).strftime("%Y-%m-%d")}
     try:
         with open(_HIST_PATH, "w", encoding="utf-8") as _f: _json.dump(_hist, _f, ensure_ascii=False, indent=2)
     except Exception: pass
