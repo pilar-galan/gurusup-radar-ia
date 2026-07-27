@@ -1,7 +1,7 @@
 {
   "2026-07": {
     "lead_mql": 31,
-    "mql_sql": 35,
+    "mql_sql": 36,
     "sql_opp": 40,
     "opp_cli": 55,
     "cli_churn": 14,
