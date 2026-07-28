@@ -81,6 +81,25 @@ h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;marg
 .hero .lede b{color:var(--ink);font-weight:650}
 @media (max-width:640px){.hero .lede{text-align:left}}
 
+/* hero highlights (scannable) */
+.hl-lead{max-width:780px;margin:30px auto 0}
+.hl-lead p{font-size:clamp(17px,2.1vw,22px);line-height:1.5;color:var(--ink-soft);text-align:center;text-wrap:balance;margin:0}
+.hl-lead b{color:var(--ink);font-weight:680}
+.hl-tags{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px;margin:22px auto 0}
+.hl-tags span{font-family:var(--mono);font-size:12.5px;letter-spacing:.05em;color:var(--ink);
+  background:color-mix(in srgb,var(--brand) 12%,transparent);border:1px solid var(--line-2);border-radius:999px;padding:7px 15px}
+.hl-tags em{font-style:normal;color:var(--brand);font-weight:800;font-size:15px}
+.hl-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;max-width:840px;margin:26px auto 0}
+.hlc{background:linear-gradient(160deg,var(--panel),var(--panel-2));border:1px solid var(--line);border-radius:14px;
+  padding:16px 18px 17px;text-align:left;position:relative;overflow:hidden;transition:transform .28s,border-color .28s}
+.hlc::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--c);opacity:.9}
+.hlc:hover{transform:translateY(-3px);border-color:color-mix(in srgb,var(--c) 42%,var(--line))}
+.hlc .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--c);display:flex;align-items:center;gap:7px;margin-bottom:8px}
+.hlc .k i{width:6px;height:6px;border-radius:50%;background:var(--c);box-shadow:0 0 8px var(--c)}
+.hlc b{font-size:15px;font-weight:650;line-height:1.34;color:var(--ink);letter-spacing:-.01em;display:block}
+.hlc b u{text-decoration:none;color:var(--c)}
+@media (max-width:720px){.hl-cards{grid-template-columns:1fr;max-width:440px}}
+
 /* convergence diagram */
 .conv{position:relative;width:min(560px,86vw);aspect-ratio:1/1;margin:38px auto 6px}
 .conv svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
@@ -251,7 +270,17 @@ h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;marg
       <div class="node" style="left:18%;top:20%;--dot:var(--teal)"><i></i>Red Comercial</div>
     </div>
 
-    <p class="lede">Una estrategia transversal entre <b>Marketing, Ventas, CRM y Paid Media</b> para validar el vertical eCommerce, generar demanda cualificada y convertirla en oportunidades comerciales. El eje es un <b>webinar especializado en eCommerce</b> alrededor del cual giran todas las acciones de captación, contenido y ventas — alineando a toda la compañía bajo un único objetivo de negocio.</p>
+    <div class="hl-lead">
+      <p>Una <b>campaña única</b> de toda la compañía para <b>validar el vertical eCommerce</b> y convertir demanda cualificada en oportunidades.</p>
+    </div>
+    <div class="hl-tags">
+      <span>Marketing</span><em>+</em><span>Ventas</span><em>+</em><span>CRM</span><em>+</em><span>Paid Media</span>
+    </div>
+    <div class="hl-cards">
+      <div class="hlc" style="--c:var(--brand)"><span class="k"><i></i>El eje</span><b>Un <u>webinar</u> especializado en eCommerce</b></div>
+      <div class="hlc" style="--c:var(--gold)"><span class="k"><i></i>La meta</span><b>Toda la empresa, <u>un único objetivo</u></b></div>
+      <div class="hlc" style="--c:var(--cyan)"><span class="k"><i></i>El resultado</span><b>Demanda cualificada <u>→ oportunidades</u></b></div>
+    </div>
   </div>
 </header>
 
@@ -266,7 +295,7 @@ h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;marg
       <div class="obj rv"><span class="n">02</span><p>Validar el mercado eCommerce como <b>vertical prioritario</b>.</p></div>
       <div class="obj rv"><span class="n">03</span><p>Generar <b>leads cualificados</b> del sector.</p></div>
       <div class="obj rv"><span class="n">04</span><p>Convertir asistentes al webinar en <b>demos comerciales</b>.</p></div>
-      <div class="obj hl rv"><span class="n">05</span><p>Conseguir nuevos clientes con un <b>CAC inferior a 2.000 €</b>.</p></div>
+      <div class="obj hl rv"><span class="n">05</span><p>Conseguir nuevos clientes con un <b>CAC inferior a 3.000 €</b>.</p></div>
       <div class="obj rv"><span class="n">06</span><p>Crear un <b>playbook replicable</b> para otros verticales.</p></div>
     </div>
   </div>
@@ -497,12 +526,12 @@ h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;marg
   <div class="wrap">
     <span class="kicker">Presupuesto estimado & meta</span>
     <h2 class="sec rv">Las cifras que gobiernan la campaña</h2>
-    <p class="sd rv">Una inversión contenida y medible: ~3.000 € de captación en septiembre, con la vista puesta en un coste de adquisición por debajo de los 2.000 € por cliente.</p>
+    <p class="sd rv">Una inversión contenida y medible: ~3.000 € de captación en septiembre, con la vista puesta en un coste de adquisición por debajo de los 3.000 € por cliente.</p>
     <div class="metrics rv">
       <div class="metric"><div class="mlabel">Paid Media · Meta Ads</div><div class="mval">~1.000 €</div><div class="msub">Captación de leads y remarketing</div></div>
       <div class="metric"><div class="mlabel">Marketing for eCommerce</div><div class="mval">~2.000 €</div><div class="msub">Medios especializados · pendiente de presupuesto</div></div>
       <div class="metric brand"><div class="mlabel">Total estimado</div><div class="mval">~3.000 €</div><div class="msub">Inversión de captación · septiembre</div></div>
-      <div class="metric accent"><div class="mlabel">CAC objetivo</div><div class="mval">&lt; 2.000 €</div><div class="msub">Coste por cliente nuevo captado</div></div>
+      <div class="metric accent"><div class="mlabel">CAC objetivo</div><div class="mval">&lt; 3.000 €</div><div class="msub">Coste por cliente nuevo captado</div></div>
     </div>
   </div>
 </section>
