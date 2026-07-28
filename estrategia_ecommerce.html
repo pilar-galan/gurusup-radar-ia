@@ -186,7 +186,7 @@ h2.sec{font-size:clamp(22px,3.2vw,32px);font-weight:600;letter-spacing:-.015em;m
 
 /* ---------- funnel ---------- */
 .funnel{margin-top:40px;display:flex;flex-direction:column;gap:10px}
-.fstage{position:relative;margin:0 auto;border-radius:12px;padding:16px 24px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:16px;
+.fstage{position:relative;margin:0 auto;border-radius:12px;padding:16px 24px;display:grid;grid-template-columns:auto minmax(0,1fr) 240px;align-items:center;gap:16px;
   background:linear-gradient(100deg,color-mix(in srgb,var(--fc) 22%,var(--panel)),var(--panel));border:1px solid color-mix(in srgb,var(--fc) 38%,var(--line));
   transition:transform .25s}
 .fstage:hover{transform:scale(1.012)}
@@ -194,7 +194,7 @@ h2.sec{font-size:clamp(22px,3.2vw,32px);font-weight:600;letter-spacing:-.015em;m
 .fstage .st-name b{font-size:17px;font-weight:780;letter-spacing:-.01em;color:var(--ink)}
 .fstage .st-name em{font-style:normal;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--fc)}
 .fstage .st-def{font-size:13.5px;color:var(--ink-soft);text-align:left}
-.fstage .st-side{text-align:right;min-width:160px;max-width:44%}
+.fstage .st-side{text-align:right}
 .fstage .st-side .who{display:block;font-size:11px;color:var(--ink-faint);line-height:1.3;margin-bottom:4px}
 .fstage .st-side .kpi{font-size:12px;font-family:var(--mono);color:var(--fc);font-weight:600;line-height:1.65}
 .fstage .st-side .kpi + .kpi::before{content:" · ";color:var(--ink-faint);font-weight:400}
@@ -678,24 +678,24 @@ h2.sec{font-size:clamp(22px,3.2vw,32px);font-weight:600;letter-spacing:-.015em;m
         <div class="st-def">Registro al webinar</div>
         <div class="st-side"><span class="who">Marketing · Paid · SEO · CRM · Mktg Automation · Outbound · LinkedIn · Red Comercial</span><span class="kpi">Nº registros / CPL</span></div>
       </div>
-      <div class="fstage" style="--fc:var(--teal);width:88%">
+      <div class="fstage" style="--fc:var(--teal);width:92%">
         <div class="st-name"><b>MQL</b><em>Asistencia</em></div>
         <div class="st-def">Asistencia al webinar</div>
         <div class="st-side"><span class="who">Marketing · CRM</span><span class="kpi">% de asistencia</span><span class="kpi">Conv. Lead → MQL</span><span class="kpi">Conv. MQL → SQL</span></div>
       </div>
-      <div class="fstage" style="--fc:var(--cyan);width:72%">
+      <div class="fstage" style="--fc:var(--cyan);width:84%">
         <div class="st-name"><b>SQL</b><em>Demo precualificada</em></div>
         <div class="st-def">Solicitud de demo precualificada por formulario y automatizaciones (&gt;3.000 consultas/mes o +5 personas de soporte) → se envía a Ventas</div>
         <div class="st-side"><span class="who">Ventas</span><span class="kpi">Conv. SQL → Oportunidad</span></div>
       </div>
-      <div class="fstage" style="--fc:var(--gold);width:56%">
+      <div class="fstage" style="--fc:var(--gold);width:77%">
         <div class="st-name"><b>Oportunidad</b><em>Demo validada</em></div>
         <div class="st-def">El SQL que cumple el criterio valida la demo con potencial de compra — ya en manos de Ventas.</div>
         <div class="st-side"><span class="who">Ventas</span><span class="kpi">Nuevas conversaciones en pipeline</span><span class="kpi">Conv. Oportunidad → Cliente</span></div>
       </div>
-      <div class="fstage" style="--fc:var(--pink);width:40%">
+      <div class="fstage" style="--fc:var(--pink);width:70%">
         <div class="st-name"><b>Cliente</b><em>Éxito y prescripción</em></div>
-        <div class="st-def">Cliente que retiene y se vuelve prescriptor de la marca.</div>
+        <div class="st-def"></div>
         <div class="st-side"><span class="who">Ventas · CS</span><span class="kpi">Satisfacción del webinar</span><span class="kpi">Activación / engagement</span><span class="kpi">Retención</span><span class="kpi">Prescripción / evangelización</span></div>
       </div>
     </div>
