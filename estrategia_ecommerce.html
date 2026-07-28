@@ -207,6 +207,14 @@ h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;marg
 .metric .msub{font-size:13px;color:var(--ink-soft)}
 .metric.accent .mval{color:var(--gold)}
 .metric.brand .mval{color:var(--brand)}
+.roi-note{margin-top:20px;background:linear-gradient(160deg,color-mix(in srgb,var(--gold) 8%,var(--panel)),var(--panel-2));
+  border:1px solid color-mix(in srgb,var(--gold) 32%,var(--line));border-radius:16px;padding:18px 20px;font-size:14px;color:var(--ink);line-height:1.55}
+.roi-note .rn-k{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:.6em;margin-bottom:8px}
+.roi-note .rn-k::before{content:"";width:20px;height:1px;background:var(--gold);opacity:.6}
+.roi-note b{color:var(--ink);font-weight:680}
+.roi-note .hl{color:var(--gold);font-weight:750}
+.roi-note p{margin:0 0 .7em}
+.roi-note p:last-child{margin-bottom:0}
 
 .foot{padding:40px 0 70px;text-align:center;color:var(--ink-faint);font-size:13px;font-family:var(--mono);letter-spacing:.06em}
 .foot .rule{height:1px;background:linear-gradient(90deg,transparent,var(--line-2),transparent);margin:0 0 26px}
@@ -787,12 +795,18 @@ h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;marg
   <div class="wrap">
     <span class="kicker">Presupuesto estimado & meta</span>
     <h2 class="sec rv">Las cifras que gobiernan la campaña</h2>
-    <p class="sd rv">Una inversión contenida y medible: ~5.000 € de captación en septiembre, con la vista puesta en un coste de adquisición por debajo de los 3.000 € por cliente.</p>
+    <p class="sd rv">Una inversión contenida y medible: ~5.000 € de captación en septiembre, con un coste de adquisición estimado en ~2.800 € por cliente (objetivo por debajo de los 3.000 €).</p>
     <div class="metrics rv">
       <div class="metric"><div class="mlabel">Paid Media · Meta Ads</div><div class="mval">~3.000 €</div><div class="msub">Captación de leads y remarketing</div></div>
       <div class="metric"><div class="mlabel">Marketing for eCommerce</div><div class="mval">~2.000 €</div><div class="msub">Medios especializados · pendiente de presupuesto</div></div>
       <div class="metric brand"><div class="mlabel">Total estimado</div><div class="mval">~5.000 €</div><div class="msub">Inversión de captación · septiembre</div></div>
-      <div class="metric accent"><div class="mlabel">CAC objetivo</div><div class="mval">&lt; 3.000 €</div><div class="msub">Coste por cliente nuevo captado</div></div>
+      <div class="metric accent"><div class="mlabel">CAC estimado</div><div class="mval">~2.800 €</div><div class="msub">Por cliente nuevo · objetivo &lt; 3.000 €</div></div>
+    </div>
+    <div class="roi-note rv">
+      <span class="rn-k">Nota · cómo leer la rentabilidad</span>
+      <p>Con una inversión de <b>~5.000 €</b> y un CAC estimado de <b>~2.800 €</b>, basta con captar <span class="hl">2 clientes</span> para que la acción salga a cuenta: el coste de adquisición bajaría a <span class="hl">~2.500 € por cliente</span>.</p>
+      <p>Pero esto solo tiene sentido leyéndolo como <b>ingreso recurrente acumulado (LTV a 12–24 meses)</b>, no como una venta puntual del mes: hablamos de 2 clientes que <b>avanzan, retienen y permanecen a largo plazo</b>.</p>
+      <p>Y hay que ponderar que, además del gasto en medios, están <b>nuestros recursos, el tiempo y los sueldos</b> del equipo, que también suman al coste real. Por eso la rentabilidad se sostiene en la <span class="hl">permanencia</span>, no en el cierre puntual.</p>
     </div>
   </div>
 </section>
