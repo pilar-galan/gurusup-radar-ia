@@ -92,8 +92,8 @@ h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;marg
 .conv .node:hover{transform:translate(-50%,-50%) scale(1.08);border-color:var(--dot);color:var(--ink)}
 .conv .node i{width:7px;height:7px;border-radius:50%;background:var(--dot);box-shadow:0 0 10px var(--dot)}
 .conv .core{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:150px;height:150px;border-radius:50%;
-  display:grid;place-items:center;text-align:center;
-  background:radial-gradient(circle at 50% 35%,rgba(87,224,138,.28),rgba(43,182,115,.08));
+  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:6px;
+  background:radial-gradient(circle at 50% 50%,rgba(87,224,138,.28),rgba(43,182,115,.08));
   border:1px solid var(--line-2);box-shadow:0 0 60px -6px var(--glow)}
 .conv .core::before{content:"";position:absolute;inset:-14px;border-radius:50%;border:1px solid var(--line);animation:pulse 3s ease-in-out infinite}
 @keyframes pulse{0%,100%{transform:scale(1);opacity:.6}50%{transform:scale(1.09);opacity:.15}}
