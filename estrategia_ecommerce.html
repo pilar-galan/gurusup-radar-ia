@@ -214,6 +214,15 @@ h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;marg
 .tobj li b{color:var(--ink);font-weight:650}
 .trow.tall .tteam{align-items:flex-start;padding-top:18px}
 .trow.tall .tobj{align-items:flex-start;padding-top:16px;padding-bottom:18px}
+.sub-label{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-faint);margin:16px 0 10px;width:100%}
+.subareas{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;width:100%}
+.subarea{background:color-mix(in srgb,var(--sc) 7%,transparent);border:1px solid var(--line);border-left:3px solid var(--sc);border-radius:10px;padding:12px 14px}
+.subarea h5{margin:0 0 8px;font-size:13px;font-weight:750;color:var(--ink);display:flex;align-items:center;gap:7px}
+.subarea h5 i{width:7px;height:7px;border-radius:50%;background:var(--sc);flex:none}
+.subarea ul{display:grid;gap:5px;margin:0;padding:0;list-style:none}
+.subarea li{position:relative;padding-left:15px;font-size:12.5px;color:var(--ink-soft);line-height:1.4}
+.subarea li::before{content:"";position:absolute;left:0;top:.5em;width:5px;height:5px;border-radius:50%;background:var(--sc);opacity:.85}
+@media(max-width:640px){.subareas{grid-template-columns:1fr}}
 @media (max-width:640px){.trow{grid-template-columns:1fr}.trow .tteam{border-right:none;border-bottom:1px solid var(--line);padding-bottom:8px}.trow .tobj{padding-top:8px}}
 
 /* ---------- calendar ---------- */
@@ -374,30 +383,46 @@ h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;marg
 <section class="band" style="padding-top:0">
   <div class="wrap">
     <span class="kicker">Objetivos comunes por equipo</span>
-    <h2 class="sec rv">Cada equipo, su pieza del mismo puzzle</h2>
-    <p class="sd rv">El mensaje es común y la audiencia es única, pero cada equipo aporta una capacidad distinta. Estos son los ocho compromisos que, sumados, construyen el embudo de principio a fin.</p>
+    <h2 class="sec rv">Dos motores: Marketing capta, Ventas convierte</h2>
+    <p class="sd rv">El mensaje es común y la audiencia es única. Marketing orquesta la captación —con Paid, SEO y orgánico, LinkedIn y CRM— y Ventas cierra el ciclo —con Red Comercial, Outbound y emails— hasta convertir cada registro en cliente.</p>
     <div class="teams rv">
       <div class="trow tall" style="--tc:var(--brand)">
         <div class="tteam"><i></i>Marketing</div>
-        <div class="tobj"><ul>
-          <li><b>Coordinar la estrategia</b> entre todos los departamentos.</li>
-          <li>Crear el <b>contenido</b> de la campaña y de difusión.</li>
-          <li><b>Maximizar los registros</b> al webinar.</li>
-          <li>Listas <b>segmentadas en CRM</b> para envío de email marketing.</li>
-          <li>Contactar con <b>medios de referencia</b> donde esté nuestro target.</li>
-          <li><b>Testear una base de datos externa</b> con nuestro ICP real y medir resultados.</li>
-          <li><b>Seguimiento pre y post webinar</b> vía automatizaciones para empujar registros y asistencia.</li>
-          <li><b>Scoring</b> de registrados, asistentes y solicitudes de demo, identificados por etapa del funnel.</li>
-          <li>Configurar <b>GoToWebinar</b> y el <b>formulario de registro</b>, integrado con HubSpot.</li>
-        </ul></div>
+        <div class="tobj">
+          <ul>
+            <li><b>Coordinar la estrategia</b> entre todos los departamentos.</li>
+            <li><b>Valorar apoyo en la difusión</b> de un medio vertical donde está nuestro ICP.</li>
+            <li>Crear el <b>contenido</b> de la campaña y de difusión.</li>
+            <li><b>Maximizar los registros</b> al webinar.</li>
+            <li><b>Medir resultados.</b></li>
+            <li><b>Seguimiento pre y post webinar.</b></li>
+          </ul>
+          <div class="sub-label">Desglose por área</div>
+          <div class="subareas">
+            <div class="subarea" style="--sc:var(--brand-bright)"><h5><i></i>Paid</h5><ul><li>Captar leads optimizando el CPL</li><li>Visibilidad del sector eCommerce</li><li>Registros al contenido de valor</li><li>Remarketing</li></ul></div>
+            <div class="subarea" style="--sc:var(--purple)"><h5><i></i>SEO y orgánico</h5><ul><li>Posicionar GuruSup en eCommerce</li><li>Tráfico cualificado y contenido de valor</li><li>Artículo en el propio medio del sector (doble push)</li></ul></div>
+            <div class="subarea" style="--sc:var(--blue)"><h5><i></i>LinkedIn orgánico</h5><ul><li>Notoriedad, confianza y tráfico a la landing</li><li>Marca corporativa + personal (CEO, comercial, marketing)</li></ul></div>
+            <div class="subarea" style="--sc:var(--gold)"><h5><i></i>CRM</h5><ul><li>Scoring de registrados, asistentes y solicitudes de demo, por etapa del funnel</li><li>Configurar GoToWebinar y el formulario de registro, integrado con HubSpot</li><li>Crear UTMs para el clic del CTA + formulario trazado a HubSpot y hacer pruebas</li></ul></div>
+          </div>
+        </div>
       </div>
-      <div class="trow" style="--tc:var(--brand-bright)"><div class="tteam"><i></i>Paid Media</div><div class="tobj">Captar leads optimizando el CPL, aumentar la visibilidad del sector eCommerce y fomentar los registros al contenido de valor.</div></div>
-      <div class="trow" style="--tc:var(--purple)"><div class="tteam"><i></i>SEO</div><div class="tobj">Posicionar GuruSup en eCommerce, generar tráfico cualificado y crear contenido de valor —con opción de artículo en el propio medio del sector para doble push.</div></div>
-      <div class="trow" style="--tc:var(--gold)"><div class="tteam"><i></i>CRM</div><div class="tobj">Calidad del dato, trazabilidad, integración de todos los canales en un mismo sistema y evolución del contacto por el funnel.</div></div>
-      <div class="trow" style="--tc:var(--pink)"><div class="tteam"><i></i>Outbound</div><div class="tobj">Generar registros desde cuentas estratégicas mediante Apollo + Instantly.</div></div>
-      <div class="trow" style="--tc:var(--blue)"><div class="tteam"><i></i>LinkedIn Orgánico</div><div class="tobj">Generar notoriedad, confianza y tráfico hacia la landing.</div></div>
-      <div class="trow" style="--tc:var(--teal)"><div class="tteam"><i></i>Red Comercial</div><div class="tobj">Activar la red de contactos para aumentar registros y demos, y compartir el webinar con clientes eCommerce actuales para aportarles valor y reactivar su engagement.</div></div>
-      <div class="trow" style="--tc:var(--cyan)"><div class="tteam"><i></i>Ventas</div><div class="tobj">Tratar los SQL precualificados con especial interés que han solicitado demo, y convertirlos en oportunidades y clientes.</div></div>
+
+      <div class="trow tall" style="--tc:var(--cyan)">
+        <div class="tteam"><i></i>Ventas</div>
+        <div class="tobj">
+          <ul>
+            <li><b>Tratar los SQL precualificados</b> con especial interés que han solicitado demo.</li>
+            <li><b>Convertirlos en oportunidades y clientes.</b></li>
+            <li>Recuperar y acelerar oportunidades tras el webinar.</li>
+          </ul>
+          <div class="sub-label">Desglose por área</div>
+          <div class="subareas">
+            <div class="subarea" style="--sc:var(--teal)"><h5><i></i>Red Comercial</h5><ul><li>Activar la red de contactos de todo el equipo</li><li>Invitaciones directas y mensajes personalizados</li><li>Recuperar oportunidades abiertas y perdidas</li><li>Clientes eCommerce actuales · valor + reactivación</li></ul></div>
+            <div class="subarea" style="--sc:var(--pink)"><h5><i></i>Outbound</h5><ul><li>Apollo → cuentas ABM → Instantly</li><li>Invitación personalizada al webinar</li><li>Registros desde cuentas estratégicas</li></ul></div>
+            <div class="subarea" style="--sc:var(--indigo)"><h5><i></i>Emails</h5><ul><li>Secuencias de email personalizadas</li><li>Invitación y follow-up</li><li>Seguimiento comercial tras el webinar</li></ul></div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -458,6 +483,8 @@ h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;marg
         <ul>
           <li>Definición de propuesta de valor</li>
           <li>Preparación del webinar</li>
+          <li>Guion base del webinar: puntos a tocar y estructura</li>
+          <li>Validar participación de clientes y qué contar de ellos (logos, referencias, testimonios)</li>
           <li>Diseño de la landing</li>
           <li>Configurar GoToWebinar: alta e integración con HubSpot</li>
           <li>Pruebas: el formulario de registro vuelca todas las propiedades a HubSpot</li>
