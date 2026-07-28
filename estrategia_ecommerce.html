@@ -212,9 +212,16 @@ h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;marg
 .tobj li{position:relative;padding-left:19px;line-height:1.4}
 .tobj li::before{content:"";position:absolute;left:0;top:.52em;width:6px;height:6px;border-radius:50%;background:var(--tc);opacity:.9}
 .tobj li b{color:var(--ink);font-weight:650}
+.trow.tall{grid-template-columns:132px minmax(0,.92fr) minmax(0,1.62fr);align-items:stretch}
 .trow.tall .tteam{align-items:flex-start;padding-top:18px}
-.trow.tall .tobj{align-items:flex-start;padding-top:16px;padding-bottom:18px}
-.sub-label{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-faint);margin:16px 0 10px;width:100%}
+.trow.tall .tobj{align-items:flex-start;padding-top:16px;padding-bottom:18px;border-right:1px solid var(--line)}
+.tsub{padding:16px 22px 18px;min-width:0}
+@media(max-width:900px){
+  .trow.tall{grid-template-columns:1fr}
+  .trow.tall .tteam{border-right:none;border-bottom:1px solid var(--line);padding-bottom:10px}
+  .trow.tall .tobj{border-right:none;border-bottom:1px solid var(--line)}
+}
+.sub-label{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 10px;width:100%}
 .subareas{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;width:100%}
 .subarea{background:color-mix(in srgb,var(--sc) 7%,transparent);border:1px solid var(--line);border-left:3px solid var(--sc);border-radius:10px;padding:12px 14px}
 .subarea h5{margin:0 0 8px;font-size:13px;font-weight:750;color:var(--ink);display:flex;align-items:center;gap:7px}
@@ -384,7 +391,7 @@ h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;marg
   <div class="wrap">
     <span class="kicker">Objetivos comunes por equipo</span>
     <h2 class="sec rv">Dos motores: Marketing capta, Ventas convierte</h2>
-    <p class="sd rv">El mensaje es común y la audiencia es única. Marketing orquesta la captación —con Paid, SEO y orgánico, LinkedIn y CRM— y Ventas cierra el ciclo —con Red Comercial, Outbound y emails— hasta convertir cada registro en cliente.</p>
+    <p class="sd rv">El mensaje es común y la audiencia es única. Marketing orquesta la captación —con Paid, SEO y orgánico, LinkedIn y CRM— y Ventas cierra el ciclo —con Red Comercial, Outbound y emails— hasta convertir cada registro en cliente. Son dos motores que se apoyan mutuamente.</p>
     <div class="teams rv">
       <div class="trow tall" style="--tc:var(--brand)">
         <div class="tteam"><i></i>Marketing</div>
@@ -397,6 +404,8 @@ h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;marg
             <li><b>Medir resultados.</b></li>
             <li><b>Seguimiento pre y post webinar.</b></li>
           </ul>
+        </div>
+        <div class="tsub">
           <div class="sub-label">Desglose por área</div>
           <div class="subareas">
             <div class="subarea" style="--sc:var(--brand-bright)"><h5><i></i>Paid</h5><ul><li>Captar leads optimizando el CPL</li><li>Visibilidad del sector eCommerce</li><li>Registros al contenido de valor</li><li>Remarketing</li></ul></div>
@@ -415,6 +424,8 @@ h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;marg
             <li><b>Convertirlos en oportunidades y clientes.</b></li>
             <li>Recuperar y acelerar oportunidades tras el webinar.</li>
           </ul>
+        </div>
+        <div class="tsub">
           <div class="sub-label">Desglose por área</div>
           <div class="subareas">
             <div class="subarea" style="--sc:var(--teal)"><h5><i></i>Red Comercial</h5><ul><li>Activar la red de contactos de todo el equipo</li><li>Invitaciones directas y mensajes personalizados</li><li>Recuperar oportunidades abiertas y perdidas</li><li>Clientes eCommerce actuales · valor + reactivación</li></ul></div>
