@@ -74,7 +74,7 @@ h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;marg
 /* ---------- hero ---------- */
 .hero{padding:clamp(32px,5vh,60px) 0 clamp(40px,7vh,72px);background:var(--grad-hero);text-align:center;overflow:hidden}
 .hero .eyebrow{justify-content:center}
-.hero h1{font-size:clamp(38px,7vw,82px);font-weight:850;letter-spacing:-.035em;line-height:.96;margin:.28em auto .28em;max-width:15ch;text-wrap:balance}
+.hero h1{font-size:clamp(32px,5.4vw,60px);font-weight:850;letter-spacing:-.035em;line-height:.98;margin:.24em auto .24em;max-width:15ch;text-wrap:balance}
 .hero h1 em{font-family:var(--serif);font-style:italic;font-weight:500;color:var(--brand-bright)}
 .hero .dates{font-family:var(--mono);font-size:13px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-faint)}
 .hero .lede{max-width:1040px;margin:26px auto 0;font-size:clamp(16px,1.9vw,20px);color:var(--ink-soft);text-align:justify;text-justify:inter-word;text-wrap:pretty;line-height:1.62}
@@ -111,7 +111,7 @@ h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;marg
 @media(max-width:520px){.hero-banner{border-radius:18px}}
 
 /* convergence diagram */
-.conv{position:relative;width:min(560px,86vw);aspect-ratio:1/1;margin:38px auto 6px}
+.conv{position:relative;width:min(468px,80vw);aspect-ratio:1/1;margin:26px auto 4px}
 .conv svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
 .conv .flow{stroke:var(--brand);stroke-width:1.4;fill:none;opacity:.5;stroke-dasharray:5 10;animation:dash 2.4s linear infinite}
 @keyframes dash{to{stroke-dashoffset:-30}}
@@ -120,7 +120,7 @@ h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;marg
   display:flex;align-items:center;gap:6px;transition:transform .3s,border-color .3s,color .3s}
 .conv .node:hover{transform:translate(-50%,-50%) scale(1.08);border-color:var(--dot);color:var(--ink)}
 .conv .node i{width:7px;height:7px;border-radius:50%;background:var(--dot);box-shadow:0 0 10px var(--dot)}
-.conv .core{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:150px;height:150px;border-radius:50%;
+.conv .core{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:140px;height:140px;border-radius:50%;
   display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:6px;
   background:radial-gradient(circle at 50% 50%,rgba(87,224,138,.28),rgba(43,182,115,.08));
   border:1px solid var(--line-2);box-shadow:0 0 60px -6px var(--glow)}
@@ -292,6 +292,24 @@ h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;marg
 @media(max-width:520px){.wb-proof{grid-template-columns:1fr}}
 .wb-clients{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
 @media(max-width:640px){.wb-clients{grid-template-columns:1fr}}
+.clients360{margin-top:16px;border:1px solid var(--line-2);border-radius:20px;padding:clamp(20px,3vw,30px);position:relative;overflow:hidden;
+  background:linear-gradient(150deg,color-mix(in srgb,var(--brand) 13%,var(--panel)),var(--panel-2))}
+.clients360::after{content:"360°";position:absolute;right:6px;top:-16px;font-family:var(--mono);font-size:78px;font-weight:800;color:var(--brand);opacity:.08;letter-spacing:-.04em;pointer-events:none}
+.clients360 .c360-lab{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--brand);display:flex;align-items:center;gap:.6em}
+.clients360 .c360-lab::before{content:"";width:22px;height:1px;background:var(--brand);opacity:.6}
+.clients360 .c360-lead{margin:10px 0 0;font-size:15px;color:var(--ink);line-height:1.5;max-width:76ch;position:relative}
+.clients360 .c360-lead b{color:var(--brand)}
+:root[data-theme="light"] .clients360 .c360-lead b{color:var(--brand-deep)}
+.c360-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:20px}
+.c360{display:flex;gap:15px;align-items:flex-start;background:color-mix(in srgb,var(--panel) 72%,transparent);border:1px solid var(--line);border-radius:14px;padding:18px;--c:var(--brand);transition:transform .25s,border-color .25s}
+.c360:hover{transform:translateY(-3px);border-color:color-mix(in srgb,var(--c) 45%,var(--line))}
+.c360 .ic{width:46px;height:46px;border-radius:13px;flex:none;display:grid;place-items:center;color:var(--c);
+  background:color-mix(in srgb,var(--c) 20%,transparent);border:1px solid color-mix(in srgb,var(--c) 42%,transparent)}
+.c360 .ic svg{width:24px;height:24px}
+.c360 .tx .role{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--c);display:block;margin-bottom:6px}
+.c360 .tx b{display:block;font-size:15.5px;font-weight:740;color:var(--ink);margin-bottom:6px;letter-spacing:-.01em}
+.c360 .tx p{margin:0;font-size:13px;color:var(--ink-soft);line-height:1.45}
+@media(max-width:640px){.c360-grid{grid-template-columns:1fr}}
 .after-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:12px;margin-top:34px}
 
 .wb-exec{display:flex;flex-wrap:wrap;gap:11px;margin-top:34px}
@@ -389,14 +407,24 @@ h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;marg
     <div class="wb-proof rv">
       <div class="wbp" style="--pc:var(--brand)"><span class="cli"><i></i>Reveni · devoluciones eCommerce</span><div class="big">92%</div><div class="lab">de resolución autónoma en Black Friday, con 0 contrataciones extra.</div></div>
       <div class="wbp" style="--pc:var(--gold)"><span class="cli"><i></i>GoTrendier · marketplace moda</span><div class="big">15k€ → 2k€</div><div class="lab">coste de soporte mensual tras dejar Zendesk y pasar a GuruSup.</div></div>
-      <div class="wbp" style="--pc:var(--cyan)"><span class="cli"><i></i>Smileat · eCommerce Shopify</span><div class="big">4,8/5</div><div class="lab">de CSAT y hasta −50% de contactos directos con automatización.</div></div>
+      <div class="wbp" style="--pc:var(--cyan)"><span class="cli"><i></i>Cocunat</span><div class="big">Cosmética</div><div class="lab">eCommerce de belleza · nuestro caso de referencia en la vertical.</div></div>
       <div class="wbp" style="--pc:var(--indigo)"><span class="cli"><i></i>Por qué GuruSup, no Zendesk/Decagon</span><div class="big">6–8×</div><div class="lab">más barato: ~0,20 €/conversación frente a ~1 € de Fin · hasta 95% de resolución y sin fricción técnica.</div></div>
     </div>
 
     <p class="wb-prooflabel rv">Nuestros clientes, doble papel</p>
-    <div class="wb-clients rv">
-      <div class="wbpill" style="--c:var(--brand)"><span class="pk">Como protagonistas</span><h4>Participan como prescriptores</h4><p>Les damos visibilidad y participan como <b>prescriptores</b> del sector —referentes y evangelistas, no influencers—. Con ellos validamos KPIs y casos de uso reales: su historia es la prueba más creíble del webinar.</p></div>
-      <div class="wbpill" style="--c:var(--cyan)"><span class="pk">Como asistentes</span><h4>Vienen, aprenden y se activan</h4><p>Otros clientes asisten para verlo: resuelven dudas, descubren casos similares, preguntan en directo y activan o reactivan sus cuentas con más engagement.</p></div>
+    <div class="clients360 rv">
+      <span class="c360-lab">Visión 360° · toda la compañía</span>
+      <p class="c360-lead">Los clientes no son público: son <b>parte del motor</b>. Cuando una referencia la cuenta quien ya trabaja con nosotros —con sus palabras—, genera mucha más credibilidad que nuestro propio discurso comercial y <b>acelera la decisión</b>. La prescripción de clientes es lo que más convierte en este punto.</p>
+      <div class="c360-grid">
+        <div class="c360" style="--c:var(--brand)">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.7 5.6 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1L3.2 9l6.1-.9z"/></svg></span>
+          <div class="tx"><span class="role">Como protagonistas</span><b>Participan como prescriptores</b><p>Referentes y evangelistas del sector —no influencers—. Con ellos validamos KPIs y casos de uso reales: su historia es la prueba más creíble.</p></div>
+        </div>
+        <div class="c360" style="--c:var(--cyan)">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></span>
+          <div class="tx"><span class="role">Como asistentes</span><b>Vienen, aprenden y se activan</b><p>Resuelven dudas, descubren casos similares, preguntan en directo y activan o reactivan sus cuentas con más engagement.</p></div>
+        </div>
+      </div>
     </div>
 
     <div class="wb-exec rv">
@@ -464,10 +492,12 @@ h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;marg
         <div class="tsub">
           <div class="sub-label">Desglose por área</div>
           <div class="subareas">
-            <div class="subarea" style="--sc:var(--brand-bright)"><h5><i></i>Paid</h5><ul><li>Captar leads optimizando el CPL</li><li>Visibilidad del sector eCommerce</li><li>Registros al contenido de valor</li><li>Remarketing</li></ul></div>
-            <div class="subarea" style="--sc:var(--purple)"><h5><i></i>SEO y orgánico</h5><ul><li>Posicionar GuruSup en eCommerce</li><li>Tráfico cualificado y contenido de valor</li><li>Artículo en el propio medio del sector (doble push)</li></ul></div>
+            <div class="subarea" style="--sc:var(--brand-bright)"><h5><i></i>Paid Media</h5><ul><li>Captar leads optimizando el CPL</li><li>Landing propia de campaña (validada por SEO)</li><li>Visibilidad del sector y registros a contenido de valor</li><li>Remarketing</li></ul></div>
+            <div class="subarea" style="--sc:var(--cyan)"><h5><i></i>MK4ecommerce · medio externo</h5><ul><li>Canal externo donde está nuestro ICP potencial</li><li>Newsletter y artículo patrocinado</li><li>Visibilidad a perfiles y cuentas ICP de su base</li><li>Amplía el altavoz · muy foco y de nicho</li></ul></div>
+            <div class="subarea" style="--sc:var(--purple)"><h5><i></i>SEO y orgánico</h5><ul><li>Posicionar en eCommerce y tráfico cualificado</li><li>Landing/página de webinars con pop-up — valora y valida</li><li>Formulario de GoToWebinar, fecha, ponente, KPIs e imagen</li><li>Artículo en el medio del sector (doble push) y backlinks</li></ul></div>
             <div class="subarea" style="--sc:var(--blue)"><h5><i></i>LinkedIn orgánico</h5><ul><li>Notoriedad, confianza y tráfico a la landing</li><li>Marca corporativa + personal (CEO, comercial, marketing)</li></ul></div>
-            <div class="subarea" style="--sc:var(--gold)"><h5><i></i>CRM</h5><ul><li>Scoring de registrados, asistentes y solicitudes de demo, por etapa del funnel</li><li>Configurar GoToWebinar y el formulario de registro, integrado con HubSpot</li><li>Crear UTMs para el clic del CTA + formulario trazado a HubSpot y hacer pruebas</li></ul></div>
+            <div class="subarea" style="--sc:var(--indigo)"><h5><i></i>Marketing Automation</h5><ul><li>Email marketing de pre y postevento</li><li>Invitaciones, recordatorios y nurturing</li><li>Secuencias de seguimiento automatizadas</li></ul></div>
+            <div class="subarea" style="--sc:var(--gold)"><h5><i></i>CRM</h5><ul><li>Email a base segmentada y listas eCommerce</li><li>Identificar y activar potenciales clientes</li><li>Lead scoring por etapa del funnel</li><li>GoToWebinar + formulario y UTMs trazados a HubSpot</li><li>Trazabilidad y calidad del dato</li></ul></div>
           </div>
         </div>
       </div>
@@ -593,82 +623,6 @@ h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;marg
   </div>
 </section>
 
-<!-- ============ CANALES SEPTIEMBRE ============ -->
-<section class="band" style="padding-top:0">
-  <div class="wrap">
-    <span class="kicker">Septiembre · Captación</span>
-    <h2 class="sec rv">Ocho canales, un mismo destino</h2>
-    <p class="sd rv">Durante septiembre no hay objetivos paralelos. Cada equipo trabaja su terreno — pauta, medios, contenido, CRM, automatización, outbound, marca y red personal — pero todos empujan la misma métrica: registros al webinar. Así es como se reparte el esfuerzo.</p>
-    <div class="ch-grid">
-
-      <div class="ch rv" style="--c:var(--brand)">
-        <div class="top"><span class="cnum">01 · Paid Media</span><span class="budget">1.000 € · Meta Ads</span></div>
-        <h4>Paid Media</h4>
-        <div class="owner">Captación pagada</div>
-        <ul><li>Captación de leads</li><li>Optimización del CPL</li><li>Landing propia de campaña (validada por SEO)</li><li>Visibilidad del sector eCommerce</li><li>Registros a contenido de valor</li><li>Remarketing</li></ul>
-      </div>
-
-      <div class="ch rv" style="--c:var(--cyan)">
-        <div class="top"><span class="cnum">02 · MK4ecommerce</span><span class="budget">2.000 € · pendiente</span></div>
-        <h4>MK4ecommerce</h4>
-        <div class="owner">Altavoz en canal de nicho</div>
-        <ul><li>Newsletter exclusiva</li><li>Artículo patrocinado</li><li>Difusión del webinar</li><li>Visibilidad ante perfiles y cuentas ICP de su base</li></ul>
-        <p class="goal-line">Nos da visibilidad desde otro canal ante perfiles y cuentas que son ICP potencial de eCommerce —muy foco y de nicho—: amplía el altavoz.</p>
-      </div>
-
-      <div class="ch rv" style="--c:var(--purple)">
-        <div class="top"><span class="cnum">03 · SEO</span></div>
-        <h4>SEO y Contenidos</h4>
-        <div class="owner">Posicionamiento orgánico · valida la landing</div>
-        <ul><li>Landing o página de webinars (con pop-up)</li><li>Formulario de GoToWebinar embebido</li><li>Fecha, hora, ponente, puntos clave, KPIs e imagen atractiva</li><li>Artículo eCommerce y contenido de valor</li><li>Guía descargable y casos de uso</li><li>Estrategia SEO y backlinks</li><li>Artículo en el medio del sector · doble push</li></ul>
-        <p class="goal-line">SEO valora y valida la landing —propia de Paid o en la web— y refuerza el posicionamiento en el sector.</p>
-      </div>
-
-      <div class="ch rv" style="--c:var(--gold)">
-        <div class="top"><span class="cnum">04 · CRM</span></div>
-        <h4>CRM · HubSpot</h4>
-        <div class="owner">Dato único, trazabilidad y funnel</div>
-        <ul><li>Email a base segmentada de eCommerce</li><li>Listas segmentadas eCommerce</li><li>Identificar potenciales clientes eCommerce (o casos de uso similares) para activarlos</li><li>Lead scoring</li><li>Integración de canales · GoToWebinar</li><li>Trazabilidad de contactos de otras fuentes</li></ul>
-        <p class="goal-line">La única fuente de verdad para medir y hacer avanzar cada contacto.</p>
-      </div>
-
-      <div class="ch rv" style="--c:var(--indigo)">
-        <div class="top"><span class="cnum">05 · Marketing Automation</span></div>
-        <h4>Marketing Automation</h4>
-        <div class="owner">Email marketing & seguimiento</div>
-        <ul><li>Emails automatizados del prewebinar</li><li>Emails automatizados del postwebinar</li><li>Invitaciones y recordatorios del webinar</li><li>Nurturing pre y post webinar</li><li>Secuencias de seguimiento automatizadas</li></ul>
-        <p class="goal-line">Comunicar antes y después del webinar y empujar la conversión.</p>
-      </div>
-
-      <div class="ch rv" style="--c:var(--blue)">
-        <div class="top"><span class="cnum">06 · LinkedIn</span></div>
-        <h4>LinkedIn Orgánico</h4>
-        <div class="owner">Marca corporativa + personal</div>
-        <ul><li>Página GuruSup</li><li>CEO</li><li>Equipo comercial</li><li>Equipo Marketing</li><li>Vídeos cortos</li><li>Casos de éxito</li><li>Interacción del sector</li></ul>
-        <p class="goal-line">Aumentar alcance, credibilidad y registros.</p>
-      </div>
-
-      <div class="ch rv" style="--c:var(--teal)">
-        <div class="top"><span class="cnum">07 · Red Comercial</span></div>
-        <h4>Red Comercial</h4>
-        <div class="owner">La red de contactos de todo el equipo</div>
-        <ul><li>Compartir el webinar</li><li>Invitaciones directas</li><li>Mensajes personalizados</li><li>Recuperar oportunidades abiertas y perdidas</li><li>Clientes eCommerce actuales · valor + reactivación</li><li>Seguimiento tras el webinar</li></ul>
-      </div>
-
-      <div class="ch rv flow-note" style="--c:var(--pink)">
-        <div class="top"><span class="cnum">08 · Outbound</span></div>
-        <h4>Outbound · Ventas</h4>
-        <div class="owner">Registros desde cuentas estratégicas</div>
-        <div class="flowchips">
-          <span>Apollo</span><i>→</i><span>Cuentas ABM</span><i>→</i><span>Instantly</span><i>→</i><span>Invitación personalizada</span><i>→</i><span>Seguimiento</span>
-        </div>
-        <p class="goal-line">Generar registros desde cuentas estratégicas seleccionadas.</p>
-      </div>
-
-    </div>
-  </div>
-</section>
-
 <!-- ============ FUNNEL ============ -->
 <section class="band" style="padding-top:0">
   <div class="wrap">
@@ -725,7 +679,7 @@ h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;marg
   <div class="wrap">
     <span class="kicker">Si funciona, se replica</span>
     <h2 class="sec rv">Medir, aprender, mejorar, replicar</h2>
-    <p class="sd rv">Este webinar no es un fin en sí mismo: es la primera ejecución de un método. Si funciona, medimos qué ha rendido, lo optimizamos y lo replicamos en el siguiente vertical. Así convertimos una campaña puntual en un playbook de compañía.</p>
+    <p class="sd rv">Hoy cuesta medir lo que hacemos: vamos algo separados y falta tracción. Ir todos a una la genera. Este webinar no es un fin en sí mismo, es la primera ejecución de un método: si funciona, medimos qué ha rendido, lo optimizamos y lo replicamos en el siguiente vertical —convirtiendo una campaña puntual en un playbook de compañía.</p>
     <div class="loop rv">
       <div class="lstep" style="--c:var(--cyan)"><div class="ln">1</div><h4>Medir</h4><p>Qué ha funcionado: registros, CPL, asistencia, conversión a demo y CAC por canal.</p></div>
       <div class="lstep" style="--c:var(--purple)"><div class="ln">2</div><h4>Aprender</h4><p>Qué mensajes, canales y creatividades rinden, y qué dolores de la vertical conectan de verdad.</p></div>
