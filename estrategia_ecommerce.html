@@ -318,7 +318,11 @@ h2.sec{font-size:clamp(22px,3.2vw,32px);font-weight:600;letter-spacing:-.015em;m
 .c360 .tx b{display:block;font-size:15.5px;font-weight:740;color:var(--ink);margin-bottom:6px;letter-spacing:-.01em}
 .c360 .tx p{margin:0;font-size:13px;color:var(--ink-soft);line-height:1.45}
 @media(max-width:640px){.c360-grid{grid-template-columns:1fr}}
-.after-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:12px;margin-top:34px}
+.after-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-top:34px}
+.after-grid>*{grid-column:span 2}
+.after-grid>*:nth-child(4),.after-grid>*:nth-child(5){grid-column:span 3}
+@media(max-width:820px){.after-grid{grid-template-columns:repeat(2,1fr)}.after-grid>*,.after-grid>*:nth-child(4),.after-grid>*:nth-child(5){grid-column:span 1}}
+@media(max-width:520px){.after-grid{grid-template-columns:1fr}}
 
 .wb-exec{display:flex;flex-wrap:wrap;gap:11px;margin-top:34px}
 .wb-exec .xc{flex:1 1 250px;background:color-mix(in srgb,var(--brand) 6%,var(--panel));border:1px solid var(--line);border-radius:13px;padding:16px 18px}
@@ -634,7 +638,7 @@ h2.sec{font-size:clamp(22px,3.2vw,32px);font-weight:600;letter-spacing:-.015em;m
       <div class="wbpill rv" style="--c:var(--gold)"><span class="pk">No asistentes</span><h4>La grabación, segunda oportunidad</h4><p>Los identificamos y les enviamos la grabación: quien no pudo venir todavía puede convertir.</p></div>
       <div class="wbpill rv" style="--c:var(--cyan)"><span class="pk">Paid Media</span><h4>Retargeting on-demand</h4><p>El contenido alimenta campañas de descarga y hacemos <b>retargeting</b> a quienes interactuaron; si funciona, ampliamos presupuesto y llevamos tráfico a la landing en la web.</p></div>
       <div class="wbpill rv" style="--c:var(--pink)"><span class="pk">Outbound</span><h4>La excusa para reabrir</h4><p>La descarga del webinar como <b>contenido recurrente</b> y excusa en el pipeline: «no pudiste asistir, ¿quieres echarle un vistazo?» — reabre conversaciones eCommerce y las devuelve al CRM.</p></div>
-      <div class="wbpill rv" style="--c:var(--teal)"><span class="pk">Clientes</span><h4>Caso de éxito y siguiente turno</h4><p>Enseñamos a otros clientes el éxito y la visibilidad que dimos: «¿quieres participar en el próximo?» — reactivación y nuevos prescriptores. <b>Medimos:</b> satisfacción del webinar, satisfacción de los clientes asistentes, feedback recogido e interesados en participar en el siguiente.</p></div>
+      <div class="wbpill rv" style="--c:var(--teal)"><span class="pk">Clientes</span><h4>Caso de éxito y siguiente turno</h4><p>Enseñamos a otros clientes el éxito que les dimos: «¿quieres participar en el próximo?» — reactivación, engagement y nuevos prescriptores.</p></div>
     </div>
     <div class="loop-note rv" style="margin-top:16px">
       <b>A finales de octubre: conclusiones y decisión.</b> Medimos resultados y valoramos el siguiente hito. Si funciona, encadenamos un <b>webinar #2 en noviembre</b> y un <b>webinar #3 pensado para enero–febrero</b>.
