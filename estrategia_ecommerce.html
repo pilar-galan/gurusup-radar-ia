@@ -388,6 +388,33 @@ h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;marg
 .abm-note .an-k{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--pink);display:block;margin-bottom:5px}
 .abm-note b{color:var(--pink)}
 
+/* ---------- contexto · puntos e itinerario visual ---------- */
+.ctx-points{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:26px}
+.cpt{position:relative;background:linear-gradient(160deg,var(--panel),var(--panel-2));border:1px solid var(--line);border-radius:14px;
+  padding:16px 16px 17px;--c:var(--brand);overflow:hidden;transition:transform .28s,border-color .28s}
+.cpt::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--c);opacity:.85}
+.cpt:hover{transform:translateY(-3px);border-color:color-mix(in srgb,var(--c) 40%,var(--line))}
+.cpt .ci{font-size:19px;line-height:1;margin-bottom:8px}
+.cpt b{display:block;font-size:14px;font-weight:730;color:var(--ink);letter-spacing:-.01em;margin-bottom:3px}
+.cpt span{font-size:12px;color:var(--ink-soft);line-height:1.4}
+@media(max-width:860px){.ctx-points{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:460px){.ctx-points{grid-template-columns:1fr}}
+.ctx-steps{display:flex;flex-wrap:wrap;align-items:stretch;gap:10px;margin-top:30px}
+.cstep{flex:1 1 0;min-width:130px;position:relative;background:linear-gradient(160deg,var(--panel),var(--panel-2));
+  border:1px solid var(--line);border-radius:14px;padding:15px 16px;--c:var(--brand)}
+.cstep .cn{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--c);display:block;margin-bottom:6px}
+.cstep b{font-size:15px;font-weight:750;color:var(--ink);letter-spacing:-.01em;display:block;line-height:1.15}
+.cstep small{display:block;font-size:11.5px;color:var(--ink-soft);margin-top:5px;line-height:1.35}
+.cstep:not(:last-child)::after{content:"→";position:absolute;right:-8px;top:50%;transform:translateY(-50%);z-index:2;color:var(--ink-faint);font-size:15px;font-weight:800}
+.cstep.first{border-color:color-mix(in srgb,var(--brand) 38%,var(--line));background:linear-gradient(160deg,color-mix(in srgb,var(--brand) 12%,var(--panel)),var(--panel-2))}
+@media(max-width:760px){.cstep{flex:1 1 44%}.cstep:not(:last-child)::after{display:none}}
+@media(max-width:460px){.cstep{flex:1 1 100%}}
+.ctx-goal{margin-top:12px;display:flex;align-items:center;gap:14px;border-radius:14px;padding:15px 18px;
+  background:linear-gradient(100deg,color-mix(in srgb,var(--gold) 12%,var(--panel)),var(--panel));border:1px solid color-mix(in srgb,var(--gold) 40%,var(--line))}
+.ctx-goal .cg-ic{width:36px;height:36px;flex:none;border-radius:10px;display:grid;place-items:center;background:color-mix(in srgb,var(--gold) 20%,transparent);color:var(--gold);font-size:18px}
+.ctx-goal p{margin:0;font-size:13.8px;color:var(--ink);line-height:1.46}
+.ctx-goal b{color:var(--gold)}
+
 /* reveal */
 .rv{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
 .rv.in{opacity:1;transform:none}
@@ -401,7 +428,62 @@ h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;marg
     <span class="kicker eyebrow">Plan de acción táctico · GuruSup</span>
     <h1>Toda la compañía, <em>un solo</em> objetivo</h1>
     <p class="dates">Estrategia transversal eCommerce · Septiembre — Octubre 2026</p>
+  </div>
+</header>
 
+<!-- ============ CONTEXTO · PUNTO DE PARTIDA ============ -->
+<section class="band context" style="padding-top:clamp(22px,3.4vh,40px)">
+  <div class="wrap">
+    <span class="kicker">El punto de partida · Por qué ahora</span>
+    <h2 class="sec rv">Foco en tres verticales, validadas de una en una</h2>
+
+    <div class="ctx-points rv">
+      <div class="cpt" style="--c:var(--gold)"><div class="ci">🎯</div><b>Foco, no dispersión</b><span>Ni una vertical nueva hasta validar estas tres.</span></div>
+      <div class="cpt" style="--c:var(--brand)"><div class="ci">💡</div><b>Alto potencial</b><span>Donde más casos de uso existen y mejor convierten.</span></div>
+      <div class="cpt" style="--c:var(--cyan)"><div class="ci">🤝</div><b>Clientes que validan</b><span>Ya permanecen, convierten y retienen.</span></div>
+      <div class="cpt" style="--c:var(--purple)"><div class="ci">🧭</div><b>Orden claro</b><span>eCommerce → turismo → 3ª por definir.</span></div>
+    </div>
+
+    <div class="verts">
+      <div class="vert rv" style="--c:var(--brand)">
+        <div class="vtop"><span class="vnum">Vertical #1</span><span class="vstate">▶ Sep — Oct · validar</span></div>
+        <h4>🛒 eCommerce</h4>
+        <div class="stars">★★★★★</div>
+        <p>Donde más casos de uso existen. Los clientes actuales ya validan la vertical.</p>
+        <ul><li>Devoluciones y cambios</li><li>Pedidos y logística</li><li>Soporte por WhatsApp</li><li>Picos de volumen</li></ul>
+      </div>
+      <div class="vert rv" style="--c:var(--cyan)">
+        <div class="vtop"><span class="vnum">Vertical #2</span><span class="vstate">Siguiente push</span></div>
+        <h4>✈️ Turismo</h4>
+        <div class="stars">★★★★★</div>
+        <p>Casos como GuruWalk o Waynabox: reservas, cancelaciones y atención multilingüe permanente. Ya hay campañas en marcha de las que sacaremos aprendizajes.</p>
+        <ul><li>Reservas y cancelaciones</li><li>Atención en varios idiomas</li><li>Operación 24/7</li></ul>
+      </div>
+      <div class="vert rv pending" style="--c:var(--purple)">
+        <div class="vtop"><span class="vnum">Vertical #3</span><span class="vstate">Por definir</span></div>
+        <h4>🎯 Por elegir</h4>
+        <div class="stars">★★★★★</div>
+        <p>Se decidirá con los aprendizajes de las dos primeras verticales. Candidatas dentro de nuestro foco replicable.</p>
+        <ul><li>Fintech</li><li>Logística</li><li>· · ·</li></ul>
+      </div>
+    </div>
+
+    <div class="ctx-steps rv">
+      <div class="cstep first"><span class="cn">▶ Sep — Oct</span><b>Validar eCommerce</b><small>Toda la compañía a una: distintas acciones, un objetivo común.</small></div>
+      <div class="cstep" style="--c:var(--cyan)"><span class="cn">Después</span><b>Medir</b><small>Resultados por canal.</small></div>
+      <div class="cstep" style="--c:var(--purple)"><span class="cn">Después</span><b>Aprender</b><small>Del proceso.</small></div>
+      <div class="cstep" style="--c:var(--pink)"><span class="cn">Después</span><b>Replicar</b><small>En la siguiente vertical.</small></div>
+    </div>
+    <div class="ctx-goal rv">
+      <span class="cg-ic">🏁</span>
+      <p>Cierre de año: <b>tres verticales validadas</b>, cada una con su <b>ICP</b> y sabiendo qué <b>canales traen negocio</b> y son más rentables, y cuáles funcionan como palanca y apoyo.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RED DE CANALES · CAMPAÑA ÚNICA ============ -->
+<section class="band" style="padding-top:0">
+  <div class="wrap" style="text-align:center">
     <div class="conv" aria-hidden="true">
       <svg viewBox="0 0 560 560" preserveAspectRatio="xMidYMid meet">
         <g class="flow">
@@ -440,44 +522,6 @@ h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;marg
     <div class="hero-banner rv">
       <span class="hb-icon">↻</span>
       <span class="hb-text"><b>Descubrir lo que de verdad funciona en GuruSup</b><small>Sobre estos aprendizajes replicamos el modelo en nuevas verticales: travel, fintech y logística.</small></span>
-    </div>
-  </div>
-</header>
-
-<!-- ============ CONTEXTO · PUNTO DE PARTIDA ============ -->
-<section class="band context">
-  <div class="wrap">
-    <span class="kicker">El punto de partida · Por qué ahora</span>
-    <h2 class="sec rv">Foco en tres verticales, validadas de una en una</h2>
-    <p class="sd rv ctx-lead">Dejamos de dispersarnos por todos los sectores. Ponemos el foco en <b>tres verticales con alto potencial de conversión</b> —donde existen más casos de uso y donde nuestros <b>clientes actuales ya validan el encaje</b>: permanecen, convierten y retienen—. No abriremos ninguna vertical nueva hasta consolidar estas. <b>Empezamos por eCommerce</b>; después haremos más push a <b>turismo</b>, donde ya se han arrancado algunas campañas de las que sacaremos aprendizajes; el tercer sector queda pendiente de elegir. Los dos primeros ya están identificados.</p>
-
-    <div class="verts">
-      <div class="vert rv" style="--c:var(--brand)">
-        <div class="vtop"><span class="vnum">Vertical #1</span><span class="vstate">▶ Septiembre · validar</span></div>
-        <h4>🛒 eCommerce</h4>
-        <div class="stars">★★★★★</div>
-        <p>Donde más casos de uso existen. Los clientes actuales ya validan la vertical.</p>
-        <ul><li>Devoluciones y cambios</li><li>Pedidos y logística</li><li>Soporte por WhatsApp</li><li>Picos de volumen</li></ul>
-      </div>
-      <div class="vert rv" style="--c:var(--cyan)">
-        <div class="vtop"><span class="vnum">Vertical #2</span><span class="vstate">Siguiente push</span></div>
-        <h4>✈️ Turismo</h4>
-        <div class="stars">★★★★★</div>
-        <p>Casos como GuruWalk o Waynabox: reservas, cancelaciones y atención multilingüe permanente. Ya hay campañas en marcha de las que sacaremos aprendizajes.</p>
-        <ul><li>Reservas y cancelaciones</li><li>Atención en varios idiomas</li><li>Operación 24/7</li></ul>
-      </div>
-      <div class="vert rv pending" style="--c:var(--purple)">
-        <div class="vtop"><span class="vnum">Vertical #3</span><span class="vstate">Por definir</span></div>
-        <h4>🎯 Por elegir</h4>
-        <div class="stars">★★★★★</div>
-        <p>Se decidirá con los aprendizajes de las dos primeras verticales. Candidatas sobre la mesa dentro de nuestro foco replicable.</p>
-        <ul><li>Fintech</li><li>Logística</li><li>· · ·</li></ul>
-      </div>
-    </div>
-
-    <div class="loop-note rv" style="margin-top:26px">
-      <b>La primera acción es septiembre: validar eCommerce.</b> Toda la compañía empuja en la misma dirección —distintas acciones, un mismo objetivo común y mucho push—. Después <b>medimos resultados y aprendemos del proceso</b> para replicarlo en las siguientes verticales, y cerramos el año con <b>tres sectores validados</b>: cada uno con su ICP, sabiendo qué canales traen negocio y son más rentables y cuáles funcionan como palanca y apoyo.
-      <div class="rep">↻ foco → validar → medir → aprender → replicar</div>
     </div>
   </div>
 </section>
@@ -519,13 +563,6 @@ h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;marg
         </div>
       </div>
     </div>
-
-    <div class="wb-exec rv">
-      <div class="xc"><b>Guion corto y directo</b><span>Nada de relleno: una historia, unos dolores, unos números y una demo en vivo.</span></div>
-      <div class="xc"><b>Ponente seleccionado</b><span>Perfil de Customer/CX que vive los casos, acompañado de un cliente eCommerce invitado.</span></div>
-      <div class="xc"><b>Grabar una vez, distribuir muchas</b><span>Clips para LinkedIn, versión on-demand, caso de éxito escrito y píldoras para nurturing.</span></div>
-    </div>
-    <p class="wb-note rv">Casos y KPIs reales de clientes eCommerce de GuruSup, publicados en la web de casos de éxito.</p>
   </div>
 </section>
 
@@ -620,9 +657,9 @@ h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;marg
         <div class="tsub">
           <div class="sub-label">Desglose por área</div>
           <div class="subareas">
-            <div class="subarea" style="--sc:var(--brand-bright)"><h5><i></i>Paid Media</h5><ul><li>Captar leads optimizando el CPL</li><li>Landing propia de campaña (validada por SEO)</li><li>Visibilidad del sector y registros a contenido de valor</li><li>Remarketing</li></ul></div>
+            <div class="subarea" style="--sc:var(--brand-bright)"><h5><i></i>Paid Media</h5><ul><li>Captar leads optimizando el CPL</li><li>Seleccionar los canales de mayores oportunidades</li><li>Generar alcance e impacto hasta las cuentas objetivo</li><li>Landing propia de campaña (validada por SEO)</li><li>Visibilidad del sector y registros a contenido de valor</li><li>Remarketing</li></ul></div>
             <div class="subarea" style="--sc:var(--cyan)"><h5><i></i>MK4ecommerce · medio externo</h5><ul><li>Canal externo donde está nuestro ICP potencial</li><li>Newsletter y artículo patrocinado</li><li>Visibilidad a perfiles y cuentas ICP de su base</li><li>Amplía el altavoz · muy foco y de nicho</li></ul></div>
-            <div class="subarea" style="--sc:var(--purple)"><h5><i></i>SEO y orgánico</h5><ul><li>Posicionar en eCommerce y tráfico cualificado</li><li>Landing/página de webinars con pop-up — valora y valida</li><li>Formulario de GoToWebinar, fecha, ponente, KPIs e imagen</li><li>Artículo en el medio del sector (doble push) y backlinks</li></ul></div>
+            <div class="subarea" style="--sc:var(--purple)"><h5><i></i>SEO y orgánico</h5><ul><li>Posicionar en eCommerce y tráfico cualificado</li><li>Landing/página de webinars con pop-up — valora y valida</li><li>Formulario de GoToWebinar, fecha, ponente, KPIs e imagen</li><li>Backlinks y autoridad de dominio</li></ul></div>
             <div class="subarea" style="--sc:var(--blue)"><h5><i></i>LinkedIn orgánico</h5><ul><li>Notoriedad, confianza y tráfico a la landing</li><li>Marca corporativa + personal (CEO, comercial, marketing)</li></ul></div>
             <div class="subarea" style="--sc:var(--indigo)"><h5><i></i>Marketing Automation</h5><ul><li>Email marketing de pre y postevento</li><li>Invitaciones, recordatorios y nurturing</li><li>Secuencias de seguimiento automatizadas</li></ul></div>
             <div class="subarea" style="--sc:var(--gold)"><h5><i></i>CRM</h5><ul><li>Email a base segmentada y listas eCommerce</li><li>Identificar y activar potenciales clientes</li><li>Lead scoring por etapa del funnel</li><li>GoToWebinar + formulario y UTMs trazados a HubSpot</li><li>Trazabilidad y calidad del dato</li></ul></div>
