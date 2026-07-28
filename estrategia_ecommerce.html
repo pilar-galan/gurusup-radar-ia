@@ -279,6 +279,8 @@ h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;marg
 .wbp .lab{font-size:13px;color:var(--ink-soft);line-height:1.4}
 @media(max-width:860px){.wb-proof{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:520px){.wb-proof{grid-template-columns:1fr}}
+.wb-clients{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+@media(max-width:640px){.wb-clients{grid-template-columns:1fr}}
 
 .wb-exec{display:flex;flex-wrap:wrap;gap:11px;margin-top:34px}
 .wb-exec .xc{flex:1 1 250px;background:color-mix(in srgb,var(--brand) 6%,var(--panel));border:1px solid var(--line);border-radius:13px;padding:16px 18px}
@@ -358,6 +360,12 @@ h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;marg
       <div class="wbp" style="--pc:var(--cyan)"><span class="cli"><i></i>GuruWalk</span><div class="big">4,9★</div><div class="lab">en TrustPilot (desde 3,5) · ~500k tickets/año casi 100% automatizados.</div></div>
       <div class="wbp" style="--pc:var(--gold)"><span class="cli"><i></i>GoTrendier</span><div class="big">15k€ → 2k€</div><div class="lab">coste de soporte mensual tras migrar a GuruSup.</div></div>
       <div class="wbp" style="--pc:var(--indigo)"><span class="cli"><i></i>Business case</span><div class="big">−45%</div><div class="lab">de coste operativo · hasta 65% de tickets automatizables · FCR 55%→95%.</div></div>
+    </div>
+
+    <p class="wb-prooflabel rv">Nuestros clientes, doble papel</p>
+    <div class="wb-clients rv">
+      <div class="wbpill" style="--c:var(--brand)"><span class="pk">Como protagonistas</span><h4>Participan y dan la cara</h4><p>Les damos visibilidad e invitamos a participar. Con ellos validamos KPIs y casos de uso reales: su historia, contada en primera persona, es la mejor prueba del webinar.</p></div>
+      <div class="wbpill" style="--c:var(--cyan)"><span class="pk">Como asistentes</span><h4>Vienen, aprenden y se activan</h4><p>Otros clientes asisten para verlo: resuelven dudas, descubren casos similares, preguntan en directo y activan o reactivan sus cuentas con más engagement.</p></div>
     </div>
 
     <div class="wb-exec rv">
@@ -627,13 +635,13 @@ h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;marg
         <div class="st-side"><span class="who">Marketing · CRM</span><span class="kpi">% de asistencia</span></div>
       </div>
       <div class="fstage" style="--fc:var(--cyan);width:72%">
-        <div class="st-name"><b>SQL</b><em>Solicitud de demo</em></div>
-        <div class="st-def">Solicitud de demo</div>
-        <div class="st-side"><span class="who">Ventas · CRM</span><span class="kpi">Conv. MQL → SQL</span></div>
+        <div class="st-name"><b>SQL</b><em>Demo precualificada</em></div>
+        <div class="st-def">Solicitud de demo precualificada por formulario y automatizaciones (&gt;3.000 consultas/mes o +5 personas de soporte) → se envía a Ventas</div>
+        <div class="st-side"><span class="who">Marketing · CRM</span><span class="kpi">Conv. MQL → SQL</span></div>
       </div>
       <div class="fstage" style="--fc:var(--gold);width:56%">
         <div class="st-name"><b>Oportunidad</b><em>Demo validada</em></div>
-        <div class="st-def">Demo validada con potencial de compra</div>
+        <div class="st-def">El SQL que cumple el criterio valida la demo con potencial de compra — ya en manos de Ventas</div>
         <div class="st-side"><span class="who">Ventas</span><span class="kpi">Conv. SQL → Op.</span></div>
       </div>
       <div class="fstage" style="--fc:var(--pink);width:40%">
