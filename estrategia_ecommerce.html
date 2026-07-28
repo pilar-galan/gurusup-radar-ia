@@ -99,15 +99,15 @@ h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;marg
 .hlc b{font-size:15px;font-weight:650;line-height:1.34;color:var(--ink);letter-spacing:-.01em;display:block}
 .hlc b u{text-decoration:none;color:var(--c)}
 @media (max-width:720px){.hl-cards{grid-template-columns:1fr;max-width:440px}}
-.hero-banner{display:inline-flex;align-items:center;gap:13px;margin:24px auto 0;padding:12px 14px 12px 12px;border-radius:999px;
+.hero-banner{display:inline-flex;align-items:center;gap:13px;margin:22px auto 0;padding:12px 16px 12px 12px;border-radius:999px;
   background:linear-gradient(100deg,color-mix(in srgb,var(--brand) 22%,var(--panel)),var(--panel));
-  border:1px solid color-mix(in srgb,var(--brand) 50%,var(--line));box-shadow:0 0 46px -14px var(--glow)}
-.hero-banner .hb-icon{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;flex:none;
+  border:1px solid color-mix(in srgb,var(--brand) 50%,var(--line));box-shadow:0 0 46px -14px var(--glow);max-width:640px}
+.hero-banner .hb-icon{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;flex:none;
   background:color-mix(in srgb,var(--brand) 30%,transparent);color:var(--brand-bright);font-size:17px;font-weight:800}
 :root[data-theme="light"] .hero-banner .hb-icon{color:var(--brand-deep)}
-.hero-banner .hb-text{text-align:left;padding-right:8px}
+.hero-banner .hb-text{text-align:left}
 .hero-banner .hb-text b{display:block;font-size:clamp(14px,1.8vw,17px);font-weight:780;color:var(--ink);line-height:1.22;letter-spacing:-.01em}
-.hero-banner .hb-text small{display:block;font-size:12px;color:var(--ink-soft);margin-top:3px;line-height:1.32}
+.hero-banner .hb-text small{display:block;font-size:12.5px;color:var(--ink-soft);margin-top:3px;line-height:1.34}
 @media(max-width:520px){.hero-banner{border-radius:18px}}
 
 /* convergence diagram */
@@ -128,6 +128,7 @@ h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;marg
 @keyframes pulse{0%,100%{transform:scale(1);opacity:.6}50%{transform:scale(1.09);opacity:.15}}
 .conv .core b{font-size:15px;font-weight:800;letter-spacing:.02em;color:var(--ink);line-height:1.1}
 .conv .core span{font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--brand);margin-top:5px}
+.conv .core .ctop{color:var(--ink-faint);margin:0 0 6px}
 
 /* ---------- objectives ---------- */
 .band{padding:clamp(52px,9vh,90px) 0}
@@ -291,6 +292,7 @@ h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;marg
 @media(max-width:520px){.wb-proof{grid-template-columns:1fr}}
 .wb-clients{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
 @media(max-width:640px){.wb-clients{grid-template-columns:1fr}}
+.after-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:12px;margin-top:34px}
 
 .wb-exec{display:flex;flex-wrap:wrap;gap:11px;margin-top:34px}
 .wb-exec .xc{flex:1 1 250px;background:color-mix(in srgb,var(--brand) 6%,var(--panel));border:1px solid var(--line);border-radius:13px;padding:16px 18px}
@@ -340,7 +342,7 @@ h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;marg
           <path d="M112,112 L230,230"/>
         </g>
       </svg>
-      <div class="core"><b>Registros<br>al webinar</b><span>Objetivo único</span></div>
+      <div class="core"><span class="ctop">Canales</span><b>Registros<br>al webinar</b><span>Objetivo único</span></div>
       <div class="node" style="left:50%;top:7%;--dot:var(--brand)"><i></i>Paid Media</div>
       <div class="node" style="left:82%;top:20%;--dot:var(--cyan)"><i></i>MK4ecommerce</div>
       <div class="node" style="left:94%;top:50%;--dot:var(--purple)"><i></i>SEO & Contenidos</div>
@@ -354,10 +356,6 @@ h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;marg
     <div class="hl-lead">
       <p>Una <b>campaña única</b> de toda la compañía para <b>validar el vertical eCommerce</b> y convertir demanda cualificada en oportunidades.</p>
     </div>
-    <div class="hero-banner rv">
-      <span class="hb-icon">↻</span>
-      <span class="hb-text"><b>Descubrir lo que de verdad funciona a GuruSup</b><small>Un modelo para medir, aprender y escalar a nuevas verticales</small></span>
-    </div>
     <div class="hl-tags">
       <span>Marketing</span><em>+</em><span>Ventas</span><em>+</em><span>CRM</span><em>+</em><span>Paid Media</span><em>+</em><span>Clientes</span>
     </div>
@@ -366,6 +364,10 @@ h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;marg
       <div class="hlc" style="--c:var(--gold)"><span class="k"><i></i>La meta</span><b>Toda la empresa, <u>un único objetivo</u></b></div>
       <div class="hlc" style="--c:var(--cyan)"><span class="k"><i></i>El resultado</span><b>Demanda cualificada <u>→ oportunidades</u></b></div>
     </div>
+    <div class="hero-banner rv">
+      <span class="hb-icon">↻</span>
+      <span class="hb-text"><b>Descubrir lo que de verdad funciona en GuruSup</b><small>Sobre estos aprendizajes replicamos el modelo en nuevas verticales: travel, fintech y logística.</small></span>
+    </div>
   </div>
 </header>
 
@@ -373,8 +375,8 @@ h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;marg
 <section class="band webinar">
   <div class="wrap">
     <span class="kicker">El eje · Contenido diferencial</span>
-    <h2 class="sec rv">No es un webinar más: enseña, muestra y provoca</h2>
-    <p class="sd rv">El webinar no vende, demuestra. Se construye sobre casos reales de eCommerce, sobre los dolores que casi nadie cuenta en público y sobre KPIs verificables —con su antes y su después—. La meta es que quien asista se lleve algo, sienta curiosidad y quiera verlo en su propia operación.</p>
+    <h2 class="sec rv">No es un webinar más: enseña, muestra e impacta</h2>
+    <p class="sd rv">No vende: <b>demuestra</b>. Casos de uso reales con los <b>puntos de dolor más comunes</b> del eCommerce, para que cada nuevo registro <u>se sienta identificado</u>.<br>Una comunicación dirigida y en el momento justo, que facilita el <b>encaje</b> entre su problema y lo que hacemos.</p>
 
     <div class="wb-pillars">
       <div class="wbpill rv" style="--c:var(--brand)"><span class="pk">Casos de uso</span><h4>Reales, no teoría</h4><p>Cómo eCommerce reales resuelven su soporte con IA: multicanal —voz, WhatsApp, webchat, email— y multi-idioma, sin un equipo por cada canal.</p></div>
@@ -385,15 +387,15 @@ h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;marg
 
     <p class="wb-prooflabel rv">Pruebas reales que enseñaremos</p>
     <div class="wb-proof rv">
-      <div class="wbp" style="--pc:var(--brand)"><span class="cli"><i></i>Reveni</span><div class="big">92%</div><div class="lab">de resolución autónoma en Black Friday, con 0 contrataciones extra.</div></div>
-      <div class="wbp" style="--pc:var(--cyan)"><span class="cli"><i></i>GuruWalk</span><div class="big">4,9★</div><div class="lab">en TrustPilot (desde 3,5) · ~500k tickets/año casi 100% automatizados.</div></div>
-      <div class="wbp" style="--pc:var(--gold)"><span class="cli"><i></i>GoTrendier</span><div class="big">15k€ → 2k€</div><div class="lab">coste de soporte mensual tras migrar a GuruSup.</div></div>
-      <div class="wbp" style="--pc:var(--indigo)"><span class="cli"><i></i>Business case</span><div class="big">−45%</div><div class="lab">de coste operativo · hasta 65% de tickets automatizables · FCR 55%→95%.</div></div>
+      <div class="wbp" style="--pc:var(--brand)"><span class="cli"><i></i>Reveni · devoluciones eCommerce</span><div class="big">92%</div><div class="lab">de resolución autónoma en Black Friday, con 0 contrataciones extra.</div></div>
+      <div class="wbp" style="--pc:var(--gold)"><span class="cli"><i></i>GoTrendier · marketplace moda</span><div class="big">15k€ → 2k€</div><div class="lab">coste de soporte mensual tras dejar Zendesk y pasar a GuruSup.</div></div>
+      <div class="wbp" style="--pc:var(--cyan)"><span class="cli"><i></i>Smileat · eCommerce Shopify</span><div class="big">4,8/5</div><div class="lab">de CSAT y hasta −50% de contactos directos con automatización.</div></div>
+      <div class="wbp" style="--pc:var(--indigo)"><span class="cli"><i></i>Por qué GuruSup, no Zendesk/Decagon</span><div class="big">6–8×</div><div class="lab">más barato: ~0,20 €/conversación frente a ~1 € de Fin · hasta 95% de resolución y sin fricción técnica.</div></div>
     </div>
 
     <p class="wb-prooflabel rv">Nuestros clientes, doble papel</p>
     <div class="wb-clients rv">
-      <div class="wbpill" style="--c:var(--brand)"><span class="pk">Como protagonistas</span><h4>Participan y dan la cara</h4><p>Les damos visibilidad e invitamos a participar. Con ellos validamos KPIs y casos de uso reales: su historia, contada en primera persona, es la mejor prueba del webinar.</p></div>
+      <div class="wbpill" style="--c:var(--brand)"><span class="pk">Como protagonistas</span><h4>Participan como prescriptores</h4><p>Les damos visibilidad y participan como <b>prescriptores</b> del sector —referentes y evangelistas, no influencers—. Con ellos validamos KPIs y casos de uso reales: su historia es la prueba más creíble del webinar.</p></div>
       <div class="wbpill" style="--c:var(--cyan)"><span class="pk">Como asistentes</span><h4>Vienen, aprenden y se activan</h4><p>Otros clientes asisten para verlo: resuelven dudas, descubren casos similares, preguntan en directo y activan o reactivan sus cuentas con más engagement.</p></div>
     </div>
 
@@ -402,7 +404,23 @@ h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;marg
       <div class="xc"><b>Ponente seleccionado</b><span>Perfil de Customer/CX que vive los casos, acompañado de un cliente eCommerce invitado.</span></div>
       <div class="xc"><b>Grabar una vez, distribuir muchas</b><span>Clips para LinkedIn, versión on-demand, caso de éxito escrito y píldoras para nurturing.</span></div>
     </div>
-    <p class="wb-note rv">Casos y KPIs reales de clientes GuruSup, publicados en la web de casos de éxito.</p>
+    <p class="wb-note rv">Casos y KPIs reales de clientes eCommerce de GuruSup, publicados en la web de casos de éxito.</p>
+  </div>
+</section>
+
+<!-- ============ DESPUÉS DEL WEBINAR ============ -->
+<section class="band webinar" style="padding-top:0">
+  <div class="wrap">
+    <span class="kicker">Después del webinar</span>
+    <h2 class="sec rv">El webinar no termina cuando acaba el directo</h2>
+    <p class="sd rv">Cuando termina el directo empieza la conversión. Activamos el contenido y la audiencia para <b>exprimir cada registro</b>, recuperar a quien no vino y reabrir oportunidades — de forma automatizada y coordinada.</p>
+    <div class="after-grid">
+      <div class="wbpill rv" style="--c:var(--brand)"><span class="pk">Asistentes</span><h4>Del interés a la demo</h4><p>Automatizaciones que lanzan preguntas de seguimiento e invitan a demo a quien ya nos vio en acción.</p></div>
+      <div class="wbpill rv" style="--c:var(--gold)"><span class="pk">No asistentes</span><h4>La grabación, segunda oportunidad</h4><p>Los identificamos y les enviamos la grabación: quien no pudo venir todavía puede convertir.</p></div>
+      <div class="wbpill rv" style="--c:var(--cyan)"><span class="pk">Paid Media</span><h4>Webinar on-demand</h4><p>El contenido alimenta campañas de descarga; si funciona, ampliamos presupuesto y llevamos tráfico y visitas a la landing en la web.</p></div>
+      <div class="wbpill rv" style="--c:var(--pink)"><span class="pk">Outbound</span><h4>La excusa para reabrir</h4><p>«Te echamos de menos y tenemos algo que te interesa»: la descarga con formulario reactiva contactos eCommerce, reabre conversaciones del pipeline y los devuelve al CRM.</p></div>
+      <div class="wbpill rv" style="--c:var(--teal)"><span class="pk">Clientes</span><h4>Caso de éxito y siguiente turno</h4><p>Enseñamos a otros clientes el éxito y la visibilidad que dimos: «¿quieres participar en el próximo?» — reactivación y nuevos prescriptores.</p></div>
+    </div>
   </div>
 </section>
 
@@ -709,7 +727,7 @@ h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;marg
       <div class="lstep" style="--c:var(--gold)"><div class="ln">3</div><h4>Mejorar</h4><p>Optimizar todos los canales y afinar el playbook con lo aprendido.</p></div>
       <div class="lstep" style="--c:var(--brand)"><div class="ln">4</div><h4>Replicar</h4><p>Validar el siguiente vertical con el mismo método, ya rodado.</p></div>
     </div>
-    <div class="loop-note rv"><b>2–3 hitos al año, no una fábrica de webinars.</b> Momentos clave en los que toda la compañía empuja hacia el mismo lado y optimiza todos los recursos, con el objetivo de tener <b>3 verticales identificados</b> con los que repetir el método. <span class="rep">↻ y vuelta a empezar con el siguiente sector</span></div>
+    <div class="loop-note rv"><b>2–3 hitos al año, no una fábrica de webinars.</b> Momentos clave en los que toda la compañía empuja hacia el mismo lado y optimiza todos los recursos, con <b>verticales foco ya identificados</b> —eCommerce, travel, fintech y logística— para repetir el método. <span class="rep">↻ y vuelta a empezar con el siguiente sector</span></div>
   </div>
 </section>
 
