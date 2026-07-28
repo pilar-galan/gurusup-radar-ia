@@ -1,0 +1,560 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GuruSup · Posicionamiento y motor de demanda · Ago → Dic</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0c1b15; --bg2:#10251b; --card:#16302340; --card-solid:#183426; --card2:#13291e;
+  --line:#2c5443; --line2:#3a6b54;
+  --ink:#f2fff8; --ink2:#bcdccd; --mut:#83a593;
+  --brand:#6ff0a2; --brand-2:#57e08a; --brand-d:#2bb673; --brand-deep:#0f4a30;
+  --ok:#57e08a; --warn:#ffca5c; --bad:#ff7189; --sky:#68d1f5; --violet:#c8a6ff;
+}
+html{font-size:15px;-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);line-height:1.55;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
+  background-image:
+    radial-gradient(1200px 560px at 80% -12%,rgba(111,240,162,.16),transparent 62%),
+    radial-gradient(900px 500px at 2% 3%,rgba(104,209,245,.08),transparent 55%),
+    linear-gradient(180deg,#0e2019 0%,#0c1b15 40%);
+  background-attachment:fixed}
+.wrap{max-width:1140px;margin:0 auto;padding:0 24px}
+h1,h2,h3{line-height:1.14;letter-spacing:-.01em;text-wrap:balance}
+a{color:var(--brand);text-decoration:none}
+
+/* ---------- HERO ---------- */
+.xhead{padding:40px 0 14px}
+.xtop{display:flex;align-items:center;gap:14px;margin-bottom:26px;flex-wrap:wrap}
+.xbrand{font-size:23px;font-weight:800;letter-spacing:-.02em}
+.xbrand b{color:var(--ink)} .xbrand i{color:var(--brand);font-style:normal;padding:0 1px}
+.tag{font-size:11px;color:var(--ink2);border:1px solid var(--line2);padding:6px 12px;border-radius:999px;background:rgba(111,240,162,.05)}
+.tag.accent{color:var(--brand);border-color:var(--brand-d);background:rgba(111,240,162,.1);font-weight:700}
+.xhead h1{font-size:clamp(30px,5vw,50px);font-weight:800;margin-bottom:16px;letter-spacing:-.02em}
+.xhead h1 span{color:var(--brand);text-shadow:0 0 34px rgba(111,240,162,.4)}
+.xhead .lead{color:var(--ink2);font-size:clamp(15px,1.9vw,18px);line-height:1.62;max-width:1040px;
+  text-align:justify;text-justify:inter-word;text-wrap:pretty}
+.xhead .upd{margin-top:18px;font-size:12.5px;color:var(--mut)}
+.xhead .upd b{color:var(--ink2)}
+@media(max-width:640px){.xhead .lead{text-align:left}}
+
+/* ---------- SECTIONS ---------- */
+section{padding:40px 0;border-top:1px solid var(--line)}
+.q{font-size:11.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--brand)}
+.sh{font-size:clamp(23px,3.2vw,32px);font-weight:800;margin:9px 0 7px}
+.sh .tot{color:var(--brand)}
+.sd{color:var(--ink2);font-size:15px;max-width:92ch;margin-bottom:22px;line-height:1.65;
+  text-align:justify;text-justify:inter-word;text-wrap:pretty}
+.sd.wide{max-width:none}
+@media(max-width:640px){.sd{text-align:left}}
+
+/* ---------- GENERIC CARD ---------- */
+.card{background:linear-gradient(165deg,rgba(24,52,38,.9),rgba(19,41,30,.7));border:1px solid var(--line);
+  border-radius:16px;padding:22px 20px;position:relative;overflow:hidden}
+.card::after{content:"";position:absolute;inset:0 0 auto 0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(111,240,162,.4),transparent)}
+.card h3{font-size:16px;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:9px}
+.card p,.card li{font-size:13.5px;color:var(--ink2);line-height:1.6}
+.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:820px){.grid2,.grid3{grid-template-columns:1fr}}
+
+/* clean lists */
+ul.clean{list-style:none;display:flex;flex-direction:column;gap:8px;margin-top:4px}
+ul.clean li{position:relative;padding-left:22px;font-size:13.5px;color:var(--ink2)}
+ul.clean li::before{content:"";position:absolute;left:2px;top:8px;width:7px;height:7px;border-radius:50%;
+  background:var(--brand-d);box-shadow:0 0 8px rgba(111,240,162,.5)}
+ul.clean.warn li::before{background:var(--bad);box-shadow:0 0 8px rgba(255,113,137,.4)}
+ul.clean.ok li::before{background:var(--ok)}
+
+/* two-tone comparison */
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:820px){.cmp{grid-template-columns:1fr}}
+.cmp .card.good{background:linear-gradient(165deg,rgba(43,182,115,.15),rgba(19,41,30,.55));border-color:var(--line2)}
+.cmp .card.gap{background:linear-gradient(165deg,rgba(255,202,92,.1),rgba(41,34,19,.5));border-color:#6a5730}
+.cmp .card.gap::after{background:linear-gradient(90deg,transparent,rgba(255,202,92,.4),transparent)}
+.cmp .card.gap h3{color:var(--warn)}
+.cardlabel{font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);margin-bottom:12px}
+
+/* ---------- PULL QUOTE ---------- */
+.pull{margin:6px 0 8px;padding:34px 32px;border-radius:20px;
+  background:linear-gradient(120deg,#6ff0a2 0%,#57e08a 55%,#34d399 100%);border:1px solid #8ff7bb;
+  box-shadow:0 16px 54px rgba(87,224,138,.34)}
+.pull .qm{font-size:44px;line-height:.6;color:#0a3d28;font-weight:900;opacity:.6}
+.pull p{font-size:clamp(20px,3vw,30px);font-weight:800;color:#052012;line-height:1.28;letter-spacing:-.01em;margin-top:6px}
+.pull p b{color:#0a3d28}
+.pull .qs{font-size:13.5px;color:#0d3d29;margin-top:14px;font-weight:600}
+
+/* ---------- COMPETITORS ---------- */
+.chips{display:flex;flex-wrap:wrap;gap:9px;margin-top:6px}
+.chip{font-size:13px;font-weight:600;color:var(--ink2);background:rgba(255,255,255,.05);
+  border:1px solid var(--line);border-radius:9px;padding:7px 14px}
+.chip.ai{color:var(--violet);border-color:#3f3560;background:rgba(200,166,255,.08)}
+
+/* ---------- ICP ---------- */
+.icp{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:820px){.icp{grid-template-columns:1fr}}
+.icp .card .rank{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--mut)}
+.icp .card h3{font-size:19px;margin:6px 0 2px}
+.stars{color:var(--warn);font-size:15px;letter-spacing:2px;margin-bottom:12px}
+.icp .card.lead-vert{background:linear-gradient(165deg,rgba(43,182,115,.2),rgba(19,41,30,.6));border-color:var(--brand-d)}
+.icp .card.lead-vert h3{color:var(--brand)}
+
+/* ---------- OBJECTIVES ---------- */
+.obj{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+@media(max-width:900px){.obj{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.obj{grid-template-columns:1fr}}
+.obj .card{padding:20px 18px}
+.obj .n{font-size:34px;font-weight:900;color:var(--brand);line-height:1;letter-spacing:-.03em;opacity:.9}
+.obj h3{font-size:15px;margin:12px 0 6px}
+.obj p{font-size:12.5px;color:var(--mut)}
+
+/* ---------- PRIORITIES ---------- */
+.pri{position:relative;padding:24px 22px;border-radius:18px;margin-bottom:16px;
+  background:linear-gradient(165deg,rgba(24,52,38,.85),rgba(19,41,30,.65));border:1px solid var(--line);overflow:hidden}
+.pri.hero-pri{background:linear-gradient(150deg,rgba(43,182,115,.22),rgba(19,41,30,.6));border-color:var(--brand-d);
+  box-shadow:0 12px 44px rgba(43,182,115,.16)}
+.pri-head{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:6px}
+.pri-badge{font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--bg);
+  background:linear-gradient(135deg,var(--brand),var(--brand-2));border-radius:8px;padding:6px 11px;white-space:nowrap}
+.pri.dim .pri-badge{background:rgba(255,255,255,.07);color:var(--ink2);border:1px solid var(--line2)}
+.pri-head h3{font-size:clamp(18px,2.4vw,23px);font-weight:800}
+.pri-eff{margin-left:auto;font-size:12px;font-weight:800;color:var(--brand);background:rgba(111,240,162,.12);
+  border:1px solid var(--brand-d);border-radius:999px;padding:6px 14px;white-space:nowrap}
+.pri.dim .pri-eff{color:var(--mut);background:rgba(255,255,255,.04);border-color:var(--line)}
+.pri-sub{font-size:13.5px;color:var(--ink2);max-width:88ch;line-height:1.6;margin:2px 0 4px;
+  text-align:justify;text-justify:inter-word;text-wrap:pretty}
+@media(max-width:640px){.pri-sub{text-align:left}}
+
+/* pilares */
+.pillars{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:18px}
+.pillar{background:rgba(12,27,21,.5);border:1px solid var(--line);border-radius:14px;padding:16px}
+.pillar .pt{font-size:14px;font-weight:800;color:var(--ink);display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.pillar .ex{font-size:12.5px;color:var(--ink2);font-style:italic;border-left:2px solid var(--brand-d);
+  padding-left:11px;margin-top:8px;line-height:1.5}
+.pillar ul.clean li{font-size:12.5px}
+
+/* formatos */
+.fmts{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin-top:16px}
+.fmt{background:rgba(12,27,21,.55);border:1px solid var(--line);border-radius:14px;padding:16px;position:relative}
+.fmt .fmt-h{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:8px}
+.fmt .fmt-t{font-size:14.5px;font-weight:800}
+.fmt .fmt-m{font-size:11px;font-weight:800;color:var(--brand);background:rgba(111,240,162,.12);
+  border-radius:7px;padding:3px 8px;white-space:nowrap}
+.fmt p{font-size:12.5px;color:var(--ink2);line-height:1.55}
+.fmt .fmt-ex{font-size:12px;color:var(--sky);font-style:italic;margin-top:8px}
+
+/* email sequence */
+.seq{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:16px}
+.seq .step{background:rgba(111,240,162,.08);border:1px solid var(--line2);border-radius:11px;
+  padding:11px 16px;font-size:13px;font-weight:700;color:var(--ink)}
+.seq .step:last-child{background:linear-gradient(135deg,var(--brand),var(--brand-2));color:var(--bg);border-color:transparent}
+.seq .arr{color:var(--brand);font-weight:900;font-size:15px}
+
+/* keyword tags */
+.kw{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.kw span{font-size:12.5px;color:var(--ink);background:rgba(104,209,245,.08);border:1px solid #2f5566;
+  border-radius:8px;padding:6px 12px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+
+/* ---------- KPI SECTION ---------- */
+.kpigroups{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
+.kpicol{background:linear-gradient(165deg,rgba(24,52,38,.7),rgba(19,41,30,.5));border:1px solid var(--line);
+  border-radius:16px;padding:18px}
+.kpicol .kh{font-size:13px;font-weight:800;color:var(--ink);text-transform:uppercase;letter-spacing:.05em;
+  padding-bottom:10px;margin-bottom:12px;border-bottom:1px solid var(--line2);display:flex;align-items:center;gap:8px}
+.kpicol ul{list-style:none;display:flex;flex-direction:column;gap:7px}
+.kpicol li{font-size:13px;color:var(--ink2);position:relative;padding-left:18px}
+.kpicol li::before{content:"›";position:absolute;left:2px;color:var(--brand);font-weight:800}
+.kpi-banner{display:flex;gap:16px;align-items:center;margin-bottom:22px;padding:20px 24px;border-radius:16px;
+  background:linear-gradient(120deg,rgba(43,182,115,.2),rgba(19,41,30,.5));border:1px solid var(--brand-d)}
+.kpi-banner .em{font-size:32px}
+.kpi-banner .t{font-size:clamp(17px,2.4vw,22px);font-weight:800;color:var(--ink)}
+.kpi-banner .t span{color:var(--brand)}
+.kpi-banner .s{font-size:13px;color:var(--ink2);margin-top:3px}
+
+/* ---------- ROADMAP ---------- */
+.road{display:flex;flex-direction:column;gap:14px}
+.rmonth{display:grid;grid-template-columns:132px 1fr;gap:20px;align-items:stretch;
+  background:linear-gradient(165deg,rgba(24,52,38,.7),rgba(19,41,30,.5));border:1px solid var(--line);
+  border-radius:16px;padding:18px 20px;position:relative;overflow:hidden}
+.rmonth::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;
+  background:linear-gradient(180deg,var(--brand),var(--brand-d))}
+.rmonth .rm-name{font-size:18px;font-weight:800;color:var(--brand);align-self:center}
+.rmonth .rm-name small{display:block;font-size:11px;font-weight:700;color:var(--mut);text-transform:uppercase;letter-spacing:.08em;margin-top:3px}
+.rmonth .rm-body{font-size:13.5px;color:var(--ink2);line-height:1.6;align-self:center}
+@media(max-width:640px){.rmonth{grid-template-columns:1fr;gap:8px}}
+
+/* ---------- FOOTER ---------- */
+footer{border-top:1px solid var(--line);padding:26px 0 50px;text-align:center;color:var(--mut);font-size:12px}
+footer b{color:var(--ink2)}
+.emph{color:var(--brand);font-weight:700}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ══════════ HERO ══════════ -->
+<header class="xhead">
+  <div class="xtop">
+    <span class="xbrand"><b>gurus</b><i>•</i><b>up</b></span>
+    <span class="tag accent">Posicionamiento &amp; motor de demanda</span>
+    <span class="tag">Agosto → Diciembre</span>
+  </div>
+  <h1>De vender producto a <span>vender conocimiento</span></h1>
+  <p class="lead">GuruSup comunica muy bien <b>qué</b> hace: agentes de IA que ejecutan acciones —no chatbots—, implantados en horas, integrados con cualquier stack y operando 24/7 en todos los canales. Lo que todavía no vende con suficiente fuerza es <b>autoridad</b>. Y hoy el mercado compra primero conocimiento y después tecnología. Este es el plan para convertir a GuruSup en el referente en IA aplicada a Atención al Cliente y construir un motor de demanda propio, sin depender del Paid.</p>
+  <div class="upd">Plan estratégico · verticales prioritarias: <b>Ecommerce · Turismo · SaaS B2B</b> · objetivo a diciembre</div>
+</header>
+
+<!-- ══════════ 01 · SITUACIÓN ══════════ -->
+<section>
+  <div class="q">01 · Situación actual</div>
+  <h2 class="sh">Comunicamos bien el producto. Falta la <span class="tot">autoridad</span>.</h2>
+  <p class="sd">La web transmite con claridad todos los mensajes diferenciales del producto. El hueco no está en <em>qué</em> contamos, sino en <em>cómo</em> nos posicionamos: la web vende producto, pero todavía no vende suficiente conocimiento. Y ese es exactamente el orden en el que hoy compra el mercado.</p>
+  <div class="cmp">
+    <div class="card good">
+      <div class="cardlabel">✅ Lo que GuruSup ya comunica muy bien</div>
+      <ul class="clean ok">
+        <li><b>Agentes de IA</b>, no chatbots.</li>
+        <li><b>Implementación rápida</b>: horas o semanas, no meses.</li>
+        <li>Integración con <b>cualquier stack</b>: HubSpot, Zendesk, Shopify, Salesforce, APIs…</li>
+        <li><b>Omnicanal</b>: WhatsApp, Voz, Email, Chat.</li>
+        <li>IA que <b>ejecuta acciones</b>, no solo responde.</li>
+        <li><b>ROI tangible</b>: menos coste, resolución autónoma alta y atención 24/7.</li>
+      </ul>
+    </div>
+    <div class="card gap">
+      <div class="cardlabel">⚠️ Lo que falta</div>
+      <h3>Posicionamiento de autoridad</h3>
+      <p>La web vende <b>producto</b>, pero aún no vende suficiente <b>conocimiento</b>. Hoy el mercado compra primero conocimiento y después tecnología.</p>
+      <ul class="clean warn" style="margin-top:14px">
+        <li>Poca presencia como <b>referente</b> del sector.</li>
+        <li>Conocimiento del CEO y del equipo <b>sin convertir en contenido</b>.</li>
+        <li>Casos reales de clientes <b>infrautilizados</b> como activo de marca.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 02 · COMPETIDORES ══════════ -->
+<section>
+  <div class="q">02 · Panorama competitivo</div>
+  <h2 class="sh">No competimos solo contra software</h2>
+  <p class="sd">GuruSup compite contra suites de soporte muy asentadas y, a la vez, contra una nueva generación de plataformas de IA. La buena noticia: tenemos un posicionamiento genuinamente diferenciador que hay que explotar muchísimo más.</p>
+  <div class="grid2" style="margin-bottom:22px">
+    <div class="card">
+      <h3>🏛️ Suites asentadas</h3>
+      <div class="chips">
+        <span class="chip">Zendesk</span>
+        <span class="chip">Intercom</span>
+        <span class="chip">Freshworks</span>
+        <span class="chip">Salesforce</span>
+        <span class="chip">HubSpot</span>
+      </div>
+    </div>
+    <div class="card">
+      <h3>🤖 Nuevas plataformas IA</h3>
+      <div class="chips">
+        <span class="chip ai">Forethought</span>
+        <span class="chip ai">Ada</span>
+        <span class="chip ai">Decagon</span>
+      </div>
+    </div>
+  </div>
+  <div class="pull">
+    <div class="qm">“</div>
+    <p>No somos un chatbot. Somos un <b>agente que trabaja como un miembro más del equipo</b>.</p>
+    <div class="qs">Este es el mensaje que hay que explotar muchísimo más en toda la comunicación.</div>
+  </div>
+</section>
+
+<!-- ══════════ 03 · ICP ══════════ -->
+<section>
+  <div class="q">03 · ICP prioritario</div>
+  <h2 class="sh">Tres verticales. Ni una más hasta validarlas.</h2>
+  <p class="sd">No intentaríamos abarcar todos los sectores. Foco absoluto en tres verticales donde existen más casos de uso y donde los clientes actuales ya validan el encaje. No abriríamos nuevos sectores hasta consolidar estos.</p>
+  <div class="icp">
+    <div class="card lead-vert">
+      <div class="rank">Vertical #1</div>
+      <h3>🛒 Ecommerce</h3>
+      <div class="stars">★★★★★</div>
+      <p>Donde más casos de uso existen. Los clientes actuales ya validan la vertical.</p>
+      <ul class="clean" style="margin-top:12px">
+        <li>Devoluciones y cambios</li>
+        <li>Pedidos y logística</li>
+        <li>Soporte por WhatsApp</li>
+        <li>Picos de volumen</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="rank">Vertical #2</div>
+      <h3>✈️ Turismo</h3>
+      <div class="stars">★★★★<span style="opacity:.3">★</span></div>
+      <p>Casos como GuruWalk o Waynabox: reservas, cancelaciones y atención multilingüe permanente.</p>
+      <ul class="clean" style="margin-top:12px">
+        <li>Reservas y cancelaciones</li>
+        <li>Atención en varios idiomas</li>
+        <li>Operación 24/7</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="rank">Vertical #3</div>
+      <h3>💻 SaaS B2B</h3>
+      <div class="stars">★★★★<span style="opacity:.3">★</span></div>
+      <p>Cada vez reciben más soporte, con mucho volumen repetitivo y gran capacidad de integración.</p>
+      <ul class="clean" style="margin-top:12px">
+        <li>Volumen repetitivo alto</li>
+        <li>Fuerte encaje de integraciones</li>
+        <li>Escalado sin crecer plantilla</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 04 · OBJETIVOS ══════════ -->
+<section>
+  <div class="q">04 · Objetivos hasta diciembre</div>
+  <h2 class="sh">Educar mercado, no vender producto</h2>
+  <p class="sd">Cuatro objetivos que apuntan en la misma dirección: dejar de depender del Paid y construir un motor de demanda propio, sostenido por conocimiento y contenido evergreen.</p>
+  <div class="obj">
+    <div class="card">
+      <div class="n">01</div>
+      <h3>Referente en IA para Atención al Cliente</h3>
+      <p>No vender producto. Educar mercado.</p>
+    </div>
+    <div class="card">
+      <div class="n">02</div>
+      <h3>Duplicar el pipeline de Marketing</h3>
+      <p>×2 sobre el pipeline generado hoy.</p>
+    </div>
+    <div class="card">
+      <div class="n">03</div>
+      <h3>Reducir el CAC</h3>
+      <p>Con contenido evergreen que trabaja solo.</p>
+    </div>
+    <div class="card">
+      <div class="n">04</div>
+      <h3>Crear un motor de demanda</h3>
+      <p>Dejar de depender únicamente del Paid.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 05 · PRIORIDADES ══════════ -->
+<section>
+  <div class="q">05 · Prioridades de ejecución</div>
+  <h2 class="sh">Dónde ponemos el esfuerzo</h2>
+  <p class="sd">Cinco prioridades ordenadas por impacto. La primera se lleva el 70% del esfuerzo: es donde está la mayor oportunidad. El resto acompaña y amplifica, sin dispersar recursos.</p>
+
+  <!-- P1 -->
+  <div class="pri hero-pri">
+    <div class="pri-head">
+      <span class="pri-badge">Prioridad 1</span>
+      <h3>Contenido de autoridad</h3>
+      <span class="pri-eff">70% del esfuerzo</span>
+    </div>
+    <p class="pri-sub">Aquí está la mayor oportunidad. El CEO tiene mucho conocimiento, el equipo tiene experiencia y los clientes generan casos reales. Hay que convertir todo eso en contenido. La regla de fondo: <b>no hablar de IA, hablar de resultados</b>.</p>
+
+    <div style="margin-top:18px;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--brand)">Pilares de contenido</div>
+    <div class="pillars">
+      <div class="pillar">
+        <div class="pt">📈 Casos reales</div>
+        <p>No hablar de IA. Hablar de resultados.</p>
+        <div class="ex">«Cómo un ecommerce redujo un 80% los tickets repetitivos.»</div>
+      </div>
+      <div class="pillar">
+        <div class="pt">⚠️ Errores</div>
+        <p>Contenido honesto y práctico sobre implantación.</p>
+        <div class="ex">«5 errores que cometen todas las empresas cuando implantan IA.»</div>
+      </div>
+      <div class="pillar">
+        <div class="pt">🧮 ROI</div>
+        <ul class="clean">
+          <li>Calculadoras</li>
+          <li>Comparativas</li>
+          <li>Coste humano vs. IA</li>
+          <li>Tiempo ahorrado</li>
+        </ul>
+      </div>
+      <div class="pillar">
+        <div class="pt">🔧 Behind the scenes</div>
+        <ul class="clean">
+          <li>Cómo entrenamos un agente</li>
+          <li>Cómo conectamos HubSpot</li>
+          <li>Cómo integramos Shopify</li>
+          <li>Cómo funciona de verdad una IA</li>
+        </ul>
+      </div>
+      <div class="pillar">
+        <div class="pt">🌐 Tendencias</div>
+        <ul class="clean">
+          <li>IA y Customer Support</li>
+          <li>Voice AI</li>
+          <li>WhatsApp</li>
+          <li>Nuevos modelos</li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="margin-top:22px;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--brand)">Formatos</div>
+    <div class="fmts">
+      <div class="fmt">
+        <div class="fmt-h"><span class="fmt-t">💼 LinkedIn</span><span class="fmt-m">5 / semana</span></div>
+        <p>El canal más rentable para GuruSup. Prioridad absoluta.</p>
+      </div>
+      <div class="fmt">
+        <div class="fmt-h"><span class="fmt-t">📝 Blog SEO</span><span class="fmt-m">2 / semana</span></div>
+        <p>No artículos de 600 palabras. Artículos de referencia de <b>3.000–5.000</b> que respondan absolutamente todo.</p>
+        <div class="kw">
+          <span>IA atención al cliente</span>
+          <span>IA WhatsApp</span>
+          <span>IA soporte ecommerce</span>
+          <span>Agente IA</span>
+          <span>Voice AI</span>
+          <span>Automatización soporte</span>
+          <span>AI Customer Support</span>
+        </div>
+      </div>
+      <div class="fmt">
+        <div class="fmt-h"><span class="fmt-t">🎥 Webinar</span><span class="fmt-m">mensual</span></div>
+        <p>El mejor canal: genera leads, confianza, base de datos, nurturing y demos. Reutilizable en múltiples formatos.</p>
+      </div>
+      <div class="fmt">
+        <div class="fmt-h"><span class="fmt-t">📱 Vídeos</span><span class="fmt-m">30–90 s</span></div>
+        <p>Muchos y muy cortos. No vender: mostrar.</p>
+        <div class="fmt-ex">«Así responde nuestro agente por teléfono.»</div>
+      </div>
+      <div class="fmt">
+        <div class="fmt-h"><span class="fmt-t">🏆 Casos de éxito</span><span class="fmt-m">×∞</span></div>
+        <p>Cada cliente nuevo = una historia. Un PDF, un vídeo, un post, un webinar, un email, un anuncio. Un caso genera contenido para dos meses.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- P2 -->
+  <div class="pri">
+    <div class="pri-head">
+      <span class="pri-badge">Prioridad 2</span>
+      <h3>ABM ligero</h3>
+    </div>
+    <p class="pri-sub">Nada de campañas masivas: campañas sobre cuentas, con contenido específico para ellas.</p>
+    <div class="chips" style="margin-top:12px">
+      <span class="chip">Top 200 Ecommerce</span>
+      <span class="chip">Top 100 SaaS</span>
+      <span class="chip">Top Turismo</span>
+    </div>
+  </div>
+
+  <!-- P3 -->
+  <div class="pri">
+    <div class="pri-head">
+      <span class="pri-badge">Prioridad 3</span>
+      <h3>Email Marketing</h3>
+    </div>
+    <p class="pri-sub">No newsletters: secuencias. El nurturing se gestiona en HubSpot con un recorrido diseñado hasta la demo.</p>
+    <div class="seq">
+      <span class="step">Descarga ebook</span><span class="arr">→</span>
+      <span class="step">Caso real</span><span class="arr">→</span>
+      <span class="step">Vídeo</span><span class="arr">→</span>
+      <span class="step">ROI</span><span class="arr">→</span>
+      <span class="step">Demo</span><span class="arr">→</span>
+      <span class="step">Follow up</span>
+    </div>
+  </div>
+
+  <!-- P4 -->
+  <div class="pri">
+    <div class="pri-head">
+      <span class="pri-badge">Prioridad 4</span>
+      <h3>SEO</h3>
+    </div>
+    <p class="pri-sub">No buscar volumen: buscar intención. <span class="emph">«IA para Shopify»</span> vale mucho más que <span style="color:var(--mut)">«qué es IA»</span>.</p>
+  </div>
+
+  <!-- P5 -->
+  <div class="pri dim">
+    <div class="pri-head">
+      <span class="pri-badge">Prioridad 5</span>
+      <h3>Paid</h3>
+    </div>
+    <p class="pri-sub">Poca inversión y muy selectiva: solo LinkedIn y remarketing en Meta. Todo el presupuesto debe ir a contenido de valor, no a demos directas.</p>
+  </div>
+</section>
+
+<!-- ══════════ 06 · KPIs ══════════ -->
+<section>
+  <div class="q">06 · KPIs del CEO</div>
+  <h2 class="sh">Medir negocio, no vanidad</h2>
+  <p class="sd">Nada de opens ni clics como objetivo. Nada de visitas por sí solas. Lo que se mide es negocio, y cada pieza de contenido se juzga por el pipeline que genera.</p>
+  <div class="kpi-banner">
+    <span class="em">🎯</span>
+    <div>
+      <div class="t">No opens. No clics. <span>Negocio.</span></div>
+      <div class="s">Cada pieza se mide por leads, SQL y pipeline generado — no por visitas.</div>
+    </div>
+  </div>
+  <div class="kpigroups">
+    <div class="kpicol">
+      <div class="kh">💰 Pipeline</div>
+      <ul><li>MQL</li><li>SQL</li><li>Oportunidades</li><li>Pipeline €</li><li>Revenue influenciado</li></ul>
+    </div>
+    <div class="kpicol">
+      <div class="kh">📄 Contenido</div>
+      <ul><li>Leads por pieza</li><li>SQL por pieza</li><li>Pipeline generado por pieza</li><li><span style="color:var(--mut)">No visitas</span></li></ul>
+    </div>
+    <div class="kpicol">
+      <div class="kh">🔍 SEO</div>
+      <ul><li>Keywords Top 10</li><li>Tráfico orgánico</li><li>Conversion rate</li></ul>
+    </div>
+    <div class="kpicol">
+      <div class="kh">🎥 Webinars</div>
+      <ul><li>Registros</li><li>Asistencia</li><li>SQL</li><li>Demos</li><li>Clientes</li></ul>
+    </div>
+    <div class="kpicol">
+      <div class="kh">🔄 CRM</div>
+      <ul><li>Tiempo hasta SQL</li><li>Conversión Lead → SQL</li><li>SQL → Demo</li><li>Demo → Cliente</li></ul>
+    </div>
+    <div class="kpicol">
+      <div class="kh">📣 Marca</div>
+      <ul><li>Share of Voice en LinkedIn</li><li>Engagement</li><li>Menciones</li><li>Invitaciones a eventos</li><li>Backlinks</li></ul>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 07 · ROADMAP ══════════ -->
+<section>
+  <div class="q">07 · Roadmap</div>
+  <h2 class="sh">Agosto → Diciembre</h2>
+  <p class="sd">Un mes tras otro: sentar el posicionamiento, activar los primeros motores en Ecommerce, escalar contenido y campañas, replicar en SaaS y cerrar consolidando los activos evergreen para 2027.</p>
+  <div class="road">
+    <div class="rmonth">
+      <div class="rm-name">Agosto<small>Cimientos</small></div>
+      <div class="rm-body">Definir posicionamiento, preparar contenidos, lanzar el primer ebook y el primer webinar, optimizar HubSpot y crear el dashboard ejecutivo.</div>
+    </div>
+    <div class="rmonth">
+      <div class="rm-name">Septiembre<small>Activación</small></div>
+      <div class="rm-body">Lanzamiento del webinar de eCommerce, campañas en LinkedIn y Meta con retargeting, publicación de casos de éxito y activación de secuencias de nurturing.</div>
+    </div>
+    <div class="rmonth">
+      <div class="rm-name">Octubre<small>Escalado</small></div>
+      <div class="rm-body">Escalar contenido SEO, publicar comparativas con competidores, impulsar vídeos cortos con demos reales y lanzar campañas ABM sobre cuentas objetivo.</div>
+    </div>
+    <div class="rmonth">
+      <div class="rm-name">Noviembre<small>Réplica</small></div>
+      <div class="rm-body">Repetir el modelo en la vertical SaaS, intensificar el remarketing, colaborar con partners y recopilar nuevos casos de éxito.</div>
+    </div>
+    <div class="rmonth">
+      <div class="rm-name">Diciembre<small>Consolidación</small></div>
+      <div class="rm-body">Analizar resultados, optimizar los canales con mayor ROI, preparar el plan de escalado para 2027 y consolidar los activos evergreen.</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <b>gurus•up</b> · Posicionamiento y motor de demanda · Agosto → Diciembre · documento estratégico interno
+</footer>
+
+</div>
+</body>
+</html>
