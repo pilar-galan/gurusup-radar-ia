@@ -60,7 +60,7 @@ section{position:relative}
 /* ---------- shared type ---------- */
 .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--brand);display:inline-flex;align-items:center;gap:.6em}
 .kicker::before{content:"";width:26px;height:1px;background:var(--brand);opacity:.6}
-h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;margin:.5em 0 .3em;text-wrap:balance;line-height:1.05}
+h2.sec{font-size:clamp(23px,3.4vw,34px);font-weight:680;letter-spacing:-.02em;margin:.5em 0 .3em;text-wrap:balance;line-height:1.08}
 .sd{max-width:92ch;color:var(--ink-soft);font-size:clamp(15px,1.5vw,17px);text-align:justify;text-justify:inter-word;text-wrap:pretty}
 @media (max-width:640px){.sd{text-align:left}}
 
@@ -72,7 +72,7 @@ h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;marg
 .themebtn:focus-visible{outline:2px solid var(--brand);outline-offset:3px}
 
 /* ---------- hero ---------- */
-.hero{padding:clamp(32px,5vh,60px) 0 clamp(40px,7vh,72px);background:var(--grad-hero);text-align:center;overflow:hidden}
+.hero{padding:clamp(32px,5vh,60px) 0 clamp(16px,2.4vh,26px);background:var(--grad-hero);text-align:center;overflow:hidden}
 .hero .eyebrow{justify-content:center}
 .hero h1{font-size:clamp(28px,4.5vw,48px);font-weight:850;letter-spacing:-.035em;line-height:1;margin:.24em auto .24em;max-width:16ch;text-wrap:balance}
 .hero h1 em{font-family:var(--serif);font-style:italic;font-weight:500;color:var(--brand-bright)}
@@ -362,6 +362,11 @@ h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;marg
   border:1px solid var(--line);border-radius:8px;padding:4px 9px;line-height:1.2}
 .vert.pending{border-style:dashed}
 .vert.pending .stars{opacity:.45}
+.vert li.hot{background:color-mix(in srgb,var(--c) 20%,transparent);border-color:color-mix(in srgb,var(--c) 46%,var(--line));font-weight:750;color:var(--ink)}
+.vdiff{margin-top:13px;padding-top:12px;border-top:1px dashed var(--line-2)}
+.vdiff .vdiff-k{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--c);display:block;margin-bottom:8px}
+.vdiff ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.vdiff li{font-size:12px;color:var(--ink);background:color-mix(in srgb,var(--c) 11%,transparent);border:1px solid color-mix(in srgb,var(--c) 30%,var(--line));border-radius:8px;padding:4px 9px;line-height:1.2}
 @media(max-width:860px){.verts{grid-template-columns:1fr}}
 
 /* ---------- el mensaje · autoridad ---------- */
@@ -440,17 +445,10 @@ h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;marg
 </header>
 
 <!-- ============ CONTEXTO · PUNTO DE PARTIDA ============ -->
-<section class="band context" style="padding-top:clamp(22px,3.4vh,40px)">
+<section class="band context" style="padding-top:clamp(14px,2vh,26px)">
   <div class="wrap">
     <span class="kicker">El punto de partida · Por qué ahora</span>
     <h2 class="sec rv">Foco en tres verticales, validadas de una en una</h2>
-
-    <div class="ctx-points rv">
-      <div class="cpt" style="--c:var(--gold)"><div class="ci">🎯</div><b>Foco, no dispersión</b><span>Ni una vertical nueva hasta validar estas tres.</span></div>
-      <div class="cpt" style="--c:var(--brand)"><div class="ci">💡</div><b>Alto potencial</b><span>Donde más casos de uso existen y mejor convierten.</span></div>
-      <div class="cpt" style="--c:var(--cyan)"><div class="ci">🤝</div><b>Clientes que validan</b><span>Ya permanecen, convierten y retienen.</span></div>
-      <div class="cpt" style="--c:var(--purple)"><div class="ci">🧭</div><b>Orden claro</b><span>eCommerce → turismo → 3ª por definir.</span></div>
-    </div>
 
     <div class="verts">
       <div class="vert rv" style="--c:var(--brand)">
@@ -458,7 +456,16 @@ h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;marg
         <h4>🛒 eCommerce</h4>
         <div class="stars">★★★★★</div>
         <p>Donde más casos de uso existen. Los clientes actuales ya validan la vertical.</p>
-        <ul><li>Devoluciones y cambios</li><li>Pedidos y logística</li><li>Soporte por WhatsApp</li><li>Picos de volumen</li></ul>
+        <ul><li>Devoluciones y cambios</li><li>Pedidos y logística</li><li>Soporte por WhatsApp</li><li>Soporte por voz</li><li class="hot"><b>Picos de volumen</b></li></ul>
+        <div class="vdiff">
+          <span class="vdiff-k">+ Dónde diferenciamos (de las reuniones de ventas)</span>
+          <ul>
+            <li>Presupuestos y pedidos a medida</li>
+            <li>Reactivación proactiva · recupera ventas</li>
+            <li>Asesoramiento de preventa · recomienda producto</li>
+            <li>Acciones sin API vía BrowserUse · tracking, cambio de dirección</li>
+          </ul>
+        </div>
       </div>
       <div class="vert rv" style="--c:var(--cyan)">
         <div class="vtop"><span class="vnum">Vertical #2</span><span class="vstate">Siguiente push</span></div>
@@ -474,6 +481,13 @@ h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;marg
         <p>Se decidirá con los aprendizajes de las dos primeras verticales. Candidatas dentro de nuestro foco replicable.</p>
         <ul><li>Fintech</li><li>Logística</li><li>· · ·</li></ul>
       </div>
+    </div>
+
+    <div class="ctx-points rv">
+      <div class="cpt" style="--c:var(--gold)"><div class="ci">🎯</div><b>Foco, no dispersión</b><span>Ni una vertical nueva hasta validar estas tres.</span></div>
+      <div class="cpt" style="--c:var(--brand)"><div class="ci">💡</div><b>Alto potencial</b><span>Donde más casos de uso existen y mejor convierten.</span></div>
+      <div class="cpt" style="--c:var(--cyan)"><div class="ci">🤝</div><b>Clientes que validan</b><span>Ya permanecen, convierten y retienen.</span></div>
+      <div class="cpt" style="--c:var(--purple)"><div class="ci">🧭</div><b>Orden claro</b><span>eCommerce → turismo → 3ª por definir.</span></div>
     </div>
 
     <div class="ctx-steps rv">
