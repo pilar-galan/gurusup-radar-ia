@@ -231,6 +231,14 @@ h2.sec{font-size:clamp(22px,3.2vw,32px);font-weight:600;letter-spacing:-.015em;m
 .est tfoot td{padding:14px 16px;background:color-mix(in srgb,var(--brand) 12%,var(--panel));font-weight:800;color:var(--ink);border-top:1px solid var(--line-2)}
 .est tfoot .est-n{color:var(--brand);font-size:16px}
 :root[data-theme="light"] .est tfoot .est-n{color:var(--brand-deep)}
+.exec{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px}
+.ex{background:linear-gradient(160deg,var(--panel),var(--panel-2));border:1px solid var(--line);border-radius:14px;padding:18px 16px}
+.ex .ex-l{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);display:block;margin-bottom:7px}
+.ex b{display:block;font-size:clamp(22px,2.8vw,28px);font-weight:820;letter-spacing:-.025em;color:var(--ink);font-variant-numeric:tabular-nums;line-height:1}
+.ex small{display:block;margin-top:6px;font-size:12px;color:var(--brand);font-family:var(--mono)}
+:root[data-theme="light"] .ex small{color:var(--brand-deep)}
+.ex.lead-tile{border-color:color-mix(in srgb,var(--brand) 32%,var(--line));background:linear-gradient(160deg,color-mix(in srgb,var(--brand) 10%,var(--panel)),var(--panel-2))}
+@media(max-width:760px){.exec{grid-template-columns:repeat(2,1fr)}}
 
 .foot{padding:40px 0 70px;text-align:center;color:var(--ink-faint);font-size:13px;font-family:var(--mono);letter-spacing:.06em}
 .foot .rule{height:1px;background:linear-gradient(90deg,transparent,var(--line-2),transparent);margin:0 0 26px}
@@ -876,6 +884,15 @@ h2.sec{font-size:clamp(22px,3.2vw,32px);font-weight:600;letter-spacing:-.015em;m
     <span class="kicker">Estimación de resultados</span>
     <h2 class="sec rv">Una referencia, no una promesa</h2>
     <p class="sd rv">Una estimación <b>muy a ojo</b>, basada en tendencias del sector y del mercado. No es definitiva —puede salir mejor o peor—: al no haber hecho antes acciones así con estos canales, todavía no tenemos datos propios. Sirve como <b>base hacia la que apuntar</b>, y la afinaremos con datos reales una vez definido y accionado.</p>
+
+    <p class="sub-label rv" style="margin-top:30px">Resumen ejecutivo</p>
+    <div class="exec rv">
+      <div class="ex"><span class="ex-l">Inversión</span><b>5.000 €</b><small>total de captación</small></div>
+      <div class="ex lead-tile"><span class="ex-l">Registros · Lead</span><b>150</b><small>CPL 33,33 €</small></div>
+      <div class="ex"><span class="ex-l">Asistentes · MQL</span><b>45</b><small>coste 111,11 €</small></div>
+      <div class="ex"><span class="ex-l">Demos · SQL</span><b>≈ 7</b><small>coste ≈ 714 €</small></div>
+    </div>
+
     <div class="est-wrap rv">
       <table class="est">
         <thead><tr><th>Canal</th><th>Hipótesis</th><th>Registros estimados</th></tr></thead>
