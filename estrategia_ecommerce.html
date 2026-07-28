@@ -333,6 +333,61 @@ h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;marg
 :root[data-theme="light"] .loop-note b{color:var(--brand-deep)}
 .loop-note .rep{display:flex;align-items:center;gap:7px;font-family:var(--mono);font-size:12px;color:var(--brand);letter-spacing:.04em;margin-top:10px}
 
+/* ---------- contexto · verticales prioritarias ---------- */
+.context{background:linear-gradient(180deg,color-mix(in srgb,var(--gold) 6%,transparent),transparent 46%)}
+.ctx-lead b{color:var(--ink);font-weight:650}
+.verts{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:34px}
+.vert{position:relative;background:linear-gradient(160deg,var(--panel),var(--panel-2));border:1px solid var(--line);border-radius:18px;
+  padding:22px 22px 24px;overflow:hidden;transition:transform .28s,border-color .28s;--c:var(--brand)}
+.vert::before{content:"";position:absolute;left:0;top:0;height:3px;width:100%;background:var(--c);opacity:.9}
+.vert:hover{transform:translateY(-4px);border-color:color-mix(in srgb,var(--c) 42%,var(--line))}
+.vert .vtop{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:9px}
+.vert .vnum{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--c)}
+.vert .vstate{font-family:var(--mono);font-size:10px;letter-spacing:.05em;color:var(--ink);
+  background:color-mix(in srgb,var(--c) 16%,transparent);border:1px solid color-mix(in srgb,var(--c) 34%,transparent);
+  border-radius:999px;padding:4px 10px;white-space:nowrap}
+.vert h4{font-size:20px;font-weight:790;margin:.1em 0 .04em;letter-spacing:-.01em}
+.vert .stars{color:var(--c);font-size:13px;letter-spacing:.14em;margin-bottom:10px}
+.vert>p{margin:0 0 13px;font-size:13.5px;color:var(--ink-soft);line-height:1.46}
+.vert ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.vert li{font-size:12px;color:var(--ink-soft);background:color-mix(in srgb,var(--c) 8%,transparent);
+  border:1px solid var(--line);border-radius:8px;padding:4px 9px;line-height:1.2}
+.vert.pending{border-style:dashed}
+.vert.pending .stars{opacity:.45}
+@media(max-width:860px){.verts{grid-template-columns:1fr}}
+
+/* ---------- el mensaje · autoridad ---------- */
+.msg{background:linear-gradient(180deg,color-mix(in srgb,var(--gold) 5%,transparent),transparent 46%)}
+.auth-banner{display:grid;grid-template-columns:1fr auto 1fr;align-items:stretch;gap:14px;margin-top:30px}
+.ab-cell{border:1px solid var(--line);border-radius:16px;padding:18px 22px;background:linear-gradient(160deg,var(--panel),var(--panel-2));display:flex;flex-direction:column;justify-content:center}
+.ab-cell .abk{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;display:flex;align-items:center;gap:7px;margin-bottom:6px}
+.ab-cell b{font-size:clamp(16px,2vw,19px);font-weight:770;letter-spacing:-.01em;color:var(--ink);line-height:1.2}
+.ab-cell.done{border-color:color-mix(in srgb,var(--brand) 32%,var(--line))}
+.ab-cell.done .abk{color:var(--brand)}
+.ab-cell.gap{border-color:color-mix(in srgb,var(--gold) 44%,var(--line));background:linear-gradient(160deg,color-mix(in srgb,var(--gold) 11%,var(--panel)),var(--panel-2))}
+.ab-cell.gap .abk{color:var(--gold)}
+.ab-cell.gap b{color:var(--gold)}
+.ab-arrow{display:grid;place-items:center;font-size:26px;font-weight:800;color:var(--ink-faint)}
+@media(max-width:640px){.auth-banner{grid-template-columns:1fr}.ab-arrow{transform:rotate(90deg)}}
+.msg-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:16px}
+.mcard{position:relative;background:linear-gradient(160deg,var(--panel),var(--panel-2));border:1px solid var(--line);border-radius:16px;
+  padding:20px 18px;overflow:hidden;transition:transform .28s,border-color .28s;--c:var(--brand)}
+.mcard::before{content:"";position:absolute;left:0;top:0;height:3px;width:100%;background:var(--c);opacity:.9}
+.mcard:hover{transform:translateY(-4px);border-color:color-mix(in srgb,var(--c) 40%,var(--line))}
+.mcard .mi{font-size:20px;line-height:1;margin-bottom:9px}
+.mcard h4{font-size:15.5px;font-weight:740;margin:0 0 7px;letter-spacing:-.01em;color:var(--ink)}
+.mcard p{margin:0;font-size:12.8px;color:var(--ink-soft);line-height:1.46}
+.mcard p b{color:var(--c)}
+@media(max-width:860px){.msg-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.msg-grid{grid-template-columns:1fr}}
+
+/* ---------- nota ABM (outbound dirigido) ---------- */
+.abm-note{margin-top:14px;font-size:12.8px;color:var(--ink);line-height:1.5;
+  background:color-mix(in srgb,var(--pink) 9%,var(--panel));border:1px solid color-mix(in srgb,var(--pink) 30%,var(--line));
+  border-left:3px solid var(--pink);border-radius:11px;padding:12px 15px}
+.abm-note .an-k{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--pink);display:block;margin-bottom:5px}
+.abm-note b{color:var(--pink)}
+
 /* reveal */
 .rv{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
 .rv.in{opacity:1;transform:none}
@@ -389,6 +444,44 @@ h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;marg
   </div>
 </header>
 
+<!-- ============ CONTEXTO · PUNTO DE PARTIDA ============ -->
+<section class="band context">
+  <div class="wrap">
+    <span class="kicker">El punto de partida · Por qué ahora</span>
+    <h2 class="sec rv">Foco en tres verticales, validadas de una en una</h2>
+    <p class="sd rv ctx-lead">Dejamos de dispersarnos por todos los sectores. Ponemos el foco en <b>tres verticales con alto potencial de conversión</b> —donde existen más casos de uso y donde nuestros <b>clientes actuales ya validan el encaje</b>: permanecen, convierten y retienen—. No abriremos ninguna vertical nueva hasta consolidar estas. <b>Empezamos por eCommerce</b>; después haremos más push a <b>turismo</b>, donde ya se han arrancado algunas campañas de las que sacaremos aprendizajes; el tercer sector queda pendiente de elegir. Los dos primeros ya están identificados.</p>
+
+    <div class="verts">
+      <div class="vert rv" style="--c:var(--brand)">
+        <div class="vtop"><span class="vnum">Vertical #1</span><span class="vstate">▶ Septiembre · validar</span></div>
+        <h4>🛒 eCommerce</h4>
+        <div class="stars">★★★★★</div>
+        <p>Donde más casos de uso existen. Los clientes actuales ya validan la vertical.</p>
+        <ul><li>Devoluciones y cambios</li><li>Pedidos y logística</li><li>Soporte por WhatsApp</li><li>Picos de volumen</li></ul>
+      </div>
+      <div class="vert rv" style="--c:var(--cyan)">
+        <div class="vtop"><span class="vnum">Vertical #2</span><span class="vstate">Siguiente push</span></div>
+        <h4>✈️ Turismo</h4>
+        <div class="stars">★★★★★</div>
+        <p>Casos como GuruWalk o Waynabox: reservas, cancelaciones y atención multilingüe permanente. Ya hay campañas en marcha de las que sacaremos aprendizajes.</p>
+        <ul><li>Reservas y cancelaciones</li><li>Atención en varios idiomas</li><li>Operación 24/7</li></ul>
+      </div>
+      <div class="vert rv pending" style="--c:var(--purple)">
+        <div class="vtop"><span class="vnum">Vertical #3</span><span class="vstate">Por definir</span></div>
+        <h4>🎯 Por elegir</h4>
+        <div class="stars">★★★★★</div>
+        <p>Se decidirá con los aprendizajes de las dos primeras verticales. Candidatas sobre la mesa dentro de nuestro foco replicable.</p>
+        <ul><li>Fintech</li><li>Logística</li><li>· · ·</li></ul>
+      </div>
+    </div>
+
+    <div class="loop-note rv" style="margin-top:26px">
+      <b>La primera acción es septiembre: validar eCommerce.</b> Toda la compañía empuja en la misma dirección —distintas acciones, un mismo objetivo común y mucho push—. Después <b>medimos resultados y aprendemos del proceso</b> para replicarlo en las siguientes verticales, y cerramos el año con <b>tres sectores validados</b>: cada uno con su ICP, sabiendo qué canales traen negocio y son más rentables y cuáles funcionan como palanca y apoyo.
+      <div class="rep">↻ foco → validar → medir → aprender → replicar</div>
+    </div>
+  </div>
+</section>
+
 <!-- ============ EL WEBINAR ============ -->
 <section class="band webinar">
   <div class="wrap">
@@ -433,6 +526,41 @@ h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;marg
       <div class="xc"><b>Grabar una vez, distribuir muchas</b><span>Clips para LinkedIn, versión on-demand, caso de éxito escrito y píldoras para nurturing.</span></div>
     </div>
     <p class="wb-note rv">Casos y KPIs reales de clientes eCommerce de GuruSup, publicados en la web de casos de éxito.</p>
+  </div>
+</section>
+
+<!-- ============ EL MENSAJE · AUTORIDAD ============ -->
+<section class="band msg" style="padding-top:0">
+  <div class="wrap">
+    <span class="kicker">El mensaje · Lo define Ventas</span>
+    <h2 class="sec rv">De comunicar el producto a generar autoridad</h2>
+    <p class="sd rv">Hoy <b>ya comunicamos bien el producto y sus beneficios</b>. Lo que nos falta es <b>generar autoridad</b> en la vertical: que el mercado nos vea como la referencia en IA para el soporte de eCommerce. Aquí nos tiene que <b>apoyar Ventas</b> — dejar definido, antes del webinar, el arsenal de mensajes que va directo al grano: los dolores reales, los casos de éxito y los KPIs que lo demuestran.</p>
+
+    <div class="auth-banner rv">
+      <div class="ab-cell done"><span class="abk">✓ Ya lo hacemos bien</span><b>Producto + beneficios</b></div>
+      <div class="ab-arrow">→</div>
+      <div class="ab-cell gap"><span class="abk">◎ Lo que nos falta</span><b>Autoridad en la vertical</b></div>
+    </div>
+
+    <div class="msg-grid">
+      <div class="mcard rv" style="--c:var(--pink)">
+        <div class="mi">🎯</div><h4>Puntos de dolor comunes</h4>
+        <p>WISMO, devoluciones, picos de Black Friday, multi-idioma, canales desatendidos. <b>Que cada asistente se sienta identificado</b> en los primeros segundos.</p>
+      </div>
+      <div class="mcard rv" style="--c:var(--brand)">
+        <div class="mi">🏆</div><h4>Casos de éxito</h4>
+        <p>Reveni, GoTrendier, Cocunat. El <b>antes/después real</b> de eCommerce que ya confían en nosotros — prueba más creíble que cualquier discurso.</p>
+      </div>
+      <div class="mcard rv" style="--c:var(--gold)">
+        <div class="mi">📊</div><h4>KPIs que lo prueban</h4>
+        <p>% de automatización, CSAT, first-call-resolution, coste por conversación y SLA. <b>Números verificables</b>, no promesas.</p>
+      </div>
+      <div class="mcard rv" style="--c:var(--cyan)">
+        <div class="mi">💬</div><h4>Mensajes clave</h4>
+        <p>Los 3–4 mensajes que queremos que se lleven: <b>resuelve, no deriva</b> · 6–8× más barato que Zendesk/Fin · multicanal sin un equipo por canal.</p>
+      </div>
+    </div>
+    <p class="wb-note rv">Este arsenal lo aterrizamos con Ventas y queda <b>definido antes de lanzar la campaña</b>.</p>
   </div>
 </section>
 
@@ -515,8 +643,12 @@ h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;marg
           <div class="sub-label">Desglose por área</div>
           <div class="subareas">
             <div class="subarea" style="--sc:var(--teal)"><h5><i></i>Red Comercial</h5><ul><li>Activar la red de contactos de todo el equipo</li><li>Invitaciones directas y mensajes personalizados</li><li>Recuperar oportunidades abiertas y perdidas</li><li>Clientes eCommerce actuales · valor + reactivación</li></ul></div>
-            <div class="subarea" style="--sc:var(--pink)"><h5><i></i>Outbound</h5><ul><li>Apollo → cuentas ABM → Instantly</li><li>Invitación personalizada al webinar</li><li>Registros desde cuentas estratégicas</li></ul></div>
+            <div class="subarea" style="--sc:var(--pink)"><h5><i></i>Outbound · ABM</h5><ul><li>Apollo → 100–150 cuentas ABM (no más) → Instantly</li><li>Cuentas con dolores y casuísticas comunes</li><li>Mensaje dirigido: ven su dolor y a nosotros como partner</li><li>Contenido específico por cuenta · nada masivo</li></ul></div>
             <div class="subarea" style="--sc:var(--indigo)"><h5><i></i>Emails</h5><ul><li>Secuencias de email personalizadas</li><li>Invitación y follow-up</li><li>Seguimiento comercial tras el webinar</li></ul></div>
+          </div>
+          <div class="abm-note">
+            <span class="an-k">◎ Principio del Outbound · ABM selectivo</span>
+            Nada de campañas masivas. Seleccionamos <b>entre 100 y 150 cuentas, no más</b>, que compartan <b>puntos de dolor y casuísticas comunes</b> para que se sientan identificadas. El mensaje es <b>muy dirigido</b>: cada cuenta ve reflejado su dolor y nos ve como un <b>partner que lo resuelve</b>. Campañas <b>sobre cuentas</b>, con contenido específico para ellas.
           </div>
         </div>
       </div>
@@ -574,7 +706,7 @@ h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;marg
         <p class="goal">Llegar a septiembre con la estrategia preparada y validada.</p>
         <ul>
           <li><b>Ventas · propuesta</b>Propuesta de valor eCommerce, dolores clave de clientes ya identificados, diferenciación y guion del webinar (con o sin clientes).</li>
-          <li><b>Ventas · ABM</b>Cuentas objetivo desde Apollo y secuencias en Instantly.</li>
+          <li><b>Ventas · ABM</b>Seleccionar 100–150 cuentas objetivo con dolores comunes desde Apollo y preparar secuencias dirigidas en Instantly.</li>
           <li><b>Marketing · setup</b>GoToWebinar y formulario con propiedades trazadas a HubSpot; medición de los flujos de conversión.</li>
           <li><b>Marketing · plan</b>Propuesta MK4ecommerce (precio, disponibilidad y encaje de ICP), landing y creatividades, contenidos de emails y listas segmentadas de la base.</li>
           <li><b>Paid Media</b>Creatividades, test de mensajes, landing, segmentos, canal, presupuesto y formatos; datos para optimizar septiembre.</li>
