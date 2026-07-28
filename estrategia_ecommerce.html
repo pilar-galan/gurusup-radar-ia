@@ -216,6 +216,21 @@ h2.sec{font-size:clamp(22px,3.2vw,32px);font-weight:600;letter-spacing:-.015em;m
 .roi-note .hl{color:var(--gold);font-weight:750}
 .roi-note p{margin:0 0 .7em}
 .roi-note p:last-child{margin-bottom:0}
+.est-wrap{margin-top:26px;overflow-x:auto;border:1px solid var(--line);border-radius:16px}
+.est{width:100%;border-collapse:collapse;font-size:13.5px;min-width:580px}
+.est thead th{background:color-mix(in srgb,var(--brand) 10%,var(--panel));font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);text-align:left;padding:12px 16px;border-bottom:1px solid var(--line-2)}
+.est thead th:last-child{text-align:right}
+.est tbody td{padding:13px 16px;border-bottom:1px solid var(--line);color:var(--ink-soft);line-height:1.4;vertical-align:top}
+.est tbody tr:last-child td{border-bottom:none}
+.est tbody tr:hover{background:color-mix(in srgb,var(--brand) 5%,transparent)}
+.est .ch-name{color:var(--ink);font-weight:700}
+.est .ch-name b{color:var(--ink)}
+.est td b{color:var(--ink);font-weight:650}
+.est .est-n{text-align:right;font-family:var(--mono);font-weight:700;color:var(--brand);white-space:nowrap;font-size:15px}
+:root[data-theme="light"] .est .est-n{color:var(--brand-deep)}
+.est tfoot td{padding:14px 16px;background:color-mix(in srgb,var(--brand) 12%,var(--panel));font-weight:800;color:var(--ink);border-top:1px solid var(--line-2)}
+.est tfoot .est-n{color:var(--brand);font-size:16px}
+:root[data-theme="light"] .est tfoot .est-n{color:var(--brand-deep)}
 
 .foot{padding:40px 0 70px;text-align:center;color:var(--ink-faint);font-size:13px;font-family:var(--mono);letter-spacing:.06em}
 .foot .rule{height:1px;background:linear-gradient(90deg,transparent,var(--line-2),transparent);margin:0 0 26px}
@@ -852,6 +867,33 @@ h2.sec{font-size:clamp(22px,3.2vw,32px);font-weight:600;letter-spacing:-.015em;m
       <p>Pero esto solo tiene sentido leyéndolo como <b>ingreso recurrente acumulado (LTV a 12–24 meses)</b>, no como una venta puntual del mes: hablamos de 2 clientes que <b>avanzan, retienen y permanecen a largo plazo</b>.</p>
       <p>Y hay que ponderar que, además del gasto en medios, están <b>nuestros recursos, el tiempo y los sueldos</b> del equipo, que también suman al coste real. Por eso la rentabilidad se sostiene en la <span class="hl">permanencia</span>, no en el cierre puntual.</p>
     </div>
+  </div>
+</section>
+
+<!-- ============ ESTIMACIÓN DE RESULTADOS ============ -->
+<section class="band" style="padding-top:0">
+  <div class="wrap">
+    <span class="kicker">Estimación de resultados</span>
+    <h2 class="sec rv">Una referencia, no una promesa</h2>
+    <p class="sd rv">Una estimación <b>muy a ojo</b>, basada en tendencias del sector y del mercado. No es definitiva —puede salir mejor o peor—: al no haber hecho antes acciones así con estos canales, todavía no tenemos datos propios. Sirve como <b>base hacia la que apuntar</b>, y la afinaremos con datos reales una vez definido y accionado.</p>
+    <div class="est-wrap rv">
+      <table class="est">
+        <thead><tr><th>Canal</th><th>Hipótesis</th><th>Registros estimados</th></tr></thead>
+        <tbody>
+          <tr><td class="ch-name">Social Ads</td><td>Inversión de <b>2.500 €</b> · CPL estimado <b>30 €</b></td><td class="est-n">80–85</td></tr>
+          <tr><td class="ch-name">Marketing4eCommerce</td><td>≈30K contactos · OR ≈22% · CTR ≈2% · conversión landing ≈30%</td><td class="est-n">35–45</td></tr>
+          <tr><td class="ch-name">Email GuruSup (eCommerce)*</td><td>Base muy pequeña y todavía no completamente segmentada.</td><td class="est-n">≈5</td></tr>
+          <tr><td class="ch-name">LinkedIn (empresa + Víctor + Sales)</td><td>Difusión orgánica con alcance limitado.</td><td class="est-n">5–10</td></tr>
+          <tr><td class="ch-name">SEO + tráfico web + directo</td><td>Captación orgánica y visitas directas impulsadas por el resto de acciones.</td><td class="est-n">3–5</td></tr>
+        </tbody>
+        <tfoot><tr><td colspan="2">Total estimado de registros</td><td class="est-n">≈ 150</td></tr></tfoot>
+      </table>
+    </div>
+    <div class="ctx-goal rv" style="margin-top:16px">
+      <span class="cg-ic">🎯</span>
+      <p>Objetivo de referencia: <b>≈ 150 registros</b> y una <b>tasa de asistencia del 30–35%</b> (≈ 45–52 asistentes). Con eso ya serían <b>buenos datos</b> para esta primera edición.</p>
+    </div>
+    <p class="wb-note rv">* Cifras orientativas para tener una base; se ajustarán con los datos reales de la campaña.</p>
   </div>
 </section>
 
