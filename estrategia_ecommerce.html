@@ -163,7 +163,7 @@ h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;marg
   border-radius:8px;padding:5px 9px;line-height:1.2}
 .ch .goal-line{margin:13px 0 0;font-size:12.5px;color:var(--ink-soft);font-style:italic;line-height:1.4;border-top:1px dashed var(--line);padding-top:11px}
 .ch.wide{grid-column:span 6}
-.ch.flow-note{grid-column:span 6;background:linear-gradient(165deg,color-mix(in srgb,var(--pink) 10%,var(--panel)),var(--panel-2))}
+.ch.flow-note{grid-column:span 8;background:linear-gradient(165deg,color-mix(in srgb,var(--pink) 10%,var(--panel)),var(--panel-2))}
 @media (max-width:900px){.ch,.ch.wide,.ch.flow-note{grid-column:span 6}}
 @media (max-width:620px){.ch,.ch.wide,.ch.flow-note{grid-column:span 12}}
 
@@ -208,6 +208,12 @@ h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;marg
 .trow .tteam{display:flex;align-items:center;gap:11px;padding:16px 22px;border-right:1px solid var(--line);font-weight:700;font-size:15px}
 .trow .tteam i{width:9px;height:9px;border-radius:50%;background:var(--tc);box-shadow:0 0 10px var(--tc);flex:none}
 .trow .tobj{padding:16px 22px;font-size:14.5px;color:var(--ink-soft);display:flex;align-items:center;line-height:1.42}
+.tobj ul{list-style:none;margin:0;padding:0;display:grid;gap:8px;width:100%}
+.tobj li{position:relative;padding-left:19px;line-height:1.4}
+.tobj li::before{content:"";position:absolute;left:0;top:.52em;width:6px;height:6px;border-radius:50%;background:var(--tc);opacity:.9}
+.tobj li b{color:var(--ink);font-weight:650}
+.trow.tall .tteam{align-items:flex-start;padding-top:18px}
+.trow.tall .tobj{align-items:flex-start;padding-top:16px;padding-bottom:18px}
 @media (max-width:640px){.trow{grid-template-columns:1fr}.trow .tteam{border-right:none;border-bottom:1px solid var(--line);padding-bottom:8px}.trow .tobj{padding-top:8px}}
 
 /* ---------- calendar ---------- */
@@ -274,7 +280,7 @@ h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;marg
       <p>Una <b>campaña única</b> de toda la compañía para <b>validar el vertical eCommerce</b> y convertir demanda cualificada en oportunidades.</p>
     </div>
     <div class="hl-tags">
-      <span>Marketing</span><em>+</em><span>Ventas</span><em>+</em><span>CRM</span><em>+</em><span>Paid Media</span>
+      <span>Marketing</span><em>+</em><span>Ventas</span><em>+</em><span>CRM</span><em>+</em><span>Paid Media</span><em>+</em><span>Clientes</span>
     </div>
     <div class="hl-cards">
       <div class="hlc" style="--c:var(--brand)"><span class="k"><i></i>El eje</span><b>Un <u>webinar</u> especializado en eCommerce</b></div>
@@ -308,14 +314,27 @@ h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;marg
     <h2 class="sec rv">Cada equipo, su pieza del mismo puzzle</h2>
     <p class="sd rv">El mensaje es común y la audiencia es única, pero cada equipo aporta una capacidad distinta. Estos son los ocho compromisos que, sumados, construyen el embudo de principio a fin.</p>
     <div class="teams rv">
-      <div class="trow" style="--tc:var(--brand)"><div class="tteam"><i></i>Marketing</div><div class="tobj">Coordinar la estrategia, crear contenido y maximizar los registros.</div></div>
-      <div class="trow" style="--tc:var(--brand-bright)"><div class="tteam"><i></i>Paid Media</div><div class="tobj">Captar leads optimizando el CPL.</div></div>
-      <div class="trow" style="--tc:var(--purple)"><div class="tteam"><i></i>SEO</div><div class="tobj">Posicionar GuruSup en eCommerce y generar tráfico cualificado.</div></div>
-      <div class="trow" style="--tc:var(--gold)"><div class="tteam"><i></i>CRM</div><div class="tobj">Convertir registros en asistentes mediante automatización y nurturing.</div></div>
+      <div class="trow tall" style="--tc:var(--brand)">
+        <div class="tteam"><i></i>Marketing</div>
+        <div class="tobj"><ul>
+          <li><b>Coordinar la estrategia</b> entre todos los departamentos.</li>
+          <li>Crear el <b>contenido</b> de la campaña y de difusión.</li>
+          <li><b>Maximizar los registros</b> al webinar.</li>
+          <li>Listas <b>segmentadas en CRM</b> para envío de email marketing.</li>
+          <li>Contactar con <b>medios de referencia</b> donde esté nuestro target.</li>
+          <li><b>Testear una base de datos externa</b> con nuestro ICP real y medir resultados.</li>
+          <li><b>Seguimiento pre y post webinar</b> vía automatizaciones para empujar registros y asistencia.</li>
+          <li><b>Scoring</b> de registrados, asistentes y solicitudes de demo, identificados por etapa del funnel.</li>
+          <li>Configurar <b>GoToWebinar</b> y el <b>formulario de registro</b>, integrado con HubSpot.</li>
+        </ul></div>
+      </div>
+      <div class="trow" style="--tc:var(--brand-bright)"><div class="tteam"><i></i>Paid Media</div><div class="tobj">Captar leads optimizando el CPL, aumentar la visibilidad del sector eCommerce y fomentar los registros al contenido de valor.</div></div>
+      <div class="trow" style="--tc:var(--purple)"><div class="tteam"><i></i>SEO</div><div class="tobj">Posicionar GuruSup en eCommerce, generar tráfico cualificado y crear contenido de valor —con opción de artículo en el propio medio del sector para doble push.</div></div>
+      <div class="trow" style="--tc:var(--gold)"><div class="tteam"><i></i>CRM</div><div class="tobj">Calidad del dato, trazabilidad, integración de todos los canales en un mismo sistema y evolución del contacto por el funnel.</div></div>
       <div class="trow" style="--tc:var(--pink)"><div class="tteam"><i></i>Outbound</div><div class="tobj">Generar registros desde cuentas estratégicas mediante Apollo + Instantly.</div></div>
       <div class="trow" style="--tc:var(--blue)"><div class="tteam"><i></i>LinkedIn Orgánico</div><div class="tobj">Generar notoriedad, confianza y tráfico hacia la landing.</div></div>
-      <div class="trow" style="--tc:var(--teal)"><div class="tteam"><i></i>Red Comercial</div><div class="tobj">Activar la red de contactos para aumentar registros y demos.</div></div>
-      <div class="trow" style="--tc:var(--cyan)"><div class="tteam"><i></i>Ventas</div><div class="tobj">Convertir SQL en oportunidades y clientes.</div></div>
+      <div class="trow" style="--tc:var(--teal)"><div class="tteam"><i></i>Red Comercial</div><div class="tobj">Activar la red de contactos para aumentar registros y demos, y compartir el webinar con clientes eCommerce actuales para aportarles valor y reactivar su engagement.</div></div>
+      <div class="trow" style="--tc:var(--cyan)"><div class="tteam"><i></i>Ventas</div><div class="tobj">Tratar los SQL precualificados con especial interés que han solicitado demo, y convertirlos en oportunidades y clientes.</div></div>
     </div>
   </div>
 </section>
@@ -377,6 +396,9 @@ h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;marg
           <li>Definición de propuesta de valor</li>
           <li>Preparación del webinar</li>
           <li>Diseño de la landing</li>
+          <li>Configurar GoToWebinar: alta e integración con HubSpot</li>
+          <li>Pruebas: el formulario de registro vuelca todas las propiedades a HubSpot</li>
+          <li>Confirmar colaboración y fechas con MK4ecommerce</li>
           <li>Test de Paid Media</li>
           <li>Selección de cuentas ABM</li>
           <li>Preparación de secuencias Outbound</li>
@@ -422,38 +444,39 @@ h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;marg
         <div class="top"><span class="cnum">01 · Paid Media</span><span class="budget">1.000 € · Meta Ads</span></div>
         <h4>Paid Media</h4>
         <div class="owner">Captación pagada</div>
-        <ul><li>Captación de leads</li><li>Optimización del CPL</li><li>Remarketing</li></ul>
+        <ul><li>Captación de leads</li><li>Optimización del CPL</li><li>Visibilidad del sector eCommerce</li><li>Registros a contenido de valor</li><li>Remarketing</li></ul>
       </div>
 
       <div class="ch rv" style="--c:var(--cyan)">
         <div class="top"><span class="cnum">02 · MK4ecommerce</span><span class="budget">2.000 € · pendiente</span></div>
         <h4>MK4ecommerce</h4>
         <div class="owner">Medio de comunicación especializado</div>
-        <ul><li>Newsletter exclusiva</li><li>Artículo patrocinado</li><li>Difusión del webinar</li></ul>
-        <p class="goal-line">Llegar a una audiencia altamente cualificada del sector.</p>
+        <ul><li>Newsletter exclusiva</li><li>Artículo patrocinado</li><li>Difusión del webinar</li><li>Follow-up y cualificación de leads</li><li>Sugerencia de contenido</li></ul>
+        <p class="goal-line">Aquí está nuestro ICP de eCommerce y atención al cliente: lo impactamos con enfoque de marketing —contenido, seguimiento y cualificación—, no solo de soporte.</p>
       </div>
 
       <div class="ch rv" style="--c:var(--purple)">
         <div class="top"><span class="cnum">03 · SEO</span></div>
         <h4>SEO y Contenidos</h4>
         <div class="owner">Posicionamiento orgánico</div>
-        <ul><li>Landing del webinar</li><li>Artículo eCommerce</li><li>Guía descargable</li><li>Casos de uso</li><li>Estrategia SEO</li><li>Backlinks</li></ul>
+        <ul><li>Landing del webinar</li><li>Artículo eCommerce</li><li>Contenido de valor</li><li>Guía descargable</li><li>Casos de uso</li><li>Estrategia SEO</li><li>Artículo en medio del sector · doble push</li><li>Backlinks</li></ul>
         <p class="goal-line">Todo el contenido refuerza el posicionamiento de GuruSup en el sector.</p>
       </div>
 
       <div class="ch rv" style="--c:var(--gold)">
         <div class="top"><span class="cnum">04 · CRM</span></div>
         <h4>CRM · HubSpot</h4>
-        <div class="owner">Base de datos & nurturing</div>
-        <ul><li>Email a base segmentada eCommerce</li><li>Invitación y recordatorios</li><li>Lead scoring</li><li>Segmentación</li><li>Nurturing pre y post webinar</li></ul>
+        <div class="owner">Dato único, trazabilidad y funnel</div>
+        <ul><li>Calidad del dato</li><li>Trazabilidad de extremo a extremo</li><li>Integración de todos los canales en un mismo sistema</li><li>Evolución del contacto por el funnel</li></ul>
+        <p class="goal-line">La única fuente de verdad para medir y hacer avanzar cada contacto.</p>
       </div>
 
       <div class="ch rv" style="--c:var(--indigo)">
         <div class="top"><span class="cnum">05 · Marketing Automation</span></div>
         <h4>Marketing Automation</h4>
-        <div class="owner">Journeys automatizados</div>
-        <ul><li>Workflows de nurturing</li><li>Emails automatizados</li><li>Recordatorios del webinar</li><li>Lead scoring por comportamiento</li><li>Sincronización con CRM</li></ul>
-        <p class="goal-line">Convertir registros en asistentes de forma automática y escalable.</p>
+        <div class="owner">Email marketing & seguimiento</div>
+        <ul><li>Email marketing del preevento</li><li>Email marketing del postevento</li><li>Recordatorios del webinar</li><li>Secuencias de seguimiento automatizadas</li></ul>
+        <p class="goal-line">Comunicar antes y después del webinar y empujar la conversión.</p>
       </div>
 
       <div class="ch rv" style="--c:var(--blue)">
@@ -464,21 +487,21 @@ h2.sec{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;marg
         <p class="goal-line">Aumentar alcance, credibilidad y registros.</p>
       </div>
 
+      <div class="ch rv" style="--c:var(--teal)">
+        <div class="top"><span class="cnum">07 · Red Comercial</span></div>
+        <h4>Red Comercial</h4>
+        <div class="owner">La red de contactos de todo el equipo</div>
+        <ul><li>Compartir el webinar</li><li>Invitaciones directas</li><li>Mensajes personalizados</li><li>Recuperar oportunidades abiertas y perdidas</li><li>Clientes eCommerce actuales · valor + reactivación</li><li>Seguimiento tras el webinar</li></ul>
+      </div>
+
       <div class="ch rv flow-note" style="--c:var(--pink)">
-        <div class="top"><span class="cnum">07 · Outbound</span></div>
+        <div class="top"><span class="cnum">08 · Outbound</span></div>
         <h4>Outbound · Ventas</h4>
         <div class="owner">Registros desde cuentas estratégicas</div>
         <div class="flowchips">
           <span>Apollo</span><i>→</i><span>Cuentas ABM</span><i>→</i><span>Instantly</span><i>→</i><span>Invitación personalizada</span><i>→</i><span>Seguimiento</span>
         </div>
         <p class="goal-line">Generar registros desde cuentas estratégicas seleccionadas.</p>
-      </div>
-
-      <div class="ch rv wide" style="--c:var(--teal)">
-        <div class="top"><span class="cnum">08 · Red Comercial</span></div>
-        <h4>Red Comercial</h4>
-        <div class="owner">La red de contactos de todo el equipo</div>
-        <ul><li>Compartir el webinar</li><li>Invitaciones directas</li><li>Mensajes personalizados</li><li>Recuperar oportunidades abiertas y perdidas</li><li>Seguimiento tras el webinar</li></ul>
       </div>
 
     </div>
