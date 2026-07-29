@@ -852,18 +852,34 @@ def main():
     CLIENTES_PL = "724590933"
     CLI_CHURN_STAGES = ("1367778337", "1177859668")   # Churned · Dormidos/Inactivos
     cli_deal_recs = []     # cuentas de cliente activas (empresa única) con su fecha de creación → gráfico evolutivo
+    # Clientes activos = TODO el pipeline "Clientes" que NO esté en churn, incluidos los ganados/cerrados
+    # (hs_is_closed=true con closed_won=true siguen siendo clientes activos). Se hace fetch propio porque
+    # all_deals filtra hs_is_closed=false y dejaba fuera a los clientes ya cerrados como ganados.
+    try:
+        _client_deals_all = fetch_all("deals", [
+            {"propertyName": "pipeline", "operator": "EQ", "value": CLIENTES_PL},
+        ], ["dealname", "dealstage", "createdate", "hs_is_closed", "hs_is_closed_won",
+            "num_associated_contacts", "hs_analytics_source", "hs_analytics_source_data_1"])
+    except Exception as e:
+        print(f"[clientes] error: {e}", file=sys.stderr); _client_deals_all = []
+    for dl in _client_deals_all:
+        p = dl["properties"]
+        if p.get("dealstage") in CLI_CHURN_STAGES:
+            continue
+        # excluir cerrados-perdidos (cerrado y no ganado); los ganados sí cuentan
+        if p.get("hs_is_closed") == "true" and p.get("hs_is_closed_won") != "true":
+            continue
+        clientes_activos += 1
+        cli_deal_recs.append({"created": (p.get("createdate") or "")[:10]})
+        try: _nc = int(p.get("num_associated_contacts") or 0)
+        except (TypeError, ValueError): _nc = 0
+        cli_contactos += _nc
+        if is_marketing(p.get("hs_analytics_source") or "", p.get("hs_analytics_source_data_1") or ""):
+            cli_inb_src += 1; cli_inb_ct += _nc
+        else:
+            cli_out_src += 1; cli_out_ct += _nc
     for dl in all_deals:
         p = dl["properties"]
-        if p.get("pipeline") == CLIENTES_PL and p.get("dealstage") not in CLI_CHURN_STAGES:
-            clientes_activos += 1
-            cli_deal_recs.append({"created": (p.get("createdate") or "")[:10]})
-            try: _nc = int(p.get("num_associated_contacts") or 0)
-            except (TypeError, ValueError): _nc = 0
-            cli_contactos += _nc
-            if is_marketing(p.get("hs_analytics_source") or "", p.get("hs_analytics_source_data_1") or ""):
-                cli_inb_src += 1; cli_inb_ct += _nc
-            else:
-                cli_out_src += 1; cli_out_ct += _nc
         name = clean_deal(p.get("dealname", "—")) or "—"
         if not valid_deal(p.get("dealname", "")):
             continue
