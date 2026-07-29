@@ -83,7 +83,8 @@ h2{font-size:clamp(19px,2.5vw,25px); letter-spacing:-.015em; font-weight:700; ma
 .fcard .fp{font-size:11px; color:var(--accent); font-weight:700; margin-top:3px;}
 .fcard .fp.warn{color:var(--warn);}
 .fcard .fsub{font-size:11px; color:var(--muted); margin-top:6px; padding-top:6px; border-top:1px solid var(--line); line-height:1.3;}
-.farrow{flex:0 0 auto; align-self:center; color:var(--muted); font-size:18px; padding:0 clamp(3px,0.7vw,9px); opacity:.5;}
+.farrow{flex:0 0 auto; align-self:center; display:flex; flex-direction:column; align-items:center; gap:1px; color:var(--muted); font-size:18px; padding:0 clamp(3px,0.7vw,9px); opacity:.55;}
+.farrow small{font-size:8.5px; font-weight:800; letter-spacing:.05em; text-transform:uppercase; color:var(--green); opacity:1;}
 .fcol{flex:0 0 auto; display:flex; flex-direction:column; gap:10px;}
 
 /* Branch tree */
@@ -123,6 +124,21 @@ section{margin-top:clamp(34px,5vw,56px);}
 .vb{font-size:13px; color:var(--ink-2); line-height:1.45; padding-left:19px; position:relative;}
 .vb::before{content:""; position:absolute; left:2px; top:6px; width:7px; height:7px; border-radius:2px; background:var(--accent);}
 .vb b{color:var(--ink); font-weight:700;}
+.sec-desc b{color:var(--ink); font-weight:700;}
+
+/* Process flow (showcase action) */
+.action-intro{margin:-2px 0 18px; font-size:14.5px; color:var(--ink-2); line-height:1.55; max-width:98ch;}
+.action-intro b{color:var(--ink); font-weight:700;}
+.procflow{display:flex; align-items:stretch; gap:0; overflow-x:auto; padding-bottom:2px;}
+.pstep{flex:1 1 0; min-width:150px; background:var(--surface-2); border:1px solid var(--line); border-top:3px solid var(--accent); border-radius:12px; padding:15px 16px; display:flex; flex-direction:column; gap:6px;}
+.pstep.warn{border-top-color:var(--warn);}
+.pstep .pnum{font-size:clamp(22px,2.6vw,30px); font-weight:800; letter-spacing:-.02em; line-height:1; color:var(--accent);}
+.pstep.warn .pnum{color:var(--warn);}
+.pstep .pnum .ppct{font-size:13px; font-weight:600; color:var(--muted); letter-spacing:0;}
+.pstep .pnum.badge{display:inline-block; font-size:12.5px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:var(--green); background:var(--green-soft); border:1px solid var(--line-2); border-radius:999px; padding:5px 12px;}
+.pstep .pttl{font-size:13.5px; font-weight:700; color:var(--ink);}
+.pstep .pdesc{font-size:11.5px; color:var(--muted); line-height:1.42;}
+.parrow{flex:0 0 auto; align-self:center; color:var(--muted); font-size:18px; padding:0 clamp(4px,0.9vw,11px); opacity:.5;}
 
 /* Phases */
 .phases{display:flex; gap:12px; flex-wrap:wrap; margin-top:6px;}
@@ -179,7 +195,9 @@ footer{margin-top:44px; padding-top:20px; border-top:1px solid var(--line); disp
   .values{grid-template-columns:1fr;}
   .lead,.sec-desc,.imp p{text-align:left;}
   .val-bullets{grid-template-columns:1fr;}
-  .tree-bot,.tree-branch{padding-left:0;}
+  .tree-top,.procflow{flex-direction:column; align-items:stretch;}
+  .tree-top .fcol,.pstep{min-width:0;}
+  .farrow,.parrow{transform:rotate(90deg); padding:3px 0;}
 }
 @media print{ body{background:#fff;} .hero,.action,.impact,.val{box-shadow:none;} section{break-inside:avoid;} .rise{animation:none;opacity:1;transform:none;} }
 </style>
@@ -195,29 +213,25 @@ footer{margin-top:44px; padding-top:20px; border-top:1px solid var(--line); disp
     <div class="rule"></div>
 
     <div class="flow-label">El flujo del cliente en julio · limpio de freemium y pruebas</div>
-    <div class="tree">
-      <div class="tree-top">
-        <div class="fcard entry"><div class="fn">250</div><div class="fl">Contactos generados</div><div class="fp">julio · 100%</div></div>
-        <div class="farrow">→</div>
-        <div class="fcol">
-          <div class="fcard"><div class="fn">141</div><div class="fl">Leads</div><div class="fp">56% de contactos</div></div>
-          <div class="fcard acc"><div class="fn">109</div><div class="fl">SQL · intención de ventas</div><div class="fp">44% de contactos</div></div>
-        </div>
+    <div class="tree-top">
+      <div class="fcard entry"><div class="fn">250</div><div class="fl">Contactos generados</div><div class="fp">julio · 100%</div></div>
+      <div class="farrow">→</div>
+      <div class="fcol">
+        <div class="fcard"><div class="fn">141</div><div class="fl">Leads</div><div class="fp">56% de contactos</div></div>
+        <div class="fcard acc"><div class="fn">109</div><div class="fl">SQL · intención de ventas</div><div class="fp">44% de contactos</div></div>
       </div>
-      <div class="tree-branch"><span class="down">↓</span><span class="down-label">de los SQL</span></div>
-      <div class="tree-bot">
-        <div class="fcol">
-          <div class="fcard warn"><div class="fn">51</div><div class="fl">Descartados con motivo</div><div class="fp warn">47% de SQL</div></div>
-          <div class="fcard"><div class="fn">51</div><div class="fl">En tratamiento</div><div class="fp">47% de SQL</div></div>
-          <div class="fcard acc"><div class="fn">2</div><div class="fl">Generaron oportunidad</div><div class="fp">con negocio en pipeline</div></div>
-        </div>
-        <div class="farrow">→</div>
-        <div class="fcard acc"><div class="fn">2</div><div class="fl">Negocios en pipeline</div><div class="fsub">Ole Energía (abierto) · Youtax (perdido)</div></div>
-        <div class="farrow">→</div>
-        <div class="fcard acc"><div class="fn">3</div><div class="fl">Nuevos clientes ganados</div><div class="fsub">julio · 9% de cierre (3 de 33)</div></div>
+      <div class="farrow">→<small>de los SQL</small></div>
+      <div class="fcol">
+        <div class="fcard warn"><div class="fn">51</div><div class="fl">Descartados con motivo</div><div class="fp warn">47% de SQL</div></div>
+        <div class="fcard"><div class="fn">56</div><div class="fl">En tratamiento</div><div class="fp">51% de SQL</div></div>
+        <div class="fcard acc"><div class="fn">2</div><div class="fl">Generaron oportunidad</div><div class="fp">con negocio</div></div>
       </div>
+      <div class="farrow">→</div>
+      <div class="fcard acc"><div class="fn">2</div><div class="fl">Negocios en pipeline</div><div class="fsub">Ole Energía (abierto) · Youtax (perdido)</div></div>
+      <div class="farrow">→</div>
+      <div class="fcard acc"><div class="fn">3</div><div class="fl">Nuevos clientes ganados</div><div class="fsub">Fever/DICE · Brava Nails · Glow White</div></div>
     </div>
-    <p class="flow-note">Generados en julio, sin freemium ni pruebas. % de Lead/SQL sobre el total de contactos; el desglose, sobre SQL. «Oportunidad» = contacto con <b>negocio (deal) asociado en pipeline</b> (no solo etapa). Clientes = negocios <b>ganados</b> en julio; cierre = ganados sobre negocios cerrados en el mes.</p>
+    <p class="flow-note">Generados en julio, sin freemium ni pruebas. De los <b>109 SQL</b>: 51 descartados con motivo (47%) + 56 en tratamiento (51%) + 2 con negocio en pipeline (2%) = 109. «Oportunidad» = contacto con <b>negocio (deal) asociado</b>. Clientes = negocios <b>ganados</b> en julio.</p>
 
     <div class="values">
       <div class="val"><div class="vk">Transversal</div><div class="vt">Un mismo dato para Marketing, Ventas y Customer Success.</div></div>
@@ -231,7 +245,7 @@ footer{margin-top:44px; padding-top:20px; border-top:1px solid var(--line); disp
   <section>
     <div class="sec-head">
       <h2>Acciones de julio y su impacto</h2>
-      <p class="sec-desc">Qué se ejecutó en el CRM y en marketing, y el valor que deja cada acción. Datos en vivo desde HubSpot.</p>
+      <p class="sec-desc">Cada acción del mes convierte <b>actividad de marketing en negocio medible</b>. No perseguimos volumen: construimos un motor de adquisición <b>automatizado, cualificado y transversal</b> que mejora solo con cada iteración. Datos en vivo desde HubSpot.</p>
     </div>
 
     <div class="actions">
@@ -239,27 +253,31 @@ footer{margin-top:44px; padding-top:20px; border-top:1px solid var(--line); disp
       <!-- 1. SQL -->
       <article class="action">
         <span class="tag">Cualificación y descarte de SQL, automatizados</span>
-        <div class="kpis">
-          <div class="kpi"><span class="n acc">109</span><span class="l">SQL generados en julio</span></div>
-          <div class="kpi"><span class="n">51</span><span class="l">descartados con motivo</span><span class="pct">47% de los SQL</span></div>
-          <div class="kpi"><span class="n">34</span><span class="l">por bajo volumen · motivo nº1</span></div>
-          <div class="kpi wide">
-            <details class="opp">
-              <summary><span class="n good">2</span><span class="l">con negocio en pipeline · ver cuáles <span class="caret">▾</span></span></summary>
-              <div class="opp-list">
-                <div class="ol-head">Oportunidades con negocio (deal) asociado</div>
-                <div class="ol"><span class="oc">Ole Energía</span><div class="ol-d"><span class="od">Negocio: Ole Energía</span><span class="ost open">Abierto · Discovery</span></div></div>
-                <div class="ol"><span class="oc">Youtax</span><div class="ol-d"><span class="od">Negocio: Youtax</span><span class="ost lost">Perdido · Closed Lost</span></div></div>
-                <div class="opp-foot">Otros 5 SQL alcanzaron la etapa «oportunidad» sin negocio asociado (en gestión o descartados): Skydive Spain, Cobat Costa Blanca, Delaight, Cerdá Group, COSGS. Snapshot HubSpot 29 jul.</div>
-              </div>
-            </details>
+        <p class="action-intro">Cada SQL es un contacto con <b>intención de compra</b> que pide hablar con ventas. GuruSup los <b>precualifica, descarta y aprende de forma automática</b>: el motor de conversión se afina solo con cada iteración mientras el equipo comercial se centra en cerrar.</p>
+        <div class="procflow">
+          <div class="pstep">
+            <div class="pnum">109</div>
+            <div class="pttl">Intención de compra</div>
+            <div class="pdesc">SQL generados en julio · piden hablar con ventas</div>
           </div>
-        </div>
-        <div class="val-bullets">
-          <div class="vb"><b>SQL = intención de compra.</b> Cada SQL es un contacto que pide hablar con ventas.</div>
-          <div class="vb"><b>Se precualifica y descarta solo.</b> Umbral + IA sobre las transcripciones, sin trabajo manual.</div>
-          <div class="vb"><b>Aprende de cada «no».</b> Cada descarte se etiqueta con su motivo → el filtro mejora con el uso.</div>
-          <div class="vb"><b>Evolución trazada.</b> De SQL a oportunidad, visible en el CRM en vivo.</div>
+          <div class="parrow">→</div>
+          <div class="pstep">
+            <div class="pnum badge">IA</div>
+            <div class="pttl">Se precualifica solo</div>
+            <div class="pdesc">Umbral de consultas + IA sobre las transcripciones, sin trabajo manual</div>
+          </div>
+          <div class="parrow">→</div>
+          <div class="pstep warn">
+            <div class="pnum">51 <span class="ppct">· 47%</span></div>
+            <div class="pttl">Aprende de cada «no»</div>
+            <div class="pdesc">Descartes con motivo documentado (34 por bajo volumen) → el filtro mejora con el uso</div>
+          </div>
+          <div class="parrow">→</div>
+          <div class="pstep acc">
+            <div class="pnum">2 → 3</div>
+            <div class="pttl">Evoluciona y se traza</div>
+            <div class="pdesc">2 oportunidades con negocio → 3 clientes ganados, visibles en el CRM en vivo</div>
+          </div>
         </div>
       </article>
 
