@@ -5,49 +5,49 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>GuruSup · Marketing & CRM · Resultados de julio 2026</title>
 <style>
-/* ============ Tokens ============ */
+/* ============ Tokens (marca GuruSup · verde) ============ */
 :root{
-  --bg:#F4F8F5; --surface:#FFFFFF; --surface-2:#EEF4EF;
+  --bg:#F3F7F4; --surface:#FFFFFF; --surface-2:#EDF3EE;
   --ink:#0C2118; --ink-2:#354A40; --muted:#5E7268;
-  --line:#E0EAE3; --line-2:#D2E1D8;
-  --green:#1C5A43; --green-deep:#0F3B2C; --green-soft:#DCEDE4;
-  --accent:#E4553D; --accent-soft:#FBE7E1;
-  --good:#0F8F54; --good-soft:#DCF0E3;
-  --f1:#DCEDE4; --f2:#A9D2BC; --f3:#5FA982; --f4:#2E7B58; --f5:#0F3B2C;
-  --shadow:0 1px 2px rgba(12,33,24,.04), 0 8px 24px -12px rgba(12,33,24,.14);
-  --radius:16px;
+  --line:#E0EAE3; --line-2:#D0E0D6;
+  --green:#1C5A43; --green-deep:#0F3B2C; --green-soft:#DAEDE2;
+  --accent:#12915C; --accent-soft:#D6F0E1;
+  --good:#12915C; --good-soft:#D6F0E1;
+  --warn:#9C6B12; --warn-soft:#F6EACB;
+  --shadow:0 1px 2px rgba(12,33,24,.04), 0 10px 26px -14px rgba(12,33,24,.16);
+  --radius:18px;
 }
 @media (prefers-color-scheme: dark){
   :root{
-    --bg:#0A1611; --surface:#10241B; --surface-2:#0E1F17;
-    --ink:#E9F4ED; --ink-2:#B9CEC2; --muted:#7F958A;
-    --line:#1D3A2C; --line-2:#254636;
+    --bg:#0A1611; --surface:#11251B; --surface-2:#0E1F17;
+    --ink:#E9F4ED; --ink-2:#B9CEC2; --muted:#809688;
+    --line:#1E3B2D; --line-2:#274838;
     --green:#57E08A; --green-deep:#8CEBB2; --green-soft:#12301F;
-    --accent:#FF7C64; --accent-soft:#2A1712;
-    --good:#57E08A; --good-soft:#123020;
-    --f1:#123522; --f2:#1C5539; --f3:#2E7B58; --f4:#49B37E; --f5:#8CEBB2;
-    --shadow:0 1px 2px rgba(0,0,0,.3), 0 10px 30px -14px rgba(0,0,0,.6);
+    --accent:#57E08A; --accent-soft:#123021;
+    --good:#57E08A; --good-soft:#123021;
+    --warn:#F5B544; --warn-soft:#2C2510;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 12px 32px -16px rgba(0,0,0,.65);
   }
 }
 :root[data-theme="light"]{
-  --bg:#F4F8F5; --surface:#FFFFFF; --surface-2:#EEF4EF;
+  --bg:#F3F7F4; --surface:#FFFFFF; --surface-2:#EDF3EE;
   --ink:#0C2118; --ink-2:#354A40; --muted:#5E7268;
-  --line:#E0EAE3; --line-2:#D2E1D8;
-  --green:#1C5A43; --green-deep:#0F3B2C; --green-soft:#DCEDE4;
-  --accent:#E4553D; --accent-soft:#FBE7E1;
-  --good:#0F8F54; --good-soft:#DCF0E3;
-  --f1:#DCEDE4; --f2:#A9D2BC; --f3:#5FA982; --f4:#2E7B58; --f5:#0F3B2C;
-  --shadow:0 1px 2px rgba(12,33,24,.04), 0 8px 24px -12px rgba(12,33,24,.14);
+  --line:#E0EAE3; --line-2:#D0E0D6;
+  --green:#1C5A43; --green-deep:#0F3B2C; --green-soft:#DAEDE2;
+  --accent:#12915C; --accent-soft:#D6F0E1;
+  --good:#12915C; --good-soft:#D6F0E1;
+  --warn:#9C6B12; --warn-soft:#F6EACB;
+  --shadow:0 1px 2px rgba(12,33,24,.04), 0 10px 26px -14px rgba(12,33,24,.16);
 }
 :root[data-theme="dark"]{
-  --bg:#0A1611; --surface:#10241B; --surface-2:#0E1F17;
-  --ink:#E9F4ED; --ink-2:#B9CEC2; --muted:#7F958A;
-  --line:#1D3A2C; --line-2:#254636;
+  --bg:#0A1611; --surface:#11251B; --surface-2:#0E1F17;
+  --ink:#E9F4ED; --ink-2:#B9CEC2; --muted:#809688;
+  --line:#1E3B2D; --line-2:#274838;
   --green:#57E08A; --green-deep:#8CEBB2; --green-soft:#12301F;
-  --accent:#FF7C64; --accent-soft:#2A1712;
-  --good:#57E08A; --good-soft:#123020;
-  --f1:#123522; --f2:#1C5539; --f3:#2E7B58; --f4:#49B37E; --f5:#8CEBB2;
-  --shadow:0 1px 2px rgba(0,0,0,.3), 0 10px 30px -14px rgba(0,0,0,.6);
+  --accent:#57E08A; --accent-soft:#123021;
+  --good:#57E08A; --good-soft:#123021;
+  --warn:#F5B544; --warn-soft:#2C2510;
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 12px 32px -16px rgba(0,0,0,.65);
 }
 
 *{box-sizing:border-box}
@@ -61,83 +61,42 @@ body{
 .wrap{max-width:1080px; margin:0 auto; padding:clamp(22px,4vw,56px) clamp(18px,4vw,44px) 64px;}
 
 /* ============ Type ============ */
-.eyebrow{font-size:12px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--green); }
-h1{font-size:clamp(30px,5.2vw,52px); line-height:1.04; letter-spacing:-.022em; font-weight:800; margin:.35em 0 .28em; text-wrap:balance;}
+.eyebrow{font-size:12px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--accent);}
+h1{font-size:clamp(31px,5.2vw,54px); line-height:1.03; letter-spacing:-.024em; font-weight:800; margin:.34em 0 .3em; text-wrap:balance;}
 h1 .em{color:var(--accent);}
 h2{font-size:clamp(19px,2.5vw,25px); letter-spacing:-.015em; font-weight:700; margin:0 0 4px; text-wrap:balance;}
-.lead{
-  font-size:clamp(15.5px,1.7vw,18.5px); color:var(--ink-2); max-width:1040px;
-  text-align:justify; text-justify:inter-word; text-wrap:pretty; margin:0;
-}
-.sec-desc{
-  color:var(--muted); font-size:15px; max-width:92ch;
-  text-align:justify; text-justify:inter-word; text-wrap:pretty; margin:2px 0 0;
-}
+.lead{font-size:clamp(15.5px,1.7vw,18px); color:var(--ink-2); max-width:1040px; text-align:justify; text-justify:inter-word; text-wrap:pretty; margin:0;}
+.sec-desc{color:var(--muted); font-size:15px; max-width:92ch; text-align:justify; text-justify:inter-word; text-wrap:pretty; margin:2px 0 0;}
 .kicker{font-size:12px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--muted);}
 
 /* ============ Hero ============ */
-.hero{
-  position:relative; overflow:hidden; border:1px solid var(--line); background:
-   radial-gradient(120% 130% at 100% 0%, var(--green-soft) 0%, transparent 55%),
-   var(--surface);
-  border-radius:var(--radius); padding:clamp(24px,3.4vw,40px); box-shadow:var(--shadow);
-}
-.hero .rule{height:3px; width:64px; background:var(--accent); border-radius:3px; margin-top:20px;}
-.hero-strip{display:flex; flex-wrap:wrap; gap:26px 40px; margin-top:22px;}
-.hs{display:flex; flex-direction:column; gap:2px;}
-.hs .n{font-size:clamp(24px,3vw,34px); font-weight:800; letter-spacing:-.02em; line-height:1;}
-.hs .n.acc{color:var(--accent);}
-.hs .n.pos{color:var(--good);}
-.hs .l{font-size:12.5px; color:var(--muted);}
+.hero{position:relative; overflow:hidden; border:1px solid var(--line);
+  background:radial-gradient(120% 135% at 100% 0%, var(--green-soft) 0%, transparent 52%), var(--surface);
+  border-radius:var(--radius); padding:clamp(24px,3.4vw,42px); box-shadow:var(--shadow);}
+.hero .rule{height:3px; width:64px; background:var(--accent); border-radius:3px; margin:18px 0 4px;}
 
-/* ============ Section frame ============ */
+/* Hero funnel — flujo 360 */
+.flow-label{font-size:12px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--green); margin:26px 0 12px;}
+.flow{display:flex; align-items:flex-end; gap:0; overflow-x:auto; padding-bottom:4px;}
+.fstage{flex:1 1 0; min-width:104px; display:flex; flex-direction:column; gap:8px;}
+.fstage .fbar{height:10px; border-radius:6px; background:var(--surface-2); overflow:hidden;}
+.fstage .ffill{height:100%; border-radius:6px; background:linear-gradient(90deg,var(--green-deep),var(--accent));}
+.fstage .fv{font-size:clamp(26px,3.6vw,40px); font-weight:800; letter-spacing:-.03em; line-height:1; color:var(--ink);}
+.fstage .fk{font-size:12px; color:var(--muted); font-weight:600; line-height:1.25;}
+.fconv{flex:0 0 auto; align-self:center; display:flex; flex-direction:column; align-items:center; gap:1px; padding:0 clamp(4px,1vw,12px); color:var(--muted);}
+.fconv .ar{font-size:15px; line-height:1; opacity:.45;}
+.fconv .pc{font-size:12.5px; font-weight:800; color:var(--accent); font-variant-numeric:tabular-nums;}
+.flow-note{font-size:12px; color:var(--muted); margin:12px 0 0; text-wrap:pretty;}
+
+/* Value strip — transversal / proceso / decisiones / mejoras */
+.values{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-top:24px;}
+.val{border:1px solid var(--line); border-radius:12px; padding:14px 15px; background:var(--surface); border-top:3px solid var(--accent);}
+.val .vk{font-size:10.5px; font-weight:800; letter-spacing:.11em; text-transform:uppercase; color:var(--accent);}
+.val .vt{font-size:13px; color:var(--ink-2); margin-top:5px; line-height:1.4;}
+
+/* ============ Sections ============ */
 section{margin-top:clamp(34px,5vw,56px);}
-.sec-head{display:flex; align-items:baseline; gap:14px; margin-bottom:20px;}
-.sec-head .idx{font-size:13px; font-weight:800; color:var(--green); font-variant-numeric:tabular-nums; padding-top:3px;}
-.sec-head .tt{flex:1; min-width:0;}
-
-/* ============ KPI tiles ============ */
-.tiles{display:grid; grid-template-columns:repeat(3,1fr); gap:14px;}
-.tile{
-  background:var(--surface); border:1px solid var(--line); border-radius:14px;
-  padding:20px 20px 18px; box-shadow:var(--shadow); display:flex; flex-direction:column; gap:7px;
-  position:relative;
-}
-.tile.hlt{border-color:transparent; background:
-   linear-gradient(var(--surface),var(--surface)) padding-box,
-   linear-gradient(120deg,var(--accent),var(--green)) border-box; border:1.5px solid transparent;}
-.tile .metric{font-size:clamp(27px,3.4vw,36px); font-weight:800; letter-spacing:-.022em; line-height:1; color:var(--ink);}
-.tile .metric.acc{color:var(--accent);}
-.tile .cap{font-size:14px; font-weight:700; color:var(--ink);}
-.tile .sub{font-size:12.5px; color:var(--muted); line-height:1.42;}
-.chip{align-self:flex-start; display:inline-flex; align-items:center; gap:5px; font-size:11px; font-weight:700;
-  letter-spacing:.02em; padding:3px 9px; border-radius:999px; background:var(--good-soft); color:var(--good);}
-.chip.up::before{content:"▲"; font-size:8px;}
-.chip.new{background:var(--accent-soft); color:var(--accent);}
-
-/* ============ Funnel ============ */
-.funnel{background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:clamp(18px,2.4vw,26px); box-shadow:var(--shadow);}
-.stages{display:flex; align-items:stretch; gap:0; flex-wrap:nowrap; overflow-x:auto;}
-.stage{flex:1 1 0; min-width:120px; display:flex; flex-direction:column; gap:8px; padding:4px 4px 2px; position:relative;}
-.stage .track{height:9px; border-radius:5px; background:var(--surface-2); overflow:hidden;}
-.stage .fill{height:100%; border-radius:5px; background:linear-gradient(90deg,var(--f4),var(--f3));}
-.stage .v{font-size:clamp(22px,2.8vw,30px); font-weight:800; letter-spacing:-.02em; line-height:1; color:var(--ink);}
-.stage .k{font-size:12px; color:var(--muted); font-weight:600;}
-.conv{flex:0 0 auto; align-self:center; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; padding:0 6px; color:var(--muted);}
-.conv .pc{font-size:13px; font-weight:800; color:var(--green); font-variant-numeric:tabular-nums;}
-.conv .ar{font-size:14px; line-height:1; opacity:.5;}
-.funnel .note{font-size:12px; color:var(--muted); margin:16px 0 0; text-align:justify; text-justify:inter-word; text-wrap:pretty;}
-
-/* ============ Built cards ============ */
-.build{display:grid; grid-template-columns:repeat(2,1fr); gap:14px;}
-.card{background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:22px 22px 20px; box-shadow:var(--shadow);}
-.card h3{margin:0 0 2px; font-size:16.5px; letter-spacing:-.01em; font-weight:700; display:flex; align-items:center; gap:9px;}
-.card h3 .dot{width:9px; height:9px; border-radius:50%; background:var(--green); flex:0 0 auto;}
-.card .tag{font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-bottom:12px; display:block;}
-.card ul{margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:11px;}
-.card li{position:relative; padding-left:22px; font-size:14px; color:var(--ink-2); line-height:1.48;}
-.card li::before{content:""; position:absolute; left:2px; top:8px; width:7px; height:7px; border-radius:2px; background:var(--green-soft); border:1.5px solid var(--green);}
-.card li b{color:var(--ink); font-weight:700;}
+.sec-head{margin-bottom:20px;}
 
 /* ============ Tactical actions + KPIs ============ */
 .actions{display:flex; flex-direction:column; gap:16px;}
@@ -151,11 +110,41 @@ section{margin-top:clamp(34px,5vw,56px);}
 .kpi .n.acc{color:var(--accent);}
 .kpi .n.good{color:var(--good);}
 .kpi .l{font-size:12px; color:var(--muted); max-width:28ch; line-height:1.4;}
+.kpi .pct{font-size:11px; font-weight:400; color:var(--muted); margin-top:2px; opacity:.92;}
+
+/* Opportunity dropdown */
+.kpi.wide{flex:1 1 100%;}
+details.opp{width:100%;}
+details.opp summary{list-style:none; cursor:pointer; display:inline-flex; flex-direction:column; gap:3px;}
+details.opp summary::-webkit-details-marker{display:none;}
+details.opp summary:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:6px;}
+details.opp summary .l{display:inline-flex; align-items:center; gap:6px;}
+.caret{font-size:9px; color:var(--accent); transition:transform .2s ease;}
+details.opp[open] .caret{transform:rotate(180deg);}
+.opp-list{margin-top:15px; padding-top:15px; border-top:1px dashed var(--line-2); display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:10px 18px;}
+.ol-head{grid-column:1/-1; font-size:11px; text-transform:uppercase; letter-spacing:.07em; color:var(--muted); font-weight:700;}
+.ol{display:flex; flex-direction:column; gap:4px; padding:11px 13px; background:var(--surface-2); border:1px solid var(--line); border-radius:11px;}
+.ol-c{font-size:13px;}
+.oc{font-weight:700; color:var(--ink);}
+.oe{display:block; color:var(--muted); font-size:11.5px; word-break:break-all;}
+.ol-d{display:flex; align-items:center; gap:8px; flex-wrap:wrap; font-size:12px; margin-top:1px;}
+.od{color:var(--ink-2);}
+.ost{font-size:10px; font-weight:700; padding:2px 8px; border-radius:999px; white-space:nowrap;}
+.ost.open{background:var(--good-soft); color:var(--good);}
+.ost.lost{background:var(--warn-soft); color:var(--warn);}
+.ost.mgmt{background:var(--surface); color:var(--muted); border:1px solid var(--line-2);}
+.opp-foot{grid-column:1/-1; font-size:11px; color:var(--muted); margin-top:2px;}
+
+/* Fit score signal chips */
+.signals{display:flex; flex-wrap:wrap; gap:9px; margin-top:18px; padding-top:17px; border-top:1px solid var(--line);}
+.sig{font-size:12.5px; font-weight:600; color:var(--ink-2); background:var(--green-soft); border:1px solid var(--line-2); padding:6px 12px; border-radius:999px;}
+.sig b{color:var(--green); font-weight:800;}
+
+/* Note box */
+.notebox{margin-top:16px; font-size:12.5px; color:var(--muted); background:var(--surface-2); border:1px dashed var(--line-2); border-radius:10px; padding:11px 14px; line-height:1.45;}
 
 /* ============ Impact ============ */
-.impact{background:
-   radial-gradient(130% 120% at 0% 0%, var(--green-soft) 0%, transparent 60%),
-   var(--surface); border:1px solid var(--line-2); border-radius:var(--radius); padding:clamp(24px,3.2vw,38px); box-shadow:var(--shadow);}
+.impact{background:radial-gradient(130% 120% at 0% 0%, var(--green-soft) 0%, transparent 58%), var(--surface); border:1px solid var(--line-2); border-radius:var(--radius); padding:clamp(24px,3.2vw,38px); box-shadow:var(--shadow);}
 .impact-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:26px; margin-top:22px;}
 .imp .n{font-size:13px; font-weight:800; color:var(--accent); letter-spacing:.02em;}
 .imp h4{margin:8px 0 6px; font-size:17px; letter-spacing:-.01em; font-weight:700;}
@@ -165,53 +154,66 @@ section{margin-top:clamp(34px,5vw,56px);}
 footer{margin-top:44px; padding-top:20px; border-top:1px solid var(--line); display:flex; flex-wrap:wrap; gap:10px 24px; justify-content:space-between; align-items:center;}
 .brand{display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:-.01em; color:var(--ink);}
 .brand .mk{width:11px; height:11px; border-radius:3px; background:var(--accent); box-shadow:0 0 0 4px var(--green-soft);}
-.foot-note{font-size:12px; color:var(--muted); max-width:62ch; text-align:right; text-wrap:pretty;}
+.foot-note{font-size:12px; color:var(--muted); max-width:64ch; text-align:right; text-wrap:pretty;}
 
 /* ============ Motion / responsive ============ */
 .rise{opacity:0; transform:translateY(10px); animation:rise .6s cubic-bezier(.2,.7,.2,1) forwards;}
-.rise:nth-child(2){animation-delay:.05s}
 @keyframes rise{to{opacity:1; transform:none}}
 @media (prefers-reduced-motion:reduce){ .rise{animation:none; opacity:1; transform:none} }
-
 @media (max-width:820px){
-  .tiles,.build,.impact-grid{grid-template-columns:1fr 1fr;}
+  .values{grid-template-columns:1fr 1fr;}
+  .impact-grid{grid-template-columns:1fr;}
 }
 @media (max-width:640px){
-  .tiles,.build,.impact-grid{grid-template-columns:1fr;}
-  .lead,.sec-desc,.funnel .note,.imp p{text-align:left;}
-  .sec-head{gap:10px;}
+  .values{grid-template-columns:1fr;}
+  .lead,.sec-desc,.action p,.imp p{text-align:left;}
 }
 @media print{
   body{background:#fff;}
-  .hero,.tile,.card,.funnel,.impact{box-shadow:none;}
+  .hero,.action,.impact,.val{box-shadow:none;}
   section{break-inside:avoid;}
   .rise{animation:none; opacity:1; transform:none;}
+  details.opp[open] .opp-list{display:grid;}
 }
 </style>
 </head>
 <body>
 <div class="wrap">
 
-  <!-- HERO -->
+  <!-- HERO · efecto guau + flujo 360 -->
   <header class="hero rise">
     <div class="eyebrow">GuruSup · Marketing &amp; CRM · Julio 2026</div>
-    <h1>De marketing opaco a un <span class="em">motor de captación cualificada</span></h1>
-    <p class="lead">Hasta junio, el CRM tenía objetos en conflicto y sin criterios claros de cualificación. En julio se desplegaron las acciones tácticas de CRM, cualificación y automatización que ordenan el recorrido de marketing y ventas: una sola fuente de verdad, SQL cualificados y descartados de forma automática, y una base de datos más limpia sobre la que construir la analítica de conversión.</p>
+    <h1>De datos dispersos a un <span class="em">flujo 360 del cliente</span></h1>
+    <p class="lead">En julio, el CRM dejó de ser un registro para convertirse en el <b>eje transversal del negocio</b>: un flujo 360 —de contacto a cliente— que <b>Marketing, Ventas y Customer Success</b> leen sobre una única fuente de verdad, con procesos, automatización y decisiones basadas en dato en vivo. Estas son las cifras del mes y lo que las hace posibles.</p>
     <div class="rule"></div>
-    <div class="hero-strip">
-      <div class="hs"><span class="n acc">109</span><span class="l">SQL generados en julio</span></div>
-      <div class="hs"><span class="n pos">47%</span><span class="l">SQL descartados con motivo documentado (IA)</span></div>
-      <div class="hs"><span class="n">33%</span><span class="l">apertura en la reactivación premium</span></div>
+
+    <div class="flow-label">El flujo del cliente en julio</div>
+    <div class="flow">
+      <div class="fstage"><div class="fbar"><div class="ffill" style="width:100%"></div></div><div class="fv">286</div><div class="fk">Contactos</div></div>
+      <div class="fconv"><span class="ar">→</span><span class="pc">52%</span></div>
+      <div class="fstage"><div class="fbar"><div class="ffill" style="width:72%"></div></div><div class="fv">149</div><div class="fk">Leads</div></div>
+      <div class="fconv"><span class="ar">→</span><span class="pc">73%</span></div>
+      <div class="fstage"><div class="fbar"><div class="ffill" style="width:62%"></div></div><div class="fv">109</div><div class="fk">SQL</div></div>
+      <div class="fconv"><span class="ar">→</span><span class="pc">44%</span></div>
+      <div class="fstage"><div class="fbar"><div class="ffill" style="width:41%"></div></div><div class="fv">48</div><div class="fk">Oportunidades</div></div>
+      <div class="fconv"><span class="ar">→</span><span class="pc">29%</span></div>
+      <div class="fstage"><div class="fbar"><div class="ffill" style="width:22%"></div></div><div class="fv">14</div><div class="fk">Clientes</div></div>
+    </div>
+    <p class="flow-note">Entradas por etapa durante julio (todas las vías: inbound, outbound y Brain). Los porcentajes son la tasa de paso entre etapas; la atribución por canal está en fase de cierre.</p>
+
+    <div class="values">
+      <div class="val"><div class="vk">Transversal</div><div class="vt">Un mismo dato para Marketing, Ventas y Customer Success.</div></div>
+      <div class="val"><div class="vk">Proceso</div><div class="vt">Una sola fuente de verdad y automatización con IA.</div></div>
+      <div class="val"><div class="vk">Decisiones</div><div class="vt">Con dato en vivo desde HubSpot, no con intuición.</div></div>
+      <div class="val"><div class="vk">Mejoras</div><div class="vt">Cualificación y descarte automáticos; dato más limpio.</div></div>
     </div>
   </header>
 
   <!-- TACTICAL ACTIONS + KPIs -->
   <section>
     <div class="sec-head">
-      <div class="tt">
-        <h2>Acciones tácticas de julio y su impacto</h2>
-        <p class="sec-desc">Lo que se ejecutó en el CRM y en marketing durante julio, y los KPIs reales que ha dejado cada acción. Datos en vivo desde HubSpot; la atribución y la segmentación por canal están en fase de cierre.</p>
-      </div>
+      <h2>Acciones tácticas de julio y su impacto</h2>
+      <p class="sec-desc">Lo que se ejecutó en el CRM y en marketing durante julio, y los KPIs reales que ha dejado cada acción. Datos en vivo desde HubSpot.</p>
     </div>
 
     <div class="actions">
@@ -221,25 +223,53 @@ footer{margin-top:44px; padding-top:20px; border-top:1px solid var(--line); disp
         <p>Definimos un <b>SQL accionable</b> (umbral de consultas + solicitud de demo), con <b>email de descarte automático</b> para quien no encaja y ruta directa a ventas para quien sí. Un <b>workflow de IA</b> lee las transcripciones de las llamadas, propone el motivo de descarte y lo etiqueta en HubSpot, escalando a ventas ante la duda.</p>
         <div class="kpis">
           <div class="kpi"><span class="n acc">109</span><span class="l">SQL generados en julio</span></div>
-          <div class="kpi"><span class="n">51 · 47%</span><span class="l">descartados con motivo documentado</span></div>
+          <div class="kpi"><span class="n">51</span><span class="l">descartados con motivo documentado</span><span class="pct">47% del total</span></div>
           <div class="kpi"><span class="n">34</span><span class="l">por bajo volumen de consultas · motivo nº1</span></div>
-          <div class="kpi"><span class="n good">7</span><span class="l">evolucionaron a oportunidad</span></div>
+          <div class="kpi wide">
+            <details class="opp">
+              <summary><span class="n good">7</span><span class="l">evolucionaron a oportunidad <span class="caret">▾</span></span></summary>
+              <div class="opp-list">
+                <div class="ol-head">Detalle · empresa · negocio asociado · estado</div>
+                <div class="ol"><div class="ol-c"><span class="oc">Ole Energía</span></div><div class="ol-d"><span class="od">Negocio: Ole Energía</span><span class="ost open">Abierta · Discovery</span></div></div>
+                <div class="ol"><div class="ol-c"><span class="oc">Youtax</span></div><div class="ol-d"><span class="od">Negocio: Youtax</span><span class="ost lost">Descartada · Closed Lost</span></div></div>
+                <div class="ol"><div class="ol-c"><span class="oc">Skydive Spain</span></div><div class="ol-d"><span class="od">Sin negocio asociado</span><span class="ost mgmt">En gestión</span></div></div>
+                <div class="ol"><div class="ol-c"><span class="oc">Cobat Costa Blanca</span></div><div class="ol-d"><span class="od">Sin negocio asociado</span><span class="ost lost">Descartado</span></div></div>
+                <div class="ol"><div class="ol-c"><span class="oc">Delaight</span></div><div class="ol-d"><span class="od">Sin negocio asociado</span><span class="ost mgmt">En gestión</span></div></div>
+                <div class="ol"><div class="ol-c"><span class="oc">Cerdá Group</span></div><div class="ol-d"><span class="od">Sin negocio asociado</span><span class="ost mgmt">En gestión</span></div></div>
+                <div class="ol"><div class="ol-c"><span class="oc">COSGS</span></div><div class="ol-d"><span class="od">Sin negocio asociado</span><span class="ost mgmt">En gestión</span></div></div>
+                <div class="opp-foot">5 en gestión activa (1 con negocio abierto en Discovery) · 2 descartadas · 2 con negocio (deal) creado. Snapshot HubSpot 29 jul.</div>
+              </div>
+            </details>
+          </div>
         </div>
       </article>
 
       <article class="action">
-        <span class="tag">CRM y embudo consolidados en una sola fuente de verdad</span>
-        <p>Unificamos el CRM en un <b>único objeto de contacto</b> con etapas de ciclo de vida (Lead → MQL → SQL → Oportunidad) y retiramos el pipeline duplicado. El <b>embudo queda definido, consolidado y en revisión continua</b>, con HubSpot como fuente única y un diccionario de términos común a toda la empresa.</p>
+        <span class="tag">CRM y flujo 360 consolidados en una sola fuente de verdad</span>
+        <p>Unificamos el CRM en un <b>único objeto de contacto</b> con las etapas del ciclo de vida (Contacto → Lead → MQL → SQL → Oportunidad → Cliente) y retiramos el pipeline duplicado. El <b>flujo queda definido, consolidado y en revisión continua</b>, con HubSpot como fuente única y un diccionario de términos común a toda la empresa — lo que hace el dato utilizable por Marketing, Ventas y CS a la vez.</p>
         <div class="kpis">
           <div class="kpi"><span class="n acc">1</span><span class="l">fuente de verdad · antes 2 objetos en conflicto</span></div>
-          <div class="kpi"><span class="n">4</span><span class="l">etapas de ciclo de vida definidas</span></div>
+          <div class="kpi"><span class="n">6</span><span class="l">etapas del ciclo de vida definidas</span></div>
           <div class="kpi"><span class="n">1 de 109</span><span class="l">SQL llegó vía MQL → foco: captar antes, a mayor intención</span></div>
         </div>
       </article>
 
       <article class="action">
+        <span class="tag">Fit score — cualificar antes incluso de la demo</span>
+        <p>El <b>fit score</b> puntúa a todos los leads y contactos de los que <b>aún no tenemos información y que todavía no han pedido una demo</b>, para saber si encajan con nuestro ICP sin esperar a una conversación de ventas. Combina señales objetivas del contacto y de su empresa, se <b>activa y enriquece de forma automática</b>, y permite priorizar a quién abordar primero. Ya está activo con un primer conjunto de valores clave, que se irá afinando.</p>
+        <div class="signals">
+          <span class="sig">Sector <b>ICP</b> / potencial</span>
+          <span class="sig">Empresa identificada</span>
+          <span class="sig"><b>≥ 3.000</b> consultas/mes</span>
+          <span class="sig"><b>≥ 5</b> personas en soporte</span>
+          <span class="sig">Certificaciones</span>
+          <span class="sig">Email corporativo</span>
+        </div>
+      </article>
+
+      <article class="action">
         <span class="tag">Calidad del dato &amp; cumplimiento</span>
-        <p>Limpiamos el CRM (formularios legacy retirados y contactos sin datos depurados con cada responsable), <b>exigimos email corporativo</b> para planes de pago, redujimos el ruido de contactos no cualificados y añadimos <b>consentimiento (GDPR)</b> y un formulario nativo para Company Brain.</p>
+        <p>Limpiamos el CRM (formularios legacy retirados y contactos sin datos depurados con cada responsable) y establecimos el <b>email corporativo obligatorio en todos los formularios</b>, de modo que todo contacto nuevo entra con empresa identificada. <b>Retiramos el freemium</b> de la estrategia y del proceso comercial, y añadimos <b>consentimiento (GDPR)</b> y un formulario nativo para Company Brain.</p>
         <div class="kpis">
           <div class="kpi"><span class="n">68%</span><span class="l">empresa identificada</span></div>
           <div class="kpi"><span class="n">51%</span><span class="l">email corporativo</span></div>
@@ -248,13 +278,14 @@ footer{margin-top:44px; padding-top:20px; border-top:1px solid var(--line); disp
       </article>
 
       <article class="action">
-        <span class="tag">Reactivación de cuentas premium</span>
-        <p>Secuencia de <b>3 emails</b> (no mailing masivo) a cuentas premium con consentimiento y actividad reciente, con CTA de vuelta a la plataforma. Además, <b>fit score activado</b> con algunos valores clave para que el contacto se enriquezca de forma automática.</p>
+        <span class="tag">Reactivación de cuentas premium &amp; comunicación del cierre del plan gratuito</span>
+        <p>Lanzamos una <b>secuencia de 3 emails</b> (no mailing masivo) a las cuentas premium con consentimiento y actividad reciente, primero para <b>detectar interés real</b> y, después, para <b>comunicar el cierre del plan gratuito</b> — las cuentas gratuitas dejarán de estar disponibles. CTA: volver a la plataforma.</p>
         <div class="kpis">
-          <div class="kpi"><span class="n">315</span><span class="l">cuentas impactadas</span></div>
+          <div class="kpi"><span class="n">315</span><span class="l">cuentas premium impactadas</span></div>
           <div class="kpi"><span class="n acc">33%</span><span class="l">apertura · 81 aperturas reales</span></div>
-          <div class="kpi"><span class="n good">~10</span><span class="l">cuentas reactivadas</span></div>
+          <div class="kpi"><span class="n">10</span><span class="l">clics al CTA · ~12% de las aperturas</span></div>
         </div>
+        <div class="notebox">Reactivaciones confirmadas: en verificación. El detalle nominal por cuenta se etiquetará en HubSpot (propiedad «Reactivación 2026») para poder listarlo aquí de forma auditable.</div>
       </article>
 
     </div>
@@ -264,22 +295,22 @@ footer{margin-top:44px; padding-top:20px; border-top:1px solid var(--line); disp
   <section>
     <div class="impact">
       <div class="kicker">Qué significa para el negocio</div>
-      <h2 style="margin-top:8px;">De acciones sueltas a un motor repetible</h2>
+      <h2 style="margin-top:8px;">Un activo transversal que genera proceso y decisiones</h2>
       <div class="impact-grid">
         <div class="imp">
           <div class="n">01</div>
-          <h4>Base medible instalada</h4>
-          <p>Una sola fuente de verdad y un embudo con etapas definidas y en revisión; la atribución y la segmentación por canal están en fase de cierre.</p>
+          <h4>Transversal y accionable</h4>
+          <p>Un flujo 360 del cliente que Marketing, Ventas y CS comparten sobre una sola fuente de verdad — el dato deja de vivir en silos.</p>
         </div>
         <div class="imp">
           <div class="n">02</div>
-          <h4>Más señal, menos ruido</h4>
-          <p>Cualificación y descarte automatizados: el 47% de los SQL ya se descarta con un motivo documentado, listo para explotar.</p>
+          <h4>Proceso, no heroicidad</h4>
+          <p>Cualificación, descarte y scoring automatizados con IA: el 47% de los SQL ya se descarta con motivo documentado, sin trabajo manual.</p>
         </div>
         <div class="imp">
           <div class="n">03</div>
-          <h4>Motor repetible</h4>
-          <p>Automatización con IA y scoring que enriquece solo, sin depender de esfuerzo manual — escala con el equipo y con la ronda.</p>
+          <h4>Base para escalar</h4>
+          <p>Decisiones con dato en vivo y un motor repetible; sobre esta base se cierra la atribución por canal y se optimiza el CAC.</p>
         </div>
       </div>
     </div>
@@ -287,7 +318,7 @@ footer{margin-top:44px; padding-top:20px; border-top:1px solid var(--line); disp
 
   <footer>
     <div class="brand"><span class="mk"></span> GuruSup</div>
-    <div class="foot-note">Datos en vivo desde HubSpot · julio&nbsp;2026. Atribución y segmentación por canal en fase de cierre. Preparado para la sesión con inversores.</div>
+    <div class="foot-note">Datos en vivo desde HubSpot · julio&nbsp;2026. Flujo por entradas de etapa; atribución y segmentación por canal en fase de cierre. Preparado para la sesión con inversores.</div>
   </footer>
 
 </div>
