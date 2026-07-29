@@ -113,7 +113,12 @@ h2.sec em{font-family:var(--serif);font-style:italic;font-weight:500;color:var(-
 .obj p b{font-weight:600;color:var(--brand-bright);font-style:normal}
 :root[data-theme="light"] .obj p b{color:var(--brand-deep)}
 .obj .osub{font-family:var(--sans);font-size:14.5px;color:var(--ink-soft);margin-top:18px;max-width:52ch;line-height:1.6}
-.obj-viz{position:relative;justify-self:center;width:min(240px,60vw);aspect-ratio:1/1}
+.obj-viz{position:relative;justify-self:center;width:min(240px,60vw);display:flex;flex-direction:column;align-items:center;gap:14px}
+.obj-viz .viz-cap{text-align:center}
+.obj-viz .viz-cap b{display:block;font-family:var(--mono);font-size:22px;font-weight:800;letter-spacing:.18em;color:var(--brand);line-height:1}
+:root[data-theme="light"] .obj-viz .viz-cap b{color:var(--brand-deep)}
+.obj-viz .viz-cap span{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin-top:6px}
+.obj-viz .viz-dial{width:100%;aspect-ratio:1/1;position:relative}
 .obj-viz svg{width:100%;height:100%;overflow:visible}
 .obj-viz .ring{fill:none;stroke:var(--brand);opacity:.28}
 .obj-viz .spoke{stroke:var(--brand);stroke-width:1;opacity:.32;stroke-dasharray:3 7;animation:objdash 3.2s linear infinite}
@@ -356,6 +361,8 @@ h2.sec em{font-family:var(--serif);font-style:italic;font-weight:500;color:var(-
           <p class="osub">Dirigidas únicamente a cuentas de alto valor (ICP). Cada campaña es, además, un experimento: mide el potencial real del sector antes de invertir en escalarlo.</p>
         </div>
         <div class="obj-viz" aria-hidden="true">
+          <div class="viz-cap"><b>ABM</b><span>Account-Based Marketing</span></div>
+          <div class="viz-dial">
           <svg viewBox="0 0 200 200" role="img">
             <circle class="ring" cx="100" cy="100" r="86" stroke-width="1"/>
             <circle class="ring" cx="100" cy="100" r="60" stroke-width="1.2"/>
@@ -376,6 +383,7 @@ h2.sec em{font-family:var(--serif);font-style:italic;font-weight:500;color:var(-
             <circle class="core" cx="100" cy="100" r="9"/>
             <text class="ctxt" x="100" y="128" text-anchor="middle">ICP</text>
           </svg>
+          </div>
         </div>
       </div>
     </div>
