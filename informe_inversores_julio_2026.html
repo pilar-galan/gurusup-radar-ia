@@ -130,7 +130,7 @@ section{margin-top:clamp(34px,5vw,56px);}
 .action-intro{margin:-2px 0 18px; font-size:14.5px; color:var(--ink-2); line-height:1.55; max-width:98ch;}
 .action-intro b{color:var(--ink); font-weight:700;}
 .procflow{display:flex; align-items:stretch; gap:0; overflow-x:auto; padding-bottom:2px;}
-.pstep{flex:1 1 0; min-width:150px; background:var(--surface-2); border:1px solid var(--line); border-top:3px solid var(--accent); border-radius:12px; padding:15px 16px; display:flex; flex-direction:column; gap:6px;}
+.pstep{flex:1 1 0; min-width:140px; background:var(--surface-2); border:1px solid var(--line); border-top:3px solid var(--accent); border-radius:12px; padding:15px 15px; display:flex; flex-direction:column; gap:6px;}
 .pstep.warn{border-top-color:var(--warn);}
 .pstep .pnum{font-size:clamp(22px,2.6vw,30px); font-weight:800; letter-spacing:-.02em; line-height:1; color:var(--accent);}
 .pstep.warn .pnum{color:var(--warn);}
@@ -139,6 +139,19 @@ section{margin-top:clamp(34px,5vw,56px);}
 .pstep .pttl{font-size:13.5px; font-weight:700; color:var(--ink);}
 .pstep .pdesc{font-size:11.5px; color:var(--muted); line-height:1.42;}
 .parrow{flex:0 0 auto; align-self:center; color:var(--muted); font-size:18px; padding:0 clamp(4px,0.9vw,11px); opacity:.5;}
+.farrow.a-low{align-self:flex-end; margin-bottom:26px;}
+.boxrow{display:flex; flex-wrap:wrap; gap:12px;}
+.boxrow .pstep{flex:1 1 210px;}
+/* Lead source */
+.leadsrc{margin-top:18px; padding-top:16px; border-top:1px dashed var(--line-2);}
+.ls-h{font-size:11px; font-weight:800; letter-spacing:.09em; text-transform:uppercase; color:var(--green); margin-bottom:11px;}
+.ls-row{display:grid; grid-template-columns:150px 1fr auto; align-items:center; gap:12px; margin-bottom:7px; font-size:12px;}
+.ls-lbl{color:var(--ink-2); font-weight:600;}
+.ls-bar{background:var(--surface-2); border-radius:5px; height:9px; overflow:hidden;}
+.ls-bar i{display:block; height:100%; background:linear-gradient(90deg,var(--green-deep),var(--accent)); border-radius:5px;}
+.ls-val{color:var(--muted); font-variant-numeric:tabular-nums; white-space:nowrap;}
+.ls-note{font-size:11px; color:var(--muted); margin-top:9px; text-wrap:pretty;}
+@media(max-width:640px){ .ls-row{grid-template-columns:104px 1fr auto; gap:8px;} }
 
 /* Phases */
 .phases{display:flex; gap:12px; flex-wrap:wrap; margin-top:6px;}
@@ -198,6 +211,7 @@ footer{margin-top:44px; padding-top:20px; border-top:1px solid var(--line); disp
   .tree-top,.procflow{flex-direction:column; align-items:stretch;}
   .tree-top .fcol,.pstep{min-width:0;}
   .farrow,.parrow{transform:rotate(90deg); padding:3px 0;}
+  .farrow.a-low{align-self:center; margin-bottom:0;}
 }
 @media print{ body{background:#fff;} .hero,.action,.impact,.val{box-shadow:none;} section{break-inside:avoid;} .rise{animation:none;opacity:1;transform:none;} }
 </style>
@@ -220,18 +234,28 @@ footer{margin-top:44px; padding-top:20px; border-top:1px solid var(--line); disp
         <div class="fcard"><div class="fn">141</div><div class="fl">Leads</div><div class="fp">56% de contactos</div></div>
         <div class="fcard acc"><div class="fn">109</div><div class="fl">SQL · intención de ventas</div><div class="fp">44% de contactos</div></div>
       </div>
-      <div class="farrow">→<small>de los SQL</small></div>
+      <div class="farrow a-low">→<small>de los SQL</small></div>
       <div class="fcol">
         <div class="fcard warn"><div class="fn">51</div><div class="fl">Descartados con motivo</div><div class="fp warn">47% de SQL</div></div>
         <div class="fcard"><div class="fn">56</div><div class="fl">En tratamiento</div><div class="fp">51% de SQL</div></div>
         <div class="fcard acc"><div class="fn">2</div><div class="fl">Generaron oportunidad</div><div class="fp">con negocio</div></div>
       </div>
-      <div class="farrow">→</div>
+      <div class="farrow a-low">→</div>
       <div class="fcard acc"><div class="fn">2</div><div class="fl">Negocios en pipeline</div><div class="fsub">Ole Energía (abierto) · Youtax (perdido)</div></div>
       <div class="farrow">→</div>
       <div class="fcard acc"><div class="fn">3</div><div class="fl">Nuevos clientes ganados</div><div class="fsub">Fever/DICE · Brava Nails · Glow White</div></div>
     </div>
     <p class="flow-note">Generados en julio, sin freemium ni pruebas. De los <b>109 SQL</b>: 51 descartados con motivo (47%) + 56 en tratamiento (51%) + 2 con negocio en pipeline (2%) = 109. «Oportunidad» = contacto con <b>negocio (deal) asociado</b>. Clientes = negocios <b>ganados</b> en julio.</p>
+
+    <div class="leadsrc">
+      <div class="ls-h">Origen de los 141 leads · julio</div>
+      <div class="ls-row"><span class="ls-lbl">Importaciones / Offline</span><span class="ls-bar"><i style="width:100%"></i></span><span class="ls-val">79 · 53%</span></div>
+      <div class="ls-row"><span class="ls-lbl">Paid Social</span><span class="ls-bar"><i style="width:61%"></i></span><span class="ls-val">48 · 32%</span></div>
+      <div class="ls-row"><span class="ls-lbl">Orgánico (búsqueda)</span><span class="ls-bar"><i style="width:15%"></i></span><span class="ls-val">12 · 8%</span></div>
+      <div class="ls-row"><span class="ls-lbl">Directo</span><span class="ls-bar"><i style="width:9%"></i></span><span class="ls-val">7 · 5%</span></div>
+      <div class="ls-row"><span class="ls-lbl">Otros</span><span class="ls-bar"><i style="width:4%"></i></span><span class="ls-val">3 · 2%</span></div>
+      <p class="ls-note">Fuente original (HubSpot). <b>Paid Social es el principal canal de captación real</b>; «Offline» son importaciones y altas vía CRM (incluye pruebas internas). % sobre el total de leads de julio.</p>
+    </div>
 
     <div class="values">
       <div class="val"><div class="vk">Transversal</div><div class="vt">Un mismo dato para Marketing, Ventas y Customer Success.</div></div>
@@ -258,25 +282,31 @@ footer{margin-top:44px; padding-top:20px; border-top:1px solid var(--line); disp
           <div class="pstep">
             <div class="pnum">109</div>
             <div class="pttl">Intención de compra</div>
-            <div class="pdesc">SQL generados en julio · piden hablar con ventas</div>
+            <div class="pdesc">SQL generados en julio · quieren hablar con ventas</div>
           </div>
           <div class="parrow">→</div>
           <div class="pstep">
-            <div class="pnum badge">IA</div>
-            <div class="pttl">Se precualifica solo</div>
-            <div class="pdesc">Umbral de consultas + IA sobre las transcripciones, sin trabajo manual</div>
+            <div class="pnum badge">Formulario</div>
+            <div class="pttl">Precualifica</div>
+            <div class="pdesc">2 criterios: &gt;3.000 consultas/mes · equipo de soporte &gt;5 personas. Cumple → a ventas; si no → descarte.</div>
+          </div>
+          <div class="parrow">→</div>
+          <div class="pstep">
+            <div class="pnum badge">Workflow · IA</div>
+            <div class="pttl">Clasifica el descarte</div>
+            <div class="pdesc">Etiqueta la razón del desplegable; si no encaja, lanza una alerta y propone una categoría nueva — el sistema crece.</div>
           </div>
           <div class="parrow">→</div>
           <div class="pstep warn">
             <div class="pnum">51 <span class="ppct">· 47%</span></div>
-            <div class="pttl">Aprende de cada «no»</div>
-            <div class="pdesc">Descartes con motivo documentado (34 por bajo volumen) → el filtro mejora con el uso</div>
+            <div class="pttl">Aprende de cada razón de descarte</div>
+            <div class="pdesc">Descartes con motivo documentado (34 por bajo volumen). El filtro mejora con cada razón.</div>
           </div>
           <div class="parrow">→</div>
           <div class="pstep acc">
             <div class="pnum">2 → 3</div>
             <div class="pttl">Evoluciona y se traza</div>
-            <div class="pdesc">2 oportunidades con negocio → 3 clientes ganados, visibles en el CRM en vivo</div>
+            <div class="pdesc">2 oportunidades con negocio → 3 clientes ganados, visibles en el CRM en vivo.</div>
           </div>
         </div>
       </article>
@@ -284,67 +314,51 @@ footer{margin-top:44px; padding-top:20px; border-top:1px solid var(--line); disp
       <!-- 2. CRM / flujo 360 -->
       <article class="action">
         <span class="tag">CRM y flujo 360 en consolidación</span>
-        <div class="kpis">
-          <div class="kpi"><span class="n acc">1</span><span class="l">objeto de contacto · antes 2 en conflicto</span></div>
-          <div class="kpi"><span class="n">6</span><span class="l">etapas del ciclo de vida definidas</span></div>
-          <div class="kpi"><span class="n">1 de 109</span><span class="l">SQL llegó vía MQL</span></div>
-        </div>
-        <div class="val-bullets">
-          <div class="vb"><b>Un solo lenguaje.</b> Marketing, Ventas y CS miran el mismo dato, con diccionario común.</div>
-          <div class="vb"><b>Flujo definido y en revisión.</b> De contacto a cliente, sin pipelines duplicados.</div>
-          <div class="vb"><b>Oportunidad de captar antes.</b> Casi ningún SQL pasa hoy por MQL → foco en intención temprana.</div>
-          <div class="vb"><b>Base para medir.</b> Sobre este orden se cierra la atribución por canal.</div>
+        <p class="action-intro">El CRM se consolida como <b>base común</b> para Marketing, Ventas y Customer Success: un mismo dato y un mismo lenguaje, de contacto a cliente.</p>
+        <div class="boxrow">
+          <div class="pstep"><div class="pnum">1</div><div class="pttl">Objeto de contacto único</div><div class="pdesc">Antes 2 objetos en conflicto; ahora una sola fuente.</div></div>
+          <div class="pstep"><div class="pnum">6</div><div class="pttl">Etapas del ciclo de vida</div><div class="pdesc">Contacto → Lead → MQL → SQL → Oportunidad → Cliente.</div></div>
+          <div class="pstep"><div class="pnum badge">En revisión</div><div class="pttl">Flujo consolidado</div><div class="pdesc">Sin pipelines duplicados y con diccionario de términos común a toda la empresa.</div></div>
+          <div class="pstep acc"><div class="pnum badge">Base</div><div class="pttl">Listo para medir</div><div class="pdesc">Sobre este orden se cierra la atribución por canal.</div></div>
         </div>
       </article>
 
       <!-- 3. Fit score -->
       <article class="action">
         <span class="tag">Fit score — cualificar antes incluso de la demo</span>
-        <div class="signals">
-          <span class="sig">Sector <b>ICP</b> / potencial</span>
-          <span class="sig">Empresa identificada</span>
-          <span class="sig"><b>≥ 3.000</b> consultas/mes</span>
-          <span class="sig"><b>≥ 5</b> personas en soporte</span>
-          <span class="sig">Certificaciones</span>
-          <span class="sig">Email corporativo</span>
-        </div>
-        <div class="val-bullets">
-          <div class="vb"><b>Cualifica sin demo.</b> Puntúa el encaje con el ICP antes de que hablen con ventas.</div>
-          <div class="vb"><b>Se enriquece solo.</b> Señales objetivas del contacto y su empresa, en automático.</div>
-          <div class="vb"><b>Prioriza el esfuerzo comercial.</b> Ventas empieza por quien de verdad encaja.</div>
-          <div class="vb"><b>Ya activo.</b> Con un primer conjunto de valores clave, que se irá afinando.</div>
+        <p class="action-intro">Puntúa el <b>encaje con el ICP</b> de todo contacto que aún no ha pedido demo y se <b>enriquece solo</b> — ventas empieza por quien de verdad encaja.</p>
+        <div class="boxrow">
+          <div class="pstep"><div class="pnum badge">Auto</div><div class="pttl">Se activa y enriquece solo</div><div class="pdesc">Señales objetivas del contacto y de su empresa, sin trabajo manual.</div></div>
+          <div class="pstep"><div class="pnum badge">ICP</div><div class="pttl">Encaje antes de la demo</div><div class="pdesc">Sector potencial · empresa · ≥3.000 consultas/mes · ≥5 personas en soporte · certificaciones · email corporativo.</div></div>
+          <div class="pstep acc"><div class="pnum badge">Foco</div><div class="pttl">Prioriza el esfuerzo comercial</div><div class="pdesc">Ventas aborda primero a los de mayor encaje. Ya activo; se irá afinando.</div></div>
         </div>
       </article>
 
       <!-- 4. Calidad del dato -->
       <article class="action">
         <span class="tag">Calidad del dato y cumplimiento</span>
-        <div class="kpis">
-          <div class="kpi"><span class="n">68%</span><span class="l">empresa identificada</span></div>
-          <div class="kpi"><span class="n">51%</span><span class="l">email corporativo</span></div>
-          <div class="kpi"><span class="n">46%</span><span class="l">con teléfono</span></div>
-        </div>
-        <div class="val-bullets">
-          <div class="vb"><b>Email corporativo en todos los formularios.</b> Todo contacto nuevo entra con empresa.</div>
-          <div class="vb"><b>Menos ruido.</b> El freemium sale de la estrategia y del proceso comercial.</div>
-          <div class="vb"><b>CRM depurado.</b> Formularios legacy retirados y contactos sin datos limpiados.</div>
-          <div class="vb"><b>Cumplimiento.</b> Consentimiento (GDPR) y formulario nativo para Company Brain.</div>
+        <p class="action-intro">Datos más limpios y cumplimiento desde el origen: <b>menos ruido, más contactabilidad</b>.</p>
+        <div class="boxrow">
+          <div class="pstep"><div class="pnum">68%</div><div class="pttl">Empresa identificada</div><div class="pdesc">Email corporativo obligatorio en todos los formularios: todo contacto entra con empresa.</div></div>
+          <div class="pstep"><div class="pnum">51%</div><div class="pttl">Email corporativo</div><div class="pdesc">El freemium sale de la estrategia y del proceso comercial.</div></div>
+          <div class="pstep"><div class="pnum">46%</div><div class="pttl">Con teléfono</div><div class="pdesc">CRM depurado: formularios legacy retirados y contactos sin datos limpiados.</div></div>
+          <div class="pstep acc"><div class="pnum badge">GDPR</div><div class="pttl">Cumplimiento</div><div class="pdesc">Consentimiento y formulario nativo para Company Brain.</div></div>
         </div>
       </article>
 
-      <!-- 5. Premium -->
+      <!-- 5. Freemium -->
       <article class="action">
-        <span class="tag">Estrategia premium — de la reactivación a la decisión</span>
+        <span class="tag">Freemium — de la reactivación a la decisión</span>
         <div class="phases">
           <div class="phase">
             <div class="pk">Fase 1 · Reactivación</div>
             <h5>Medimos el interés real</h5>
-            <p>Campaña a las cuentas premium para detectar quién tenía intención de negocio y merecía seguimiento comercial.</p>
+            <p>Campaña a las cuentas gratuitas para detectar quién tenía intención de negocio y merecía seguimiento comercial.</p>
           </div>
           <div class="phase decision">
             <div class="pk">Fase 2 · Decisión</div>
-            <h5>No seguimos apostando por premium</h5>
-            <p>No estaban generando negocio. Se comunica a esas cuentas el <b>fin del plan gratuito</b>: dejará de ser gratuito y se reorienta el foco al proceso de ventas cualificado.</p>
+            <h5>Sacamos el freemium del proceso de ventas</h5>
+            <p>No había intención comercial ni actividad en esas cuentas. Con un margen prudencial, concluimos que el <b>freemium no genera negocio</b>: lo sacamos del proceso de ventas y se comunica a esas cuentas el <b>fin del plan gratuito</b> — dejará de ser gratuito.</p>
           </div>
         </div>
       </article>
