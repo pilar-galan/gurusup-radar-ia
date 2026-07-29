@@ -156,11 +156,17 @@ section{margin-top:clamp(34px,5vw,56px);}
 .phase.decision{border-left-color:var(--warn);}
 .phase.decision .pk{color:var(--warn);}
 .fstack{display:flex; flex-direction:column; gap:12px;}
+.fstack .phase{flex:0 0 auto;}
 .result-callout{display:flex; gap:14px; align-items:center; background:linear-gradient(120deg,var(--green-soft),var(--surface)); border:1px solid var(--line-2); border-left:4px solid var(--accent); border-radius:12px; padding:15px 18px;}
 .result-callout .rc-tag{flex:0 0 auto; font-size:10px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); background:var(--surface); border:1px solid var(--line-2); border-radius:999px; padding:5px 12px; white-space:nowrap;}
 .result-callout p{margin:0; font-size:14px; color:var(--ink); line-height:1.5;}
 .result-callout p b{font-weight:800;}
 @media(max-width:640px){ .result-callout{flex-direction:column; align-items:flex-start; gap:8px;} }
+.phase.prow{display:flex; gap:24px; align-items:center; padding:14px 18px;}
+.phase.prow .prow-head{flex:0 0 232px;}
+.phase.prow .prow-head h5{margin:4px 0 0;}
+.phase.prow p{flex:1;}
+@media(max-width:640px){ .phase.prow{flex-direction:column; align-items:flex-start; gap:7px;} .phase.prow .prow-head{flex:0 0 auto;} }
 
 /* Fit score chips */
 .signals{display:flex; flex-wrap:wrap; gap:9px; margin-top:6px;}
@@ -338,18 +344,16 @@ footer{margin-top:44px; padding-top:20px; border-top:1px solid var(--line); disp
       <article class="action">
         <span class="tag">Freemium — de la reactivación a la decisión</span>
         <div class="fstack">
-          <div class="phase">
-            <div class="pk">Fase 1 · Medición</div>
-            <h5>Medimos interés y uso real</h5>
+          <div class="phase prow">
+            <div class="prow-head"><div class="pk">Fase 1 · Medición</div><h5>Medimos interés y uso real</h5></div>
             <p>Campaña a las cuentas gratuitas para medir la <b>intención de negocio</b> y, sobre todo, la <b>activación y el uso real</b> que se daba a estas cuentas.</p>
           </div>
           <div class="result-callout">
             <span class="rc-tag">↳ Decisión</span>
             <p>Tras ver los resultados —<b>sin intención comercial ni uso real</b>—, dejamos de apostar por estos usuarios en el proceso comercial.</p>
           </div>
-          <div class="phase decision">
-            <div class="pk">Fase 2 · Acción</div>
-            <h5>Sacamos el freemium del proceso de ventas</h5>
+          <div class="phase decision prow">
+            <div class="prow-head"><div class="pk">Fase 2 · Acción</div><h5>Sacamos el freemium del proceso de ventas</h5></div>
             <p>Se retira el freemium del pipeline comercial y se cierra con la <b>comunicación del fin del plan gratuito</b>: las cuentas dejarán de ser gratuitas.</p>
           </div>
         </div>
