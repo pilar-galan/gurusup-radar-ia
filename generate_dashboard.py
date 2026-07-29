@@ -862,6 +862,13 @@ def main():
             "num_associated_contacts", "hs_analytics_source", "hs_analytics_source_data_1"])
     except Exception as e:
         print(f"[clientes] error: {e}", file=sys.stderr); _client_deals_all = []
+    def _cli_norm(n):
+        # normaliza el nombre de cuenta para deduplicar el mismo cliente en varios deals
+        # (p. ej. "Reveni" y "Reveni (Legal)" = misma empresa/facturación → 1 cliente)
+        n = (n or "").lower().strip()
+        n = re.sub(r'\s*\([^)]*\)\s*$', '', n)   # quita sufijo entre paréntesis al final
+        return re.sub(r'\s+', ' ', n).strip()
+    _cli_seen = set()
     for dl in _client_deals_all:
         p = dl["properties"]
         if p.get("dealstage") in CLI_CHURN_STAGES:
@@ -869,6 +876,10 @@ def main():
         # excluir cerrados-perdidos (cerrado y no ganado); los ganados sí cuentan
         if p.get("hs_is_closed") == "true" and p.get("hs_is_closed_won") != "true":
             continue
+        _k = _cli_norm(p.get("dealname"))
+        if _k in _cli_seen:
+            continue   # mismo cliente ya contado (otro departamento/deal)
+        _cli_seen.add(_k)
         clientes_activos += 1
         cli_deal_recs.append({"created": (p.get("createdate") or "")[:10]})
         try: _nc = int(p.get("num_associated_contacts") or 0)
