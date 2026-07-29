@@ -103,16 +103,16 @@ h2.sec em{font-family:var(--serif);font-style:italic;font-weight:500;color:var(-
 .band-num::before{content:"";width:26px;height:1px;background:var(--pc,var(--brand));opacity:.6}
 
 /* ---------- objetivo ---------- */
-.obj{display:grid;grid-template-columns:1.25fr .75fr;gap:clamp(24px,4vw,48px);align-items:center;margin:0 auto;
+.obj{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(20px,3vw,38px);align-items:center;margin:0 auto;
   background:linear-gradient(160deg,color-mix(in srgb,var(--brand) 12%,var(--panel)),var(--panel-2));
-  border:1px solid var(--line-2);border-radius:22px;padding:clamp(30px,5vw,54px);position:relative;overflow:hidden}
+  border:1px solid var(--line-2);border-radius:22px;padding:clamp(24px,3.4vw,40px) clamp(28px,4.5vw,50px);position:relative;overflow:hidden}
 .obj::before{content:"\201C";position:absolute;top:-8px;left:24px;font-family:var(--serif);font-size:150px;color:var(--brand);opacity:.12;line-height:1;z-index:0}
 .obj-tx{position:relative;z-index:1}
 .obj .ok{font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--brand);margin-bottom:18px;display:block}
-.obj p{font-family:var(--serif);font-size:clamp(19px,2.4vw,26px);line-height:1.5;color:var(--ink);margin:0;max-width:34ch;text-wrap:pretty;position:relative}
+.obj p{font-family:var(--serif);font-size:clamp(19px,2.4vw,26px);line-height:1.45;color:var(--ink);margin:0;max-width:42ch;text-wrap:pretty;position:relative}
 .obj p b{font-weight:600;color:var(--brand-bright);font-style:normal}
 :root[data-theme="light"] .obj p b{color:var(--brand-deep)}
-.obj .osub{font-family:var(--sans);font-size:14.5px;color:var(--ink-soft);margin-top:18px;max-width:52ch;line-height:1.6}
+.obj .osub{font-family:var(--sans);font-size:14.5px;color:var(--ink-soft);margin-top:16px;max-width:60ch;line-height:1.55}
 .obj-viz{position:relative;justify-self:center;width:min(240px,60vw);display:flex;flex-direction:column;align-items:center;gap:14px}
 .obj-viz .viz-cap{text-align:center}
 .obj-viz .viz-cap b{display:block;font-family:var(--mono);font-size:22px;font-weight:800;letter-spacing:.18em;color:var(--brand);line-height:1}
