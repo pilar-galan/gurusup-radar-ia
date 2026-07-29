@@ -1,0 +1,663 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Estrategia ABM de GuruSup: validar sectores y generar pipeline cualificado con campañas ultrapersonalizadas a cuentas de alto valor.">
+<title>Estrategia ABM · GuruSup</title>
+<style>
+:root{
+  --bg:#06120d; --bg-2:#0a1f16; --panel:#0d2419; --panel-2:#112a1f;
+  --ink:#eafff4; --ink-soft:#a6c7b7; --ink-faint:#6f9484;
+  --brand:#57e08a; --brand-bright:#7bf0a8; --brand-deep:#2bb673;
+  --gold:#f5b544; --cyan:#5bc8f2; --purple:#c084fc; --pink:#ffa7b6; --blue:#5aa6ff; --teal:#34d399; --indigo:#8b7bf0;
+  --line:rgba(123,240,168,.14); --line-2:rgba(123,240,168,.28);
+  --glow:rgba(87,224,138,.35);
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
+  --mono:"SFMono-Regular",ui-monospace,"JetBrains Mono",Menlo,Consolas,monospace;
+  --shadow:0 24px 60px -30px rgba(0,0,0,.7);
+  --grad-hero:radial-gradient(120% 90% at 50% -10%,rgba(43,182,115,.22),transparent 60%);
+}
+@media (prefers-color-scheme:light){
+  :root{
+    --bg:#eafaf1; --bg-2:#dff5e8; --panel:#ffffff; --panel-2:#f2fbf6;
+    --ink:#0a2016; --ink-soft:#39604e; --ink-faint:#6c8e7c;
+    --brand:#149c5a; --brand-bright:#12b364; --brand-deep:#0e7a45;
+    --gold:#b9791b; --cyan:#1f88b8; --purple:#8a4fc7; --pink:#c65a72; --blue:#2f6fd6; --teal:#0f9d6a; --indigo:#6a55d6;
+    --line:rgba(20,110,64,.16); --line-2:rgba(20,110,64,.3);
+    --glow:rgba(20,156,90,.22);
+    --shadow:0 24px 50px -32px rgba(20,60,40,.4);
+    --grad-hero:radial-gradient(120% 90% at 50% -10%,rgba(20,156,90,.16),transparent 60%);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#06120d; --bg-2:#0a1f16; --panel:#0d2419; --panel-2:#112a1f;
+  --ink:#eafff4; --ink-soft:#a6c7b7; --ink-faint:#6f9484;
+  --brand:#57e08a; --brand-bright:#7bf0a8; --brand-deep:#2bb673;
+  --gold:#f5b544; --cyan:#5bc8f2; --purple:#c084fc; --pink:#ffa7b6; --blue:#5aa6ff; --teal:#34d399; --indigo:#8b7bf0;
+  --line:rgba(123,240,168,.14); --line-2:rgba(123,240,168,.28); --glow:rgba(87,224,138,.35);
+  --shadow:0 24px 60px -30px rgba(0,0,0,.7);
+  --grad-hero:radial-gradient(120% 90% at 50% -10%,rgba(43,182,115,.22),transparent 60%);
+}
+:root[data-theme="light"]{
+  --bg:#eafaf1; --bg-2:#dff5e8; --panel:#ffffff; --panel-2:#f2fbf6;
+  --ink:#0a2016; --ink-soft:#39604e; --ink-faint:#6c8e7c;
+  --brand:#149c5a; --brand-bright:#12b364; --brand-deep:#0e7a45;
+  --gold:#b9791b; --cyan:#1f88b8; --purple:#8a4fc7; --pink:#c65a72; --blue:#2f6fd6; --teal:#0f9d6a; --indigo:#6a55d6;
+  --line:rgba(20,110,64,.16); --line-2:rgba(20,110,64,.3); --glow:rgba(20,156,90,.22);
+  --shadow:0 24px 50px -32px rgba(20,60,40,.4);
+  --grad-hero:radial-gradient(120% 90% at 50% -10%,rgba(20,156,90,.16),transparent 60%);
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation-duration:.001ms!important;transition-duration:.001ms!important}}
+.mk{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.wrap{max-width:1180px;margin:0 auto;padding:0 clamp(18px,4vw,40px)}
+.mk section{position:relative}
+.mk h1,.mk h2,.mk h3,.mk h4,.mk h5,.mk p,.mk ul{margin:0}
+
+/* ---------- type ---------- */
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--brand);display:inline-flex;align-items:center;gap:.6em}
+.kicker::before{content:"";width:26px;height:1px;background:var(--brand);opacity:.6}
+h2.sec{font-size:clamp(24px,3.6vw,38px);font-weight:800;letter-spacing:-.02em;margin:.42em 0 .3em;text-wrap:balance;line-height:1.06}
+h2.sec em{font-family:var(--serif);font-style:italic;font-weight:500;color:var(--brand-bright)}
+:root[data-theme="light"] h2.sec em{color:var(--brand-deep)}
+.sd{color:var(--ink-soft);font-size:clamp(15px,1.5vw,17px);text-wrap:pretty;line-height:1.62;max-width:92ch;text-align:justify;text-justify:inter-word}
+@media (max-width:640px){.sd{text-align:left}}
+.shead{text-align:center;max-width:920px;margin:0 auto}
+.shead .kicker{justify-content:center}
+.shead .sd{max-width:78ch;margin:0 auto}
+
+/* ---------- theme toggle ---------- */
+.themebtn{position:fixed;top:16px;right:16px;z-index:50;width:42px;height:42px;border-radius:50%;border:1px solid var(--line-2);
+  background:color-mix(in srgb,var(--panel) 80%,transparent);backdrop-filter:blur(8px);color:var(--ink);cursor:pointer;font-size:17px;
+  display:grid;place-items:center;transition:transform .3s,border-color .3s}
+.themebtn:hover{transform:rotate(20deg) scale(1.05);border-color:var(--brand)}
+.themebtn:focus-visible{outline:2px solid var(--brand);outline-offset:3px}
+
+/* ---------- hero ---------- */
+.hero{padding:clamp(34px,6vh,74px) 0 clamp(20px,3vh,34px);background:var(--grad-hero);text-align:center;overflow:hidden}
+.hero .kicker{justify-content:center}
+.hero h1{font-size:clamp(30px,5.2vw,56px);font-weight:850;letter-spacing:-.035em;line-height:1;margin:.3em auto .34em;max-width:17ch;text-wrap:balance}
+.hero h1 em{font-family:var(--serif);font-style:italic;font-weight:500;color:var(--brand-bright)}
+:root[data-theme="light"] .hero h1 em{color:var(--brand-deep)}
+.hero .lede{max-width:1000px;margin:22px auto 0;font-size:clamp(16px,1.85vw,19px);color:var(--ink-soft);text-align:justify;text-justify:inter-word;text-wrap:pretty;line-height:1.62}
+.hero .lede b{color:var(--ink);font-weight:650}
+@media (max-width:640px){.hero .lede{text-align:left}}
+.hcards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;max-width:920px;margin:34px auto 0;text-align:left}
+.hlc{background:linear-gradient(160deg,var(--panel),var(--panel-2));border:1px solid var(--line);border-radius:14px;padding:18px 18px 19px;position:relative;overflow:hidden;transition:transform .28s,border-color .28s;--c:var(--brand)}
+.hlc::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--c);opacity:.9}
+.hlc:hover{transform:translateY(-4px);border-color:color-mix(in srgb,var(--c) 42%,var(--line))}
+.hlc .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--c);display:flex;align-items:center;gap:7px;margin-bottom:11px}
+.hlc .k i{width:6px;height:6px;border-radius:50%;background:var(--c);box-shadow:0 0 8px var(--c);flex:none}
+.hlc b{font-size:16px;font-weight:700;line-height:1.32;color:var(--ink);letter-spacing:-.01em;display:block}
+.hlc b u{text-decoration:none;color:var(--c);font-weight:800}
+@media(max-width:720px){.hcards{grid-template-columns:1fr;max-width:460px}}
+.htags{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px;margin:28px auto 0}
+.htags span{font-family:var(--mono);font-size:12px;letter-spacing:.05em;color:var(--ink-soft);background:color-mix(in srgb,var(--brand) 10%,transparent);border:1px solid var(--line);border-radius:999px;padding:6px 13px}
+.htags i{color:var(--brand);font-style:normal;font-weight:800;font-size:13px}
+
+/* ---------- bands ---------- */
+.band{padding:clamp(50px,8.5vh,86px) 0}
+.band.alt{background:linear-gradient(180deg,var(--bg-2),transparent 60%)}
+.band-num{font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--pc,var(--brand));display:inline-flex;align-items:center;gap:.6em}
+.band-num::before{content:"";width:26px;height:1px;background:var(--pc,var(--brand));opacity:.6}
+
+/* ---------- objetivo ---------- */
+.obj{margin:0 auto;background:linear-gradient(160deg,color-mix(in srgb,var(--brand) 12%,var(--panel)),var(--panel-2));
+  border:1px solid var(--line-2);border-radius:22px;padding:clamp(30px,5vw,54px);position:relative;overflow:hidden}
+.obj::before{content:"\201C";position:absolute;top:-8px;left:24px;font-family:var(--serif);font-size:150px;color:var(--brand);opacity:.12;line-height:1}
+.obj .ok{font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--brand);margin-bottom:18px;display:block}
+.obj p{font-family:var(--serif);font-size:clamp(19px,2.5vw,27px);line-height:1.5;color:var(--ink);margin:0;max-width:32ch;text-wrap:pretty;position:relative}
+.obj p b{font-weight:600;color:var(--brand-bright);font-style:normal}
+:root[data-theme="light"] .obj p b{color:var(--brand-deep)}
+.obj .osub{font-family:var(--sans);font-size:15px;color:var(--ink-soft);margin-top:20px;max-width:60ch;line-height:1.6}
+
+/* ---------- principios ---------- */
+.prin-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin-top:34px}
+.prin{background:linear-gradient(160deg,var(--panel),var(--panel-2));border:1px solid var(--line);border-radius:14px;padding:20px;transition:transform .28s,border-color .28s;--c:var(--brand)}
+.prin:hover{transform:translateY(-3px);border-color:color-mix(in srgb,var(--c) 40%,var(--line))}
+.prin .phd{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.prin .pn{font-family:var(--mono);font-size:12px;color:var(--c);letter-spacing:.1em}
+.prin .pico{width:22px;height:22px;stroke:var(--c);stroke-width:1.7;fill:none;stroke-linecap:round;stroke-linejoin:round;opacity:.9}
+.prin h4{font-size:16px;font-weight:720;letter-spacing:-.01em;margin:.5em 0 .3em}
+.prin p{font-size:13px;color:var(--ink-soft);line-height:1.45}
+@media(max-width:860px){.prin-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.prin-grid{grid-template-columns:1fr}}
+
+/* ---------- fase header ---------- */
+.fase-h{display:flex;align-items:flex-start;gap:18px;max-width:920px}
+.fase-h .fbadge{flex:none;width:60px;height:60px;border-radius:16px;display:grid;place-items:center;position:relative;
+  background:color-mix(in srgb,var(--pc) 15%,transparent);border:1px solid color-mix(in srgb,var(--pc) 40%,var(--line));
+  box-shadow:0 0 30px -8px color-mix(in srgb,var(--pc) 60%,transparent)}
+.fase-h .fbadge b{font-family:var(--mono);font-size:22px;font-weight:800;color:var(--pc);line-height:1}
+.fase-h .fbadge span{position:absolute;top:6px;right:8px;font-family:var(--mono);font-size:8px;letter-spacing:.12em;color:var(--pc);opacity:.7}
+.fase-h .ft b{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--pc);margin-bottom:4px}
+.fase-h .ft h2{font-size:clamp(22px,3.2vw,32px);font-weight:800;letter-spacing:-.02em;line-height:1.08;color:var(--ink)}
+.fase-h .ft h2 em{font-family:var(--serif);font-style:italic;font-weight:500;color:var(--pc)}
+.fase-lead{max-width:88ch;color:var(--ink-soft);font-size:clamp(15px,1.5vw,16.5px);line-height:1.6;margin-top:16px}
+.fase-lead b{color:var(--ink);font-weight:650}
+
+/* result chip */
+.result{display:inline-flex;align-items:center;gap:10px;margin-top:22px;padding:11px 16px 11px 13px;border-radius:12px;
+  background:color-mix(in srgb,var(--pc) 12%,var(--panel));border:1px solid color-mix(in srgb,var(--pc) 34%,var(--line))}
+.result .rk{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--pc);flex:none}
+.result b{font-size:14px;font-weight:700;color:var(--ink);letter-spacing:-.01em}
+.result .rdot{width:8px;height:8px;border-radius:50%;background:var(--pc);box-shadow:0 0 10px var(--pc);flex:none}
+
+/* ---------- ICP dial (fase 1) ---------- */
+.icp{display:grid;grid-template-columns:1.05fr 1fr;gap:24px;margin-top:34px;align-items:center}
+.icp-dims{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.dim{background:linear-gradient(160deg,var(--panel),var(--panel-2));border:1px solid var(--line);border-left:3px solid var(--pc);border-radius:12px;padding:14px 15px}
+.dim .dl{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--pc);display:block;margin-bottom:5px}
+.dim b{font-size:14px;font-weight:680;color:var(--ink);letter-spacing:-.01em;line-height:1.25}
+.expand{background:linear-gradient(160deg,var(--panel),var(--panel-2));border:1px solid var(--line);border-radius:18px;padding:24px}
+.expand .eh{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--pc);margin-bottom:18px}
+.exp-flow{display:flex;flex-direction:column;gap:0}
+.exp-step{display:flex;gap:14px;align-items:flex-start;position:relative;padding-bottom:20px}
+.exp-step:last-child{padding-bottom:0}
+.exp-step:not(:last-child)::before{content:"";position:absolute;left:15px;top:32px;bottom:0;width:2px;background:linear-gradient(180deg,var(--pc),var(--line-2));opacity:.5}
+.exp-step .en{flex:none;width:32px;height:32px;border-radius:9px;display:grid;place-items:center;font-family:var(--mono);font-size:13px;font-weight:700;color:var(--pc);background:color-mix(in srgb,var(--pc) 14%,transparent);border:1px solid color-mix(in srgb,var(--pc) 34%,transparent)}
+.exp-step .et b{display:block;font-size:15px;font-weight:700;color:var(--ink);margin-bottom:3px;letter-spacing:-.01em}
+.exp-step .et span{font-size:13px;color:var(--ink-soft);line-height:1.45}
+.exp-step .et span u{text-decoration:none;color:var(--pc);font-weight:700}
+@media(max-width:820px){.icp{grid-template-columns:1fr}}
+@media(max-width:460px){.icp-dims{grid-template-columns:1fr}}
+
+/* ---------- tool chain (fase 2) ---------- */
+.chain{display:grid;grid-template-columns:1.15fr .85fr;gap:22px;margin-top:34px;align-items:stretch}
+.chain-flow{display:flex;flex-direction:column;gap:12px}
+.tool{display:flex;align-items:center;gap:16px;background:linear-gradient(100deg,color-mix(in srgb,var(--tc) 14%,var(--panel)),var(--panel));
+  border:1px solid color-mix(in srgb,var(--tc) 32%,var(--line));border-radius:14px;padding:16px 18px;position:relative;--tc:var(--pc)}
+.tool .tnum{flex:none;font-family:var(--mono);font-size:11px;font-weight:700;color:var(--tc);letter-spacing:.1em;width:34px}
+.tool .tbody b{display:block;font-size:16px;font-weight:750;color:var(--ink);letter-spacing:-.01em}
+.tool .tbody span{font-size:13px;color:var(--ink-soft);line-height:1.4}
+.tool .tpill{margin-left:auto;flex:none;font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--tc);
+  background:color-mix(in srgb,var(--tc) 15%,transparent);border:1px solid color-mix(in srgb,var(--tc) 34%,transparent);border-radius:999px;padding:5px 11px;white-space:nowrap}
+.chain-arrow{text-align:center;color:var(--pc);font-size:15px;line-height:0;margin:-4px 0}
+.clean{background:linear-gradient(160deg,var(--panel),var(--panel-2));border:1px solid var(--line);border-radius:18px;padding:22px 24px}
+.clean .ch2{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--pc);margin-bottom:6px;display:flex;align-items:center;gap:.6em}
+.clean .ctitle{font-size:16px;font-weight:730;color:var(--ink);margin-bottom:16px;letter-spacing:-.01em}
+.clean ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+.clean li{display:flex;align-items:center;gap:11px;font-size:14px;color:var(--ink-soft)}
+.clean li .x{flex:none;width:22px;height:22px;border-radius:7px;display:grid;place-items:center;color:var(--pink);
+  background:color-mix(in srgb,var(--pink) 14%,transparent);border:1px solid color-mix(in srgb,var(--pink) 32%,transparent);font-weight:800;font-size:12px}
+@media(max-width:820px){.chain{grid-template-columns:1fr}}
+
+/* ---------- outbound engine (fase 3) ---------- */
+.eng-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:34px}
+.emet{background:linear-gradient(160deg,var(--panel),var(--panel-2));border:1px solid var(--line);border-top:3px solid var(--pc);border-radius:14px;padding:20px 18px;text-align:center}
+.emet .ev{font-size:clamp(26px,3.6vw,34px);font-weight:850;letter-spacing:-.03em;color:var(--pc);font-variant-numeric:tabular-nums;line-height:1}
+.emet .el{font-size:12.5px;color:var(--ink-soft);margin-top:9px;line-height:1.3}
+.emet.dom .ev{font-size:clamp(17px,2.2vw,21px)}
+@media(max-width:720px){.eng-metrics{grid-template-columns:1fr 1fr}}
+.seq-label{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--pc);margin:36px 0 4px;display:flex;align-items:center;gap:.7em}
+.seq-label::before{content:"";width:26px;height:1px;background:var(--pc);opacity:.6}
+.seq-note{font-size:14px;color:var(--ink-soft);margin:6px 0 20px;line-height:1.55}
+.seq-note b{color:var(--ink);font-weight:650}
+.seq{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
+.seqc{background:linear-gradient(165deg,var(--panel),var(--panel-2));border:1px solid var(--line);border-radius:14px;padding:16px 14px 17px;position:relative;overflow:hidden;transition:transform .28s,border-color .28s}
+.seqc::before{content:"";position:absolute;left:0;top:0;height:3px;width:100%;background:var(--pc);opacity:.85}
+.seqc:hover{transform:translateY(-4px);border-color:color-mix(in srgb,var(--pc) 40%,var(--line))}
+.seqc .sn{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--pc);letter-spacing:.08em}
+.seqc .semail{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin:2px 0 10px}
+.seqc b{font-size:14px;font-weight:700;color:var(--ink);letter-spacing:-.01em;line-height:1.25;display:block}
+@media(max-width:900px){.seq{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:520px){.seq{grid-template-columns:1fr 1fr}}
+
+/* ---------- content pillars (fase 4) ---------- */
+.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:34px}
+.pillar{background:linear-gradient(160deg,var(--panel),var(--panel-2));border:1px solid var(--line);border-radius:18px;padding:22px 22px 24px;position:relative;overflow:hidden;transition:transform .28s,border-color .28s;--c:var(--pc)}
+.pillar::before{content:"";position:absolute;left:0;top:0;height:3px;width:100%;background:var(--c);opacity:.9}
+.pillar:hover{transform:translateY(-4px);border-color:color-mix(in srgb,var(--c) 42%,var(--line))}
+.pillar .pk{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--c);display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.pillar .pk svg{width:18px;height:18px;stroke:var(--c);stroke-width:1.7;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.pillar ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.pillar li{font-size:13.5px;color:var(--ink-soft);padding-left:18px;position:relative;line-height:1.4}
+.pillar li::before{content:"";position:absolute;left:0;top:.5em;width:6px;height:6px;border-radius:2px;background:var(--c);opacity:.9}
+.pillar li b{color:var(--ink);font-weight:650}
+@media(max-width:820px){.pillars{grid-template-columns:1fr}}
+.perso{margin-top:16px;display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:center;
+  background:linear-gradient(160deg,color-mix(in srgb,var(--pc) 9%,var(--panel)),var(--panel-2));border:1px solid var(--line-2);border-radius:18px;padding:22px 26px}
+.perso .pvars{display:flex;flex-wrap:wrap;gap:8px}
+.perso .pvars span{font-family:var(--mono);font-size:12px;color:var(--ink);background:color-mix(in srgb,var(--pc) 14%,transparent);border:1px solid color-mix(in srgb,var(--pc) 30%,var(--line));border-radius:999px;padding:6px 13px}
+.perso .pvars span.dyn{color:var(--pc);font-weight:700}
+.perso .ptx b{font-size:15px;font-weight:750;color:var(--ink);display:block;margin-bottom:6px}
+.perso .ptx p{font-size:13.5px;color:var(--ink-soft);line-height:1.5}
+.perso .ptx p em{font-style:italic;color:var(--pc);font-family:var(--serif);font-size:15px}
+@media(max-width:720px){.perso{grid-template-columns:1fr}}
+
+/* ---------- funnel (fase 5) ---------- */
+.funnel{margin-top:34px;display:flex;flex-direction:column;gap:11px}
+.fstage{position:relative;margin:0 auto;border-radius:14px;padding:16px 22px;display:grid;grid-template-columns:auto minmax(0,1fr) 220px;align-items:center;gap:16px;
+  background:linear-gradient(100deg,color-mix(in srgb,var(--fc) 20%,var(--panel)),var(--panel));border:1px solid color-mix(in srgb,var(--fc) 38%,var(--line));transition:transform .25s}
+.fstage:hover{transform:scale(1.012)}
+.fstage .st-badge{flex:none;width:44px;height:44px;border-radius:11px;display:grid;place-items:center;font-family:var(--mono);font-size:12px;font-weight:800;letter-spacing:.04em;color:var(--fc);background:color-mix(in srgb,var(--fc) 16%,transparent);border:1px solid color-mix(in srgb,var(--fc) 36%,transparent)}
+.fstage .st-name b{font-size:17px;font-weight:780;letter-spacing:-.01em;color:var(--ink);display:block}
+.fstage .st-name em{font-style:normal;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--fc)}
+.fstage .st-def{font-size:13.5px;color:var(--ink-soft);text-align:left;line-height:1.4}
+.fstage .st-side{text-align:right}
+.fstage .st-side .kpi{font-size:11.5px;font-family:var(--mono);color:var(--fc);font-weight:600;line-height:1.6}
+.fstage .st-side .kpi small{color:var(--ink-faint);font-weight:400}
+.fn-conn{text-align:center;color:var(--ink-faint);font-size:14px;line-height:0}
+@media (max-width:720px){.fstage{grid-template-columns:auto 1fr;gap:10px 14px;padding:14px 16px;width:100%!important}.fstage .st-def{grid-column:1/-1}.fstage .st-side{grid-column:1/-1;text-align:left}}
+
+/* precualificación gate */
+.gate{margin-top:20px;display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:center;
+  background:linear-gradient(160deg,color-mix(in srgb,var(--gold) 11%,var(--panel)),var(--panel-2));border:1px solid color-mix(in srgb,var(--gold) 40%,var(--line));border-radius:18px;padding:22px 26px}
+.gate .gicon{flex:none;width:46px;height:46px;border-radius:12px;display:grid;place-items:center;color:var(--gold);background:color-mix(in srgb,var(--gold) 16%,transparent);border:1px solid color-mix(in srgb,var(--gold) 36%,transparent)}
+.gate .gicon svg{width:24px;height:24px;stroke:currentColor;stroke-width:1.7;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.gate .gk{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;display:block}
+.gate .gcrit{display:flex;flex-wrap:wrap;gap:9px}
+.gate .gcrit span{font-size:13.5px;color:var(--ink);background:color-mix(in srgb,var(--gold) 12%,transparent);border:1px solid color-mix(in srgb,var(--gold) 30%,var(--line));border-radius:10px;padding:8px 13px}
+.gate .gcrit b{color:var(--gold);font-weight:750}
+.gate .gnote{font-size:12.5px;color:var(--ink-soft);margin-top:11px;font-style:italic}
+@media(max-width:640px){.gate{grid-template-columns:1fr}}
+
+/* ---------- loop (fase 6) ---------- */
+.loop{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:34px}
+.lstep{position:relative;background:linear-gradient(160deg,var(--panel),var(--panel-2));border:1px solid var(--line);border-radius:16px;padding:20px 18px;--c:var(--pc);transition:transform .28s,border-color .28s}
+.lstep:hover{transform:translateY(-4px);border-color:color-mix(in srgb,var(--c) 40%,var(--line))}
+.lstep .ln{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-family:var(--mono);font-size:13px;font-weight:700;color:var(--c);background:color-mix(in srgb,var(--c) 14%,transparent);border:1px solid color-mix(in srgb,var(--c) 34%,transparent);margin-bottom:12px}
+.lstep h4{margin:0 0 7px;font-size:16px;font-weight:740;letter-spacing:-.01em;color:var(--c)}
+.lstep p{margin:0;font-size:13px;color:var(--ink-soft);line-height:1.45}
+.lstep:not(:last-child)::after{content:"→";position:absolute;right:-12px;top:50%;transform:translateY(-50%);z-index:2;color:var(--ink-faint);font-size:16px;font-weight:700}
+@media(max-width:820px){.loop{grid-template-columns:repeat(2,1fr)}.lstep:not(:last-child)::after{display:none}}
+@media(max-width:480px){.loop{grid-template-columns:1fr}}
+.metrics-strip{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.metrics-strip span{font-family:var(--mono);font-size:12px;letter-spacing:.03em;color:var(--ink-soft);background:color-mix(in srgb,var(--pc) 9%,transparent);border:1px solid var(--line);border-radius:999px;padding:7px 14px}
+.decisions{display:grid;grid-template-columns:repeat(5,1fr);gap:11px;margin-top:22px}
+.dcard{background:linear-gradient(160deg,var(--panel),var(--panel-2));border:1px solid var(--line);border-radius:14px;padding:16px 14px;text-align:center;border-top:3px solid var(--dc)}
+.dcard .di{width:34px;height:34px;border-radius:9px;margin:0 auto 10px;display:grid;place-items:center;color:var(--dc);background:color-mix(in srgb,var(--dc) 14%,transparent);border:1px solid color-mix(in srgb,var(--dc) 32%,transparent)}
+.dcard .di svg{width:18px;height:18px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.dcard b{font-size:14px;font-weight:730;color:var(--ink);letter-spacing:-.01em;display:block;line-height:1.2}
+.dcard span{font-size:11.5px;color:var(--ink-soft);line-height:1.35;display:block;margin-top:5px}
+@media(max-width:900px){.decisions{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:560px){.decisions{grid-template-columns:1fr 1fr}}
+
+/* ---------- flujo completo (pipeline) ---------- */
+.flow-wrap{margin-top:38px;display:flex;flex-direction:column;align-items:center;gap:0}
+.fnode{width:min(340px,86vw);text-align:center;border-radius:12px;padding:13px 18px;position:relative;
+  background:linear-gradient(160deg,color-mix(in srgb,var(--nc) 16%,var(--panel)),var(--panel));border:1px solid color-mix(in srgb,var(--nc) 34%,var(--line));--nc:var(--brand)}
+.fnode b{font-size:15px;font-weight:730;color:var(--ink);letter-spacing:-.01em}
+.fnode span{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--nc);margin-top:3px}
+.fconn{width:2px;height:20px;background:linear-gradient(180deg,var(--line-2),var(--line-2));opacity:.7}
+.ftri{width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:7px solid var(--line-2);margin-top:-2px;opacity:.8}
+.fbranch{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:min(560px,90vw)}
+.fbranch .fnode{width:auto}
+@media(max-width:560px){.fbranch{grid-template-columns:1fr}}
+
+/* ---------- footer ---------- */
+.foot{padding:40px 0 66px;text-align:center;color:var(--ink-faint);font-size:13px;font-family:var(--mono);letter-spacing:.06em}
+.foot .rule{height:1px;background:linear-gradient(90deg,transparent,var(--line-2),transparent);margin:0 0 26px}
+.foot b{color:var(--brand)}
+:root[data-theme="light"] .foot b{color:var(--brand-deep)}
+
+/* ---------- reveal ---------- */
+.rv{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none}}
+.mk :focus-visible{outline:2px solid var(--brand);outline-offset:3px}
+</style>
+
+<button class="themebtn" id="tt" aria-label="Cambiar tema">◐</button>
+
+<div class="mk">
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="wrap">
+      <span class="kicker">Account Based Marketing · GuruSup</span>
+      <h1>Validar sectores con <em>pipeline cualificado</em></h1>
+      <p class="lede rv">Un sistema escalable para <b>validar nuevos sectores de mercado</b> mediante campañas ultrapersonalizadas dirigidas únicamente a cuentas de alto valor. No perseguimos volumen: perseguimos las cuentas correctas, con el mensaje correcto, medido en cada paso para decidir si <b>escalar o descartar</b>.</p>
+      <div class="hcards">
+        <div class="hlc rv" style="--c:var(--brand)"><span class="k"><i></i>El foco</span><b>Un <u>único sector</u> a la vez, escalable después a 2-3</b></div>
+        <div class="hlc rv" style="--c:var(--cyan)"><span class="k"><i></i>El estándar</span><b>Máxima personalización: <u>cada correo, escrito para esa empresa</u></b></div>
+        <div class="hlc rv" style="--c:var(--gold)"><span class="k"><i></i>La regla</span><b>Calidad sobre volumen: <u>solo cuentas ICP de alto valor</u></b></div>
+      </div>
+      <div class="htags">
+        <span>Sector</span><i>→</i><span>ICP</span><i>→</i><span>Cuentas objetivo</span><i>→</i><span>Secuencia</span><i>→</i><span>Contenido</span><i>→</i><span>Demo</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- OBJETIVO -->
+  <section class="band">
+    <div class="wrap">
+      <div class="obj rv">
+        <span class="ok">El objetivo</span>
+        <p>Construir un sistema <b>escalable</b> para validar sectores con campañas <b>altamente personalizadas</b>, priorizando la <b>calidad frente al volumen</b>.</p>
+        <p class="osub">Dirigidas únicamente a cuentas de alto valor (ICP). Cada campaña es, además, un experimento: mide el potencial real del sector antes de invertir en escalarlo.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRINCIPIOS -->
+  <section class="band alt">
+    <div class="wrap">
+      <div class="shead">
+        <span class="kicker">Reglas del juego</span>
+        <h2 class="sec rv">Principios de la <em>estrategia</em></h2>
+        <p class="sd rv">Cinco decisiones que gobiernan todo lo demás. Si una acción no las respeta, no entra en el sistema.</p>
+      </div>
+      <div class="prin-grid">
+        <div class="prin rv" style="--c:var(--brand)"><div class="phd"><span class="pn">01</span><svg class="pico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1"/></svg></div><h4>Foco en un solo sector</h4><p>Empezamos por uno. Solo cuando demuestra tracción abrimos un segundo o tercero.</p></div>
+        <div class="prin rv" style="--c:var(--cyan)"><div class="phd"><span class="pn">02</span><svg class="pico" viewBox="0 0 24 24"><path d="M12 3l2.5 5.5L20 9l-4 4 1 6-5-3-5 3 1-6-4-4 5.5-.5z"/></svg></div><h4>Máxima personalización</h4><p>El mensaje se adapta al contexto real del destinatario, no a una plantilla genérica.</p></div>
+        <div class="prin rv" style="--c:var(--gold)"><div class="phd"><span class="pn">03</span><svg class="pico" viewBox="0 0 24 24"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M6 6l2 2M16 16l2 2M18 6l-2 2M8 16l-2 2"/><circle cx="12" cy="12" r="3.5"/></svg></div><h4>Automatización con relevancia</h4><p>Escalamos el envío sin perder el punto humano que hace que el correo funcione.</p></div>
+        <div class="prin rv" style="--c:var(--pink)"><div class="phd"><span class="pn">04</span><svg class="pico" viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4z"/><path d="M8 9h8M8 12h5"/></svg></div><h4>Contenido de valor</h4><p>El contenido es el principal imán de captación, no el argumentario de venta.</p></div>
+        <div class="prin rv" style="--c:var(--purple)"><div class="phd"><span class="pn">05</span><svg class="pico" viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M6 21v-7M12 21V5M18 21v-10"/></svg></div><h4>Medición continua</h4><p>Cada dato alimenta la decisión de escalar el sector u optimizar el mensaje.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FASE 1 -->
+  <section class="band" style="--pc:var(--brand)">
+    <div class="wrap">
+      <div class="fase-h rv">
+        <div class="fbadge"><span>Fase</span><b>1</b></div>
+        <div class="ft">
+          <b>Sector · ICP</b>
+          <h2>Elegir el sector y definir el <em>cliente ideal</em></h2>
+        </div>
+      </div>
+      <p class="fase-lead rv">Antes de lanzar nada se selecciona un único sector prioritario —pendiente de validación— y se dibuja con precisión su ICP: qué empresa, de qué tamaño y con qué realidad de soporte es donde GuruSup aporta más valor.</p>
+      <div class="icp">
+        <div class="icp-dims rv">
+          <div class="dim"><span class="dl">Tipo</span><b>Tipo de empresa</b></div>
+          <div class="dim"><span class="dl">Escala</span><b>Tamaño de la compañía</b></div>
+          <div class="dim"><span class="dl">Demanda</span><b>Volumen de consultas</b></div>
+          <div class="dim"><span class="dl">Estructura</span><b>Equipo de soporte</b></div>
+          <div class="dim"><span class="dl">Contexto</span><b>Madurez digital</b></div>
+          <div class="dim"><span class="dl">Encaje</span><b>Casos de uso de mayor valor</b></div>
+        </div>
+        <div class="expand rv">
+          <div class="eh">De la definición a la lista</div>
+          <div class="exp-flow">
+            <div class="exp-step"><div class="en">1</div><div class="et"><b>Selección manual</b><span><u>50-60 empresas objetivo</u> elegidas una a una según los criterios del ICP.</span></div></div>
+            <div class="exp-step"><div class="en">2</div><div class="et"><b>Ampliación con IA</b><span>La IA extiende la lista con empresas <u>similares</u>, manteniendo exactamente los mismos criterios.</span></div></div>
+            <div class="exp-step"><div class="en">3</div><div class="et"><b>Priorización</b><span>El resultado es una lista ordenada de cuentas ABM, lista para prospectar.</span></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="result rv"><span class="rk">Resultado</span><span class="rdot"></span><b>Lista priorizada de cuentas ABM</b></div>
+    </div>
+  </section>
+
+  <!-- FASE 2 -->
+  <section class="band alt" style="--pc:var(--cyan)">
+    <div class="wrap">
+      <div class="fase-h rv">
+        <div class="fbadge"><span>Fase</span><b>2</b></div>
+        <div class="ft">
+          <b>Decisores · Datos</b>
+          <h2>Encontrar a quien <em>decide</em> y limpiar el dato</h2>
+        </div>
+      </div>
+      <p class="fase-lead rv">Para cada cuenta identificamos a los responsables de decisión y construimos una base de datos impecable: una lista sucia quema dominio y esfuerzo, así que validamos antes de enviar.</p>
+      <div class="chain">
+        <div class="chain-flow rv">
+          <div class="tool" style="--tc:var(--cyan)"><span class="tnum">01</span><div class="tbody"><b>Apollo</b><span>Identificación de decisores y descarga de contactos por cuenta.</span></div><span class="tpill">Identificar</span></div>
+          <div class="chain-arrow">↓</div>
+          <div class="tool" style="--tc:var(--brand)"><span class="tnum">02</span><div class="tbody"><b>NeverBounce</b><span>Validación de cada email antes de que entre a la secuencia.</span></div><span class="tpill">Validar</span></div>
+        </div>
+        <div class="clean rv">
+          <div class="ch2">Se elimina</div>
+          <div class="ctitle">Todo lo que ensucia el envío</div>
+          <ul>
+            <li><span class="x">✕</span>Correos inválidos</li>
+            <li><span class="x">✕</span>Duplicados</li>
+            <li><span class="x">✕</span>Hard bounce</li>
+            <li><span class="x">✕</span>Emails de baja calidad</li>
+          </ul>
+        </div>
+      </div>
+      <div class="result rv"><span class="rk">Resultado</span><span class="rdot"></span><b>Base de datos limpia y lista para prospección</b></div>
+    </div>
+  </section>
+
+  <!-- FASE 3 -->
+  <section class="band" style="--pc:var(--pink)">
+    <div class="wrap">
+      <div class="fase-h rv">
+        <div class="fbadge"><span>Fase</span><b>3</b></div>
+        <div class="ft">
+          <b>Outbound</b>
+          <h2>Activar campañas <em>protegiendo</em> el dominio</h2>
+        </div>
+      </div>
+      <p class="fase-lead rv">Toda la comunicación sale desde <b>Instantly</b> sobre un subdominio dedicado, para blindar la reputación del dominio principal. Empezamos con un volumen contenido y controlado.</p>
+      <div class="eng-metrics">
+        <div class="emet dom rv"><div class="ev">Subdominio</div><div class="el">Dedicado, aislado del dominio principal</div></div>
+        <div class="emet rv"><div class="ev">3</div><div class="el">Cuentas de envío iniciales</div></div>
+        <div class="emet rv"><div class="ev">50</div><div class="el">Envíos diarios por cuenta</div></div>
+        <div class="emet rv"><div class="ev">150</div><div class="el">Impactos diarios en total</div></div>
+      </div>
+      <p class="seq-label rv">La secuencia · 5-6 emails</p>
+      <p class="seq-note rv">Cada correo tiene un <b>objetivo distinto</b>: no repetimos, avanzamos. Del problema a la demo, construyendo relevancia en cada paso.</p>
+      <div class="seq">
+        <div class="seqc rv"><span class="sn">01</span><div class="semail">Email</div><b>Identificación del problema</b></div>
+        <div class="seqc rv"><span class="sn">02</span><div class="semail">Email</div><b>Insight del sector</b></div>
+        <div class="seqc rv"><span class="sn">03</span><div class="semail">Email</div><b>Contenido de valor</b></div>
+        <div class="seqc rv"><span class="sn">04</span><div class="semail">Email</div><b>Caso práctico o demo</b></div>
+        <div class="seqc rv"><span class="sn">05</span><div class="semail">Email</div><b>Webinar o descargable</b></div>
+        <div class="seqc rv"><span class="sn">06</span><div class="semail">Email</div><b>Solicitud de demo</b></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FASE 4 -->
+  <section class="band alt" style="--pc:var(--gold)">
+    <div class="wrap">
+      <div class="fase-h rv">
+        <div class="fbadge"><span>Fase</span><b>4</b></div>
+        <div class="ft">
+          <b>Contenidos</b>
+          <h2>Contenido diseñado <em>para ese sector</em></h2>
+        </div>
+      </div>
+      <p class="fase-lead rv">Todo el contenido se construye específicamente para el sector seleccionado, organizado en tres funciones: dar autoridad, capturar el dato y demostrar el producto.</p>
+      <div class="pillars">
+        <div class="pillar rv" style="--pc:var(--gold)">
+          <div class="pk"><svg viewBox="0 0 24 24"><path d="M4 19V5M4 19h16M8 15v-4M12 15V8M16 15v-6"/></svg>Autoridad</div>
+          <ul>
+            <li><b>Benchmark</b> del sector</li>
+            <li>Tendencias</li>
+            <li>KPIs de atención al cliente</li>
+            <li>Comparativas</li>
+            <li>Casos de uso</li>
+            <li>ROI</li>
+          </ul>
+        </div>
+        <div class="pillar rv" style="--pc:var(--brand)">
+          <div class="pk"><svg viewBox="0 0 24 24"><path d="M12 3v11M8 10l4 4 4-4M5 21h14"/></svg>Descargables</div>
+          <ul>
+            <li><b>eBook</b> específico del sector</li>
+            <li>Webinar en directo</li>
+            <li>Webinar bajo demanda</li>
+            <li>Guías prácticas</li>
+            <li>Checklists</li>
+          </ul>
+        </div>
+        <div class="pillar rv" style="--pc:var(--cyan)">
+          <div class="pk"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M10 9l5 3-5 3z"/></svg>Demostrativos</div>
+          <ul>
+            <li>Vídeos cortos</li>
+            <li>Demos</li>
+            <li>Cómo implantar GuruSup</li>
+            <li>Casos reales</li>
+          </ul>
+        </div>
+      </div>
+      <div class="perso rv">
+        <div class="pvars">
+          <span class="dyn">{{Nombre}}</span>
+          <span class="dyn">{{Empresa}}</span>
+          <span class="dyn">{{Cargo}}</span>
+          <span class="dyn">{{Sector}}</span>
+        </div>
+        <div class="ptx">
+          <b>Personalización real, no variables sueltas</b>
+          <p>Más allá de los campos dinámicos, el mensaje se adapta a los <b>dolores</b>, <b>métricas</b>, <b>lenguaje</b> y <b>retos</b> del sector. <em>El objetivo: que parezca escrito para esa empresa.</em></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FASE 5 -->
+  <section class="band" style="--pc:var(--blue)">
+    <div class="wrap">
+      <div class="fase-h rv">
+        <div class="fbadge"><span>Fase</span><b>5</b></div>
+        <div class="ft">
+          <b>Conversión</b>
+          <h2>Del engagement a <em>ventas</em>, clasificado solo</h2>
+        </div>
+      </div>
+      <p class="fase-lead rv">Las campañas no terminan en Instantly: todo el engagement alimenta <b>HubSpot</b>, que clasifica cada contacto automáticamente según lo que hace. Y solo lo cualificado llega al equipo comercial.</p>
+      <div class="funnel">
+        <div class="fstage rv" style="--fc:var(--brand)">
+          <div class="st-badge">L</div>
+          <div class="st-name"><b>Lead</b><em>Interacción ligera</em></div>
+          <div class="st-def">Apertura, clic o visita a la web.</div>
+          <div class="st-side"><div class="kpi">Señal de interés inicial</div></div>
+        </div>
+        <div class="fn-conn">↓</div>
+        <div class="fstage rv" style="--fc:var(--cyan)">
+          <div class="st-badge">MQL</div>
+          <div class="st-name"><b>MQL</b><em>Acción de interés</em></div>
+          <div class="st-def">Descarga de contenido, asistencia a webinar o visualización de recursos.</div>
+          <div class="st-side"><div class="kpi">Entra a workflows de nutrición</div></div>
+        </div>
+        <div class="fn-conn">↓</div>
+        <div class="fstage rv" style="--fc:var(--blue)">
+          <div class="st-badge">SQL</div>
+          <div class="st-name"><b>SQL</b><em>Solicitud de demo</em></div>
+          <div class="st-def">El contacto pide una demo: intención comercial explícita.</div>
+          <div class="st-side"><div class="kpi">Pasa por el filtro <small>↓</small></div></div>
+        </div>
+      </div>
+      <div class="gate rv">
+        <div class="gicon"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <div>
+          <span class="gk">Precalificación automática · antes de ventas</span>
+          <div class="gcrit">
+            <span>Volumen <b>&gt; 3.000</b> consultas/mes</span>
+            <span>Tiene <b>equipo de soporte</b></span>
+            <span><b>Necesidad</b> identificada</span>
+          </div>
+          <p class="gnote">Un formulario filtra automáticamente: solo los contactos cualificados llegan al equipo comercial.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FASE 6 -->
+  <section class="band alt" style="--pc:var(--purple)">
+    <div class="wrap">
+      <div class="fase-h rv">
+        <div class="fbadge"><span>Fase</span><b>6</b></div>
+        <div class="ft">
+          <b>Aprendizaje · Escalado</b>
+          <h2>Cada campaña <em>valida</em> el sector</h2>
+        </div>
+      </div>
+      <p class="fase-lead rv">Al cerrar cada campaña, los datos dicen si el sector merece más inversión. Medimos, aprendemos y decidimos con criterio, no con intuición.</p>
+      <div class="loop">
+        <div class="lstep rv" style="--pc:var(--purple)"><div class="ln">1</div><h4>Medir</h4><p>Se recoge el rendimiento completo de la campaña, embudo incluido.</p></div>
+        <div class="lstep rv" style="--pc:var(--cyan)"><div class="ln">2</div><h4>Aprender</h4><p>Se lee qué mensaje, contenido y cuenta funcionó y cuál no.</p></div>
+        <div class="lstep rv" style="--pc:var(--gold)"><div class="ln">3</div><h4>Decidir</h4><p>El dato dicta la siguiente jugada sobre el sector y el ICP.</p></div>
+        <div class="lstep rv" style="--pc:var(--brand)"><div class="ln">4</div><h4>Escalar</h4><p>Lo que demuestra potencial crece; abrimos el siguiente sector.</p></div>
+      </div>
+      <div class="metrics-strip rv">
+        <span>Tasa de apertura</span><span>Tasa de respuesta</span><span>CTR</span><span>Descargas</span><span>Asistentes al webinar</span><span>Demos</span><span>SQL</span><span>Oportunidades</span><span>Clientes</span>
+      </div>
+      <div class="decisions">
+        <div class="dcard rv" style="--dc:var(--brand)"><div class="di"><svg viewBox="0 0 24 24"><path d="M4 20V10m6 10V4m6 16v-7"/></svg></div><b>Escalar</b><span>Cumple objetivos · más presupuesto</span></div>
+        <div class="dcard rv" style="--dc:var(--cyan)"><div class="di"><svg viewBox="0 0 24 24"><path d="M4 4v6h6M20 20v-6h-6M20 8a8 8 0 00-14-3M4 16a8 8 0 0014 3"/></svg></div><b>Optimizar</b><span>Iterar el mensaje</span></div>
+        <div class="dcard rv" style="--dc:var(--gold)"><div class="di"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/></svg></div><b>Ajustar ICP</b><span>Afinar la definición</span></div>
+        <div class="dcard rv" style="--dc:var(--purple)"><div class="di"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></div><b>Segundo sector</b><span>Replicar el sistema</span></div>
+        <div class="dcard rv" style="--dc:var(--pink)"><div class="di"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></div><b>Descartar</b><span>No alcanza objetivos</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FLUJO COMPLETO -->
+  <section class="band" style="--pc:var(--brand)">
+    <div class="wrap">
+      <div class="shead">
+        <span class="kicker">Vista de pájaro</span>
+        <h2 class="sec rv">El flujo <em>completo</em>, de punta a punta</h2>
+        <p class="sd rv">Del sector elegido al cliente firmado: una sola línea que conecta selección, prospección, contenido, clasificación y cierre.</p>
+      </div>
+      <div class="flow-wrap rv">
+        <div class="fnode" style="--nc:var(--brand)"><span>Estrategia</span><b>Selección del sector</b></div>
+        <div class="fconn"></div><div class="ftri"></div>
+        <div class="fnode" style="--nc:var(--brand)"><span>Estrategia</span><b>Definición del ICP</b></div>
+        <div class="fconn"></div><div class="ftri"></div>
+        <div class="fnode" style="--nc:var(--brand)"><span>Lista</span><b>Cuentas objetivo</b></div>
+        <div class="fconn"></div><div class="ftri"></div>
+        <div class="fnode" style="--nc:var(--brand)"><span>Lista</span><b>Ampliación con IA</b></div>
+        <div class="fconn"></div><div class="ftri"></div>
+        <div class="fnode" style="--nc:var(--cyan)"><span>Datos</span><b>Apollo</b></div>
+        <div class="fconn"></div><div class="ftri"></div>
+        <div class="fnode" style="--nc:var(--cyan)"><span>Datos</span><b>NeverBounce</b></div>
+        <div class="fconn"></div><div class="ftri"></div>
+        <div class="fnode" style="--nc:var(--pink)"><span>Outbound</span><b>Instantly</b></div>
+        <div class="fconn"></div><div class="ftri"></div>
+        <div class="fnode" style="--nc:var(--pink)"><span>Outbound</span><b>Secuencia personalizada</b></div>
+        <div class="fconn"></div><div class="ftri"></div>
+        <div class="fnode" style="--nc:var(--gold)"><span>Contenido</span><b>Contenido de valor</b></div>
+        <div class="fconn"></div><div class="ftri"></div>
+        <div class="fnode" style="--nc:var(--gold)"><span>Señal</span><b>Interacción</b></div>
+        <div class="fconn"></div><div class="ftri"></div>
+        <div class="fnode" style="--nc:var(--blue)"><span>CRM</span><b>HubSpot</b></div>
+        <div class="fconn"></div><div class="ftri"></div>
+        <div class="fbranch">
+          <div class="fnode" style="--nc:var(--brand)"><span>Ligera</span><b>Lead</b></div>
+          <div class="fnode" style="--nc:var(--cyan)"><span>Interés</span><b>MQL</b></div>
+          <div class="fnode" style="--nc:var(--blue)"><span>Demo</span><b>SQL</b></div>
+        </div>
+        <div class="fconn"></div><div class="ftri"></div>
+        <div class="fnode" style="--nc:var(--blue)"><span>Comercial</span><b>Ventas</b></div>
+        <div class="fconn"></div><div class="ftri"></div>
+        <div class="fnode" style="--nc:var(--purple)"><span>Pipeline</span><b>Opportunity</b></div>
+        <div class="fconn"></div><div class="ftri"></div>
+        <div class="fnode" style="--nc:var(--brand)"><span>Cierre</span><b>Cliente</b></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <div class="wrap">
+      <div class="rule"></div>
+      Estrategia ABM · <b>GuruSup</b> · Validación de sectores y pipeline cualificado
+    </div>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var root=document.documentElement, btn=document.getElementById("tt");
+  function current(){
+    if(root.dataset.theme) return root.dataset.theme;
+    return window.matchMedia&&window.matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light";
+  }
+  if(btn){
+    btn.addEventListener("click",function(){
+      var next=current()==="dark"?"light":"dark";
+      root.dataset.theme=next;
+      root.style.colorScheme=next;
+    });
+  }
+  var rv=[].slice.call(document.querySelectorAll(".rv"));
+  var reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion:reduce)").matches;
+  if(reduce||!("IntersectionObserver"in window)){
+    rv.forEach(function(el){el.classList.add("in");});
+  }else{
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target);} });
+    },{rootMargin:"0px 0px -8% 0px",threshold:.08});
+    rv.forEach(function(el){io.observe(el);});
+  }
+})();
+</script>
