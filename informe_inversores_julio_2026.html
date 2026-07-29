@@ -139,6 +139,19 @@ section{margin-top:clamp(34px,5vw,56px);}
 .card li::before{content:""; position:absolute; left:2px; top:8px; width:7px; height:7px; border-radius:2px; background:var(--green-soft); border:1.5px solid var(--green);}
 .card li b{color:var(--ink); font-weight:700;}
 
+/* ============ Tactical actions + KPIs ============ */
+.actions{display:flex; flex-direction:column; gap:16px;}
+.action{background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:clamp(20px,2.6vw,28px); box-shadow:var(--shadow);}
+.action .tag{display:block; font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--green); margin-bottom:11px;}
+.action p{margin:0; font-size:14.5px; color:var(--ink-2); line-height:1.55; text-align:justify; text-justify:inter-word; text-wrap:pretty; max-width:96ch;}
+.action p b{color:var(--ink); font-weight:700;}
+.action .kpis{display:flex; flex-wrap:wrap; gap:16px 34px; margin-top:18px; padding-top:17px; border-top:1px solid var(--line);}
+.kpi{display:flex; flex-direction:column; gap:3px; min-width:0;}
+.kpi .n{font-size:clamp(23px,2.9vw,30px); font-weight:800; letter-spacing:-.02em; line-height:1; color:var(--ink);}
+.kpi .n.acc{color:var(--accent);}
+.kpi .n.good{color:var(--good);}
+.kpi .l{font-size:12px; color:var(--muted); max-width:28ch; line-height:1.4;}
+
 /* ============ Impact ============ */
 .impact{background:
    radial-gradient(130% 120% at 0% 0%, var(--green-soft) 0%, transparent 60%),
@@ -182,129 +195,68 @@ footer{margin-top:44px; padding-top:20px; border-top:1px solid var(--line); disp
   <!-- HERO -->
   <header class="hero rise">
     <div class="eyebrow">GuruSup · Marketing &amp; CRM · Julio 2026</div>
-    <h1>De inversión de marketing opaca a un <span class="em">motor de demanda medible</span></h1>
-    <p class="lead">Hasta junio, el gasto de marketing no era atribuible a ingresos: el CRM tenía objetos en conflicto, sin embudo medible ni fuente de verdad única. En julio se construyó la infraestructura de CRM, medición y automatización que convierte el recorrido de marketing y ventas en un único proceso medible y gobernado, de punta a punta — y la demanda cualificada empezó a acelerar.</p>
+    <h1>De marketing opaco a un <span class="em">motor de captación cualificada</span></h1>
+    <p class="lead">Hasta junio, el CRM tenía objetos en conflicto y sin criterios claros de cualificación. En julio se desplegaron las acciones tácticas de CRM, cualificación y automatización que ordenan el recorrido de marketing y ventas: una sola fuente de verdad, SQL cualificados y descartados de forma automática, y una base de datos más limpia sobre la que construir la analítica de conversión.</p>
     <div class="rule"></div>
     <div class="hero-strip">
-      <div class="hs"><span class="n pos">+168%</span><span class="l">SQL en julio · demanda cualificada</span></div>
-      <div class="hs"><span class="n acc">1</span><span class="l">única fuente de verdad del pipeline</span></div>
-      <div class="hs"><span class="n">100%</span><span class="l">del recorrido lead→cliente, medible</span></div>
+      <div class="hs"><span class="n acc">109</span><span class="l">SQL generados en julio</span></div>
+      <div class="hs"><span class="n pos">47%</span><span class="l">SQL descartados con motivo documentado (IA)</span></div>
+      <div class="hs"><span class="n">33%</span><span class="l">apertura en la reactivación premium</span></div>
     </div>
   </header>
 
-  <!-- RESULTS -->
+  <!-- TACTICAL ACTIONS + KPIs -->
   <section>
     <div class="sec-head">
-      <div class="idx">01</div>
       <div class="tt">
-        <h2>Resultados de julio</h2>
-        <p class="sec-desc">Indicadores en vivo desde HubSpot. El foco del mes fue subir la señal —demanda realmente cualificada— y hacerla medible, no inflar volumen.</p>
+        <h2>Acciones tácticas de julio y su impacto</h2>
+        <p class="sec-desc">Lo que se ejecutó en el CRM y en marketing durante julio, y los KPIs reales que ha dejado cada acción. Datos en vivo desde HubSpot; la atribución y la segmentación por canal están en fase de cierre.</p>
       </div>
     </div>
-    <div class="tiles">
-      <div class="tile hlt">
-        <span class="chip up">+168% vs. mes anterior</span>
-        <div class="metric acc">+168%</div>
-        <div class="cap">Aceleración de SQL</div>
-        <div class="sub">+67 nuevos leads cualificados para ventas en el mes. La etapa que de verdad anticipa ingresos, creciendo.</div>
-      </div>
-      <div class="tile">
-        <span class="chip new">Nuevo en julio</span>
-        <div class="metric">1 fuente<br>de verdad</div>
-        <div class="cap">CRM consolidado</div>
-        <div class="sub">De dos objetos en conflicto a un objeto contacto único con ciclo de vida MQL → SQL → oportunidad.</div>
-      </div>
-      <div class="tile">
-        <span class="chip new">Nuevo en julio</span>
-        <div class="metric">Descarte<br>con IA</div>
-        <div class="cap">Motivo de cada pérdida, trazado</div>
-        <div class="sub">Un workflow de IA clasifica y etiqueta la razón de descarte de cada SQL desde las transcripciones (activo desde el 9&nbsp;jul).</div>
-      </div>
-      <div class="tile">
-        <div class="metric">68%</div>
-        <div class="cap">Calidad del dato del contacto</div>
-        <div class="sub">Empresa identificada. Además 51% con email corporativo y 46% con teléfono, tras limpiar el CRM y exigir email corporativo.</div>
-      </div>
-      <div class="tile">
-        <div class="metric">33%</div>
-        <div class="cap">Apertura en reactivación premium</div>
-        <div class="sub">Secuencia de 3 emails a 315 cuentas con consentimiento; ~10 cuentas premium reactivadas.</div>
-      </div>
-      <div class="tile">
-        <div class="metric">750&nbsp;€<span style="font-size:.5em;font-weight:700;color:var(--muted)">/mes</span></div>
-        <div class="cap">Ticket recurrente confirmado</div>
-        <div class="sub">Base de la calculadora de CAC máximo por canal: decidir inversión con criterio de payback, no a ciegas.</div>
-      </div>
-    </div>
-  </section>
 
-  <!-- FUNNEL -->
-  <section>
-    <div class="sec-head">
-      <div class="idx">02</div>
-      <div class="tt">
-        <h2>El embudo, ahora medible de punta a punta</h2>
-        <p class="sec-desc">Un único proceso comercial directo, conciliado con el informe de inversores: qué entra, cómo avanza y dónde se convierte. Antes esta foto no existía de forma fiable.</p>
-      </div>
-    </div>
-    <div class="funnel">
-      <div class="stages">
-        <div class="stage"><div class="track"><div class="fill" style="width:100%"></div></div><div class="v">417</div><div class="k">Contactos</div></div>
-        <div class="conv"><span class="ar">→</span><span class="pc">18%</span></div>
-        <div class="stage"><div class="track"><div class="fill" style="width:42%"></div></div><div class="v">75</div><div class="k">SQL · piden demo</div></div>
-        <div class="conv"><span class="ar">→</span><span class="pc">43%</span></div>
-        <div class="stage"><div class="track"><div class="fill" style="width:28%"></div></div><div class="v">32</div><div class="k">Reuniones</div></div>
-        <div class="conv"><span class="ar">→</span><span class="pc">34%</span></div>
-        <div class="stage"><div class="track"><div class="fill" style="width:16%"></div></div><div class="v">11</div><div class="k">Oportunidades</div></div>
-        <div class="conv"><span class="ar">→</span><span class="pc">45%</span></div>
-        <div class="stage"><div class="track"><div class="fill" style="width:11%"></div></div><div class="v">5</div><div class="k">Clientes</div></div>
-      </div>
-      <p class="note">Cifras conciliadas con el informe de inversores. El propio ejercicio de trazabilidad corrigió un recuento previo (de 9 a 5 clientes reales) al distinguir «contactos en etapa oportunidad» de «deals» — hoy cada etapa tiene una definición única y auditable.</p>
-    </div>
-  </section>
+    <div class="actions">
 
-  <!-- BUILT IN JULY -->
-  <section>
-    <div class="sec-head">
-      <div class="idx">03</div>
-      <div class="tt">
-        <h2>Lo que se construyó en julio</h2>
-        <p class="sec-desc">Estructura, automatización y procesos que dejan de depender de esfuerzo manual y hacen el motor repetible.</p>
-      </div>
-    </div>
-    <div class="build">
-      <div class="card">
-        <span class="tag">Arquitectura &amp; fuente de verdad</span>
-        <ul>
-          <li><b>CRM consolidado:</b> objeto contacto único con etapas de ciclo de vida (MQL → SQL → oportunidad); retirado el pipeline duplicado.</li>
-          <li><b>HubSpot como fuente única de verdad:</b> toda la actividad comercial se registra y se mide — lo que no está en HubSpot, no existe.</li>
-          <li><b>Dashboard ejecutivo en vivo</b> desde HubSpot, con diccionario de términos para que toda la empresa lea las métricas igual.</li>
-        </ul>
-      </div>
-      <div class="card">
-        <span class="tag">Automatización con IA</span>
-        <ul>
-          <li><b>Etiquetado de descartes con IA:</b> clasifica el motivo de cada SQL perdido desde las transcripciones y escala a ventas ante la duda.</li>
-          <li><b>SQL accionable:</b> umbral de cualificación + demo → email de descarte automático a quien no encaja y ruta directa a ventas de quien sí.</li>
-          <li><b>Fit &amp; heat scoring en paid media</b> como piloto reversible y gobernado, sin proliferar workflows manuales.</li>
-        </ul>
-      </div>
-      <div class="card">
+      <article class="action">
+        <span class="tag">Cualificación &amp; descarte de SQL, automatizados</span>
+        <p>Definimos un <b>SQL accionable</b> (umbral de consultas + solicitud de demo), con <b>email de descarte automático</b> para quien no encaja y ruta directa a ventas para quien sí. Un <b>workflow de IA</b> lee las transcripciones de las llamadas, propone el motivo de descarte y lo etiqueta en HubSpot, escalando a ventas ante la duda.</p>
+        <div class="kpis">
+          <div class="kpi"><span class="n acc">109</span><span class="l">SQL generados en julio</span></div>
+          <div class="kpi"><span class="n">51 · 47%</span><span class="l">descartados con motivo documentado</span></div>
+          <div class="kpi"><span class="n">34</span><span class="l">por bajo volumen de consultas · motivo nº1</span></div>
+          <div class="kpi"><span class="n good">7</span><span class="l">evolucionaron a oportunidad</span></div>
+        </div>
+      </article>
+
+      <article class="action">
+        <span class="tag">CRM y embudo consolidados en una sola fuente de verdad</span>
+        <p>Unificamos el CRM en un <b>único objeto de contacto</b> con etapas de ciclo de vida (Lead → MQL → SQL → Oportunidad) y retiramos el pipeline duplicado. El <b>embudo queda definido, consolidado y en revisión continua</b>, con HubSpot como fuente única y un diccionario de términos común a toda la empresa.</p>
+        <div class="kpis">
+          <div class="kpi"><span class="n acc">1</span><span class="l">fuente de verdad · antes 2 objetos en conflicto</span></div>
+          <div class="kpi"><span class="n">4</span><span class="l">etapas de ciclo de vida definidas</span></div>
+          <div class="kpi"><span class="n">1 de 109</span><span class="l">SQL llegó vía MQL → foco: captar antes, a mayor intención</span></div>
+        </div>
+      </article>
+
+      <article class="action">
         <span class="tag">Calidad del dato &amp; cumplimiento</span>
-        <ul>
-          <li><b>Limpieza del CRM:</b> formularios legacy retirados y contactos sin datos depurados con cada responsable.</li>
-          <li><b>Fin del ruido freemium</b> y email corporativo obligatorio para planes de pago: menos contactos, mejores.</li>
-          <li><b>Consentimiento (GDPR)</b> en el registro y formulario nativo de Brain para no volver a perder leads.</li>
-        </ul>
-      </div>
-      <div class="card">
-        <span class="tag">Medición &amp; alineamiento marketing↔ventas</span>
-        <ul>
-          <li><b>Reporting diario + semanal:</b> marketing sabe el mismo día si una campaña trae demanda cualificada o ruido.</li>
-          <li><b>Preferencia de canal</b> capturada en el formulario y enrutada por workflow al canal que el lead elige.</li>
-          <li><b>Calculadora de CAC máximo</b> por canal, para decidir dónde invertir con criterio de payback.</li>
-        </ul>
-      </div>
+        <p>Limpiamos el CRM (formularios legacy retirados y contactos sin datos depurados con cada responsable), <b>exigimos email corporativo</b> para planes de pago, cerramos el ruido del freemium y añadimos <b>consentimiento (GDPR)</b> y un formulario nativo para Company Brain.</p>
+        <div class="kpis">
+          <div class="kpi"><span class="n">68%</span><span class="l">empresa identificada</span></div>
+          <div class="kpi"><span class="n">51%</span><span class="l">email corporativo</span></div>
+          <div class="kpi"><span class="n">46%</span><span class="l">con teléfono</span></div>
+        </div>
+      </article>
+
+      <article class="action">
+        <span class="tag">Reactivación de cuentas premium</span>
+        <p>Secuencia de <b>3 emails</b> (no mailing masivo) a cuentas premium con consentimiento y actividad reciente, con CTA de vuelta a la plataforma. Además, <b>fit score activado</b> con algunos valores clave para que el contacto se enriquezca de forma automática.</p>
+        <div class="kpis">
+          <div class="kpi"><span class="n">315</span><span class="l">cuentas impactadas</span></div>
+          <div class="kpi"><span class="n acc">33%</span><span class="l">apertura · 81 aperturas reales</span></div>
+          <div class="kpi"><span class="n good">~10</span><span class="l">cuentas reactivadas</span></div>
+        </div>
+      </article>
+
     </div>
   </section>
 
@@ -312,22 +264,22 @@ footer{margin-top:44px; padding-top:20px; border-top:1px solid var(--line); disp
   <section>
     <div class="impact">
       <div class="kicker">Qué significa para el negocio</div>
-      <h2 style="margin-top:8px;">Del gasto a la palanca de crecimiento</h2>
+      <h2 style="margin-top:8px;">De acciones sueltas a un motor repetible</h2>
       <div class="impact-grid">
         <div class="imp">
           <div class="n">01</div>
-          <h4>Inversión atribuible</h4>
-          <p>El marketing deja de ser una caja negra: cada euro se lee en un embudo de punta a punta con una única fuente de verdad.</p>
+          <h4>Base medible instalada</h4>
+          <p>Una sola fuente de verdad y un embudo con etapas definidas y en revisión; la atribución y la segmentación por canal están en fase de cierre.</p>
         </div>
         <div class="imp">
           <div class="n">02</div>
           <h4>Más señal, menos ruido</h4>
-          <p>El foco pasó de volumen a demanda cualificada: SQL acelerando (+168%) sobre un dato más limpio y accionable.</p>
+          <p>Cualificación y descarte automatizados: el 47% de los SQL ya se descarta con un motivo documentado, listo para explotar.</p>
         </div>
         <div class="imp">
           <div class="n">03</div>
-          <h4>Motor de GTM repetible</h4>
-          <p>Estructura y automatización que escalan con el equipo y con la ronda, sin depender de esfuerzo manual heroico.</p>
+          <h4>Motor repetible</h4>
+          <p>Automatización con IA y scoring que enriquece solo, sin depender de esfuerzo manual — escala con el equipo y con la ronda.</p>
         </div>
       </div>
     </div>
@@ -335,7 +287,7 @@ footer{margin-top:44px; padding-top:20px; border-top:1px solid var(--line); disp
 
   <footer>
     <div class="brand"><span class="mk"></span> GuruSup</div>
-    <div class="foot-note">Datos en vivo desde HubSpot · dashboard ejecutivo, 29&nbsp;jul&nbsp;2026. Embudo comercial conciliado con el informe de inversores. Preparado para la sesión con inversores.</div>
+    <div class="foot-note">Datos en vivo desde HubSpot · julio&nbsp;2026. Atribución y segmentación por canal en fase de cierre. Preparado para la sesión con inversores.</div>
   </footer>
 
 </div>
