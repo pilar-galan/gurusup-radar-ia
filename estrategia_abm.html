@@ -77,7 +77,7 @@ h2.sec em{font-family:var(--serif);font-style:italic;font-weight:500;color:var(-
 /* ---------- hero ---------- */
 .hero{padding:clamp(34px,6vh,74px) 0 clamp(20px,3vh,34px);background:var(--grad-hero);text-align:center;overflow:hidden}
 .hero .kicker{justify-content:center}
-.hero h1{font-size:clamp(30px,5.2vw,56px);font-weight:850;letter-spacing:-.035em;line-height:1;margin:.3em auto .34em;max-width:17ch;text-wrap:balance}
+.hero h1{font-size:clamp(24px,3.6vw,38px);font-weight:850;letter-spacing:-.03em;line-height:1.05;margin:.3em auto .34em;max-width:19ch;text-wrap:balance}
 .hero h1 em{font-family:var(--serif);font-style:italic;font-weight:500;color:var(--brand-bright)}
 :root[data-theme="light"] .hero h1 em{color:var(--brand-deep)}
 .hero .lede{max-width:1000px;margin:22px auto 0;font-size:clamp(16px,1.85vw,19px);color:var(--ink-soft);text-align:justify;text-justify:inter-word;text-wrap:pretty;line-height:1.62}
@@ -103,14 +103,28 @@ h2.sec em{font-family:var(--serif);font-style:italic;font-weight:500;color:var(-
 .band-num::before{content:"";width:26px;height:1px;background:var(--pc,var(--brand));opacity:.6}
 
 /* ---------- objetivo ---------- */
-.obj{margin:0 auto;background:linear-gradient(160deg,color-mix(in srgb,var(--brand) 12%,var(--panel)),var(--panel-2));
+.obj{display:grid;grid-template-columns:1.25fr .75fr;gap:clamp(24px,4vw,48px);align-items:center;margin:0 auto;
+  background:linear-gradient(160deg,color-mix(in srgb,var(--brand) 12%,var(--panel)),var(--panel-2));
   border:1px solid var(--line-2);border-radius:22px;padding:clamp(30px,5vw,54px);position:relative;overflow:hidden}
-.obj::before{content:"\201C";position:absolute;top:-8px;left:24px;font-family:var(--serif);font-size:150px;color:var(--brand);opacity:.12;line-height:1}
+.obj::before{content:"\201C";position:absolute;top:-8px;left:24px;font-family:var(--serif);font-size:150px;color:var(--brand);opacity:.12;line-height:1;z-index:0}
+.obj-tx{position:relative;z-index:1}
 .obj .ok{font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--brand);margin-bottom:18px;display:block}
-.obj p{font-family:var(--serif);font-size:clamp(19px,2.5vw,27px);line-height:1.5;color:var(--ink);margin:0;max-width:32ch;text-wrap:pretty;position:relative}
+.obj p{font-family:var(--serif);font-size:clamp(19px,2.4vw,26px);line-height:1.5;color:var(--ink);margin:0;max-width:34ch;text-wrap:pretty;position:relative}
 .obj p b{font-weight:600;color:var(--brand-bright);font-style:normal}
 :root[data-theme="light"] .obj p b{color:var(--brand-deep)}
-.obj .osub{font-family:var(--sans);font-size:15px;color:var(--ink-soft);margin-top:20px;max-width:60ch;line-height:1.6}
+.obj .osub{font-family:var(--sans);font-size:14.5px;color:var(--ink-soft);margin-top:18px;max-width:52ch;line-height:1.6}
+.obj-viz{position:relative;justify-self:center;width:min(240px,60vw);aspect-ratio:1/1}
+.obj-viz svg{width:100%;height:100%;overflow:visible}
+.obj-viz .ring{fill:none;stroke:var(--brand);opacity:.28}
+.obj-viz .spoke{stroke:var(--brand);stroke-width:1;opacity:.32;stroke-dasharray:3 7;animation:objdash 3.2s linear infinite}
+@keyframes objdash{to{stroke-dashoffset:-40}}
+.obj-viz .acct{fill:var(--brand);opacity:.55}
+.obj-viz .core{fill:var(--brand)}
+.obj-viz .core-glow{fill:none;stroke:var(--brand);opacity:.5;transform-origin:center;animation:objpulse 3s ease-in-out infinite}
+@keyframes objpulse{0%,100%{opacity:.5;r:20px}50%{opacity:.1;r:30px}}
+.obj-viz .ctxt{font-family:var(--mono);font-size:8.5px;letter-spacing:.18em;text-transform:uppercase;fill:var(--ink);opacity:.85}
+@media (prefers-reduced-motion:reduce){.obj-viz .spoke,.obj-viz .core-glow{animation:none}}
+@media(max-width:760px){.obj{grid-template-columns:1fr}.obj-viz{display:none}}
 
 /* ---------- principios ---------- */
 .prin-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin-top:34px}
@@ -164,24 +178,31 @@ h2.sec em{font-family:var(--serif);font-style:italic;font-weight:500;color:var(-
 @media(max-width:460px){.icp-dims{grid-template-columns:1fr}}
 
 /* ---------- tool chain (fase 2) ---------- */
-.chain{display:grid;grid-template-columns:1.15fr .85fr;gap:22px;margin-top:34px;align-items:stretch}
-.chain-flow{display:flex;flex-direction:column;gap:12px}
+.chain{max-width:840px;margin:34px auto 0;display:flex;flex-direction:column;gap:8px}
 .tool{display:flex;align-items:center;gap:16px;background:linear-gradient(100deg,color-mix(in srgb,var(--tc) 14%,var(--panel)),var(--panel));
   border:1px solid color-mix(in srgb,var(--tc) 32%,var(--line));border-radius:14px;padding:16px 18px;position:relative;--tc:var(--pc)}
 .tool .tnum{flex:none;font-family:var(--mono);font-size:11px;font-weight:700;color:var(--tc);letter-spacing:.1em;width:34px}
 .tool .tbody b{display:block;font-size:16px;font-weight:750;color:var(--ink);letter-spacing:-.01em}
 .tool .tbody span{font-size:13px;color:var(--ink-soft);line-height:1.4}
-.tool .tpill{margin-left:auto;flex:none;font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--tc);
+.tpill{flex:none;font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--tc);
   background:color-mix(in srgb,var(--tc) 15%,transparent);border:1px solid color-mix(in srgb,var(--tc) 34%,transparent);border-radius:999px;padding:5px 11px;white-space:nowrap}
-.chain-arrow{text-align:center;color:var(--pc);font-size:15px;line-height:0;margin:-4px 0}
-.clean{background:linear-gradient(160deg,var(--panel),var(--panel-2));border:1px solid var(--line);border-radius:18px;padding:22px 24px}
-.clean .ch2{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--pc);margin-bottom:6px;display:flex;align-items:center;gap:.6em}
-.clean .ctitle{font-size:16px;font-weight:730;color:var(--ink);margin-bottom:16px;letter-spacing:-.01em}
-.clean ul{list-style:none;display:flex;flex-direction:column;gap:10px}
-.clean li{display:flex;align-items:center;gap:11px;font-size:14px;color:var(--ink-soft)}
-.clean li .x{flex:none;width:22px;height:22px;border-radius:7px;display:grid;place-items:center;color:var(--pink);
-  background:color-mix(in srgb,var(--pink) 14%,transparent);border:1px solid color-mix(in srgb,var(--pink) 32%,transparent);font-weight:800;font-size:12px}
-@media(max-width:820px){.chain{grid-template-columns:1fr}}
+.tool .tpill{margin-left:auto}
+.chain-arrow{text-align:center;color:var(--pc);font-size:15px;line-height:0;margin:-2px 0}
+/* NeverBounce card with cleaning built in */
+.nb{background:linear-gradient(100deg,color-mix(in srgb,var(--tc) 14%,var(--panel)),var(--panel));
+  border:1px solid color-mix(in srgb,var(--tc) 34%,var(--line));border-radius:14px;padding:16px 18px 18px;--tc:var(--brand)}
+.nb-head{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.nb-head .tnum{flex:none;font-family:var(--mono);font-size:11px;font-weight:700;color:var(--tc);letter-spacing:.1em;width:34px}
+.nb-head .tbody b{display:block;font-size:16px;font-weight:750;color:var(--ink);letter-spacing:-.01em}
+.nb-head .tbody span{font-size:13px;color:var(--ink-soft);line-height:1.4}
+.nb-head .price{margin-left:auto;text-transform:none;letter-spacing:.02em}
+.nb-desc{font-size:13.5px;color:var(--ink-soft);line-height:1.5;margin:14px 0 13px;padding-top:13px;border-top:1px solid color-mix(in srgb,var(--tc) 20%,var(--line))}
+.nb-desc b{color:var(--ink);font-weight:680}
+.nb-remove{display:flex;flex-wrap:wrap;gap:8px}
+.nb-remove .rm{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-soft);
+  background:color-mix(in srgb,var(--pink) 9%,transparent);border:1px solid color-mix(in srgb,var(--pink) 28%,var(--line));border-radius:9px;padding:6px 12px}
+.nb-remove .rm i{font-style:normal;color:var(--pink);font-weight:800;font-size:11px}
+@media(max-width:520px){.nb-head .price{margin-left:0;order:3;width:100%}}
 
 /* ---------- outbound engine (fase 3) ---------- */
 .eng-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:34px}
@@ -239,6 +260,11 @@ h2.sec em{font-family:var(--serif);font-style:italic;font-weight:500;color:var(-
 .fstage .st-side .kpi{font-size:11.5px;font-family:var(--mono);color:var(--fc);font-weight:600;line-height:1.6}
 .fstage .st-side .kpi small{color:var(--ink-faint);font-weight:400}
 .fn-conn{text-align:center;color:var(--ink-faint);font-size:14px;line-height:0}
+.st-name .src{color:var(--gold);font-family:var(--mono);font-size:13px;font-weight:800;margin-left:5px;vertical-align:super;line-height:0}
+.fn-note{max-width:none;margin:16px 0 0;font-size:13px;color:var(--ink-soft);line-height:1.55;
+  background:color-mix(in srgb,var(--gold) 8%,var(--panel));border:1px solid color-mix(in srgb,var(--gold) 30%,var(--line));border-left:3px solid var(--gold);border-radius:11px;padding:13px 16px}
+.fn-note .src{color:var(--gold);font-family:var(--mono);font-weight:800;margin-right:6px}
+.fn-note b{color:var(--ink);font-weight:680}
 @media (max-width:720px){.fstage{grid-template-columns:auto 1fr;gap:10px 14px;padding:14px 16px;width:100%!important}.fstage .st-def{grid-column:1/-1}.fstage .st-side{grid-column:1/-1;text-align:left}}
 
 /* precualificación gate */
@@ -308,7 +334,7 @@ h2.sec em{font-family:var(--serif);font-style:italic;font-weight:500;color:var(-
     <div class="wrap">
       <span class="kicker">Account Based Marketing · GuruSup</span>
       <h1>Validar sectores con <em>pipeline cualificado</em></h1>
-      <p class="lede rv">Un sistema escalable para <b>validar nuevos sectores de mercado</b> mediante campañas ultrapersonalizadas dirigidas únicamente a cuentas de alto valor. No perseguimos volumen: perseguimos las cuentas correctas, con el mensaje correcto, medido en cada paso para decidir si <b>escalar o descartar</b>.</p>
+      <p class="lede rv">Validar nuevos sectores con campañas ultrapersonalizadas a <b>cuentas ICP de alto valor</b>. Calidad sobre volumen, medido en cada paso para decidir si <b>escalar o descartar</b>.</p>
       <div class="hcards">
         <div class="hlc rv" style="--c:var(--brand)"><span class="k"><i></i>El foco</span><b>Un <u>único sector</u> a la vez, escalable después a 2-3</b></div>
         <div class="hlc rv" style="--c:var(--cyan)"><span class="k"><i></i>El estándar</span><b>Máxima personalización: <u>cada correo, escrito para esa empresa</u></b></div>
@@ -324,9 +350,33 @@ h2.sec em{font-family:var(--serif);font-style:italic;font-weight:500;color:var(-
   <section class="band">
     <div class="wrap">
       <div class="obj rv">
-        <span class="ok">El objetivo</span>
-        <p>Construir un sistema <b>escalable</b> para validar sectores con campañas <b>altamente personalizadas</b>, priorizando la <b>calidad frente al volumen</b>.</p>
-        <p class="osub">Dirigidas únicamente a cuentas de alto valor (ICP). Cada campaña es, además, un experimento: mide el potencial real del sector antes de invertir en escalarlo.</p>
+        <div class="obj-tx">
+          <span class="ok">El objetivo</span>
+          <p>Construir un sistema <b>escalable</b> para validar sectores con campañas <b>altamente personalizadas</b>, priorizando la <b>calidad frente al volumen</b>.</p>
+          <p class="osub">Dirigidas únicamente a cuentas de alto valor (ICP). Cada campaña es, además, un experimento: mide el potencial real del sector antes de invertir en escalarlo.</p>
+        </div>
+        <div class="obj-viz" aria-hidden="true">
+          <svg viewBox="0 0 200 200" role="img">
+            <circle class="ring" cx="100" cy="100" r="86" stroke-width="1"/>
+            <circle class="ring" cx="100" cy="100" r="60" stroke-width="1.2"/>
+            <circle class="ring" cx="100" cy="100" r="34" stroke-width="1.4"/>
+            <line class="spoke" x1="100" y1="100" x2="100" y2="14"/>
+            <line class="spoke" x1="100" y1="100" x2="174" y2="143" style="animation-delay:.4s"/>
+            <line class="spoke" x1="100" y1="100" x2="26" y2="143" style="animation-delay:.8s"/>
+            <line class="spoke" x1="100" y1="100" x2="172" y2="66" style="animation-delay:1.2s"/>
+            <line class="spoke" x1="100" y1="100" x2="30" y2="62" style="animation-delay:1.6s"/>
+            <circle class="acct" cx="100" cy="14" r="4.5"/>
+            <circle class="acct" cx="174" cy="143" r="4"/>
+            <circle class="acct" cx="26" cy="143" r="3.5"/>
+            <circle class="acct" cx="172" cy="66" r="4"/>
+            <circle class="acct" cx="30" cy="62" r="3.5"/>
+            <circle class="acct" cx="160" cy="40" r="2.6" style="opacity:.35"/>
+            <circle class="acct" cx="48" cy="168" r="2.6" style="opacity:.35"/>
+            <circle class="core-glow" cx="100" cy="100" r="20" stroke-width="1.4"/>
+            <circle class="core" cx="100" cy="100" r="9"/>
+            <text class="ctxt" x="100" y="128" text-anchor="middle">ICP</text>
+          </svg>
+        </div>
       </div>
     </div>
   </section>
@@ -394,20 +444,21 @@ h2.sec em{font-family:var(--serif);font-style:italic;font-weight:500;color:var(-
       </div>
       <p class="fase-lead rv">Para cada cuenta identificamos a los responsables de decisión y construimos una base de datos impecable: una lista sucia quema dominio y esfuerzo, así que validamos antes de enviar.</p>
       <div class="chain">
-        <div class="chain-flow rv">
-          <div class="tool" style="--tc:var(--cyan)"><span class="tnum">01</span><div class="tbody"><b>Apollo</b><span>Identificación de decisores y descarga de contactos por cuenta.</span></div><span class="tpill">Identificar</span></div>
-          <div class="chain-arrow">↓</div>
-          <div class="tool" style="--tc:var(--brand)"><span class="tnum">02</span><div class="tbody"><b>NeverBounce</b><span>Validación de cada email antes de que entre a la secuencia.</span></div><span class="tpill">Validar</span></div>
-        </div>
-        <div class="clean rv">
-          <div class="ch2">Se elimina</div>
-          <div class="ctitle">Todo lo que ensucia el envío</div>
-          <ul>
-            <li><span class="x">✕</span>Correos inválidos</li>
-            <li><span class="x">✕</span>Duplicados</li>
-            <li><span class="x">✕</span>Hard bounce</li>
-            <li><span class="x">✕</span>Emails de baja calidad</li>
-          </ul>
+        <div class="tool rv" style="--tc:var(--cyan)"><span class="tnum">01</span><div class="tbody"><b>Apollo</b><span>Identificación de los responsables de decisión y descarga de contactos por cuenta.</span></div><span class="tpill">Identificar</span></div>
+        <div class="chain-arrow rv">↓</div>
+        <div class="nb rv" style="--tc:var(--brand)">
+          <div class="nb-head">
+            <span class="tnum">02</span>
+            <div class="tbody"><b>NeverBounce</b><span>Verifica cada email antes de que entre a la secuencia.</span></div>
+            <span class="tpill price">Test gratis 1.000 · desde 0,008 $/correo</span>
+          </div>
+          <p class="nb-desc">Actúa como una <b>precualificación de la base de datos</b> de correos: valida y elimina automáticamente todo lo que ensuciaría el envío.</p>
+          <div class="nb-remove">
+            <span class="rm"><i>✕</i>Correos inválidos</span>
+            <span class="rm"><i>✕</i>Duplicados</span>
+            <span class="rm"><i>✕</i>Hard bounce</span>
+            <span class="rm"><i>✕</i>Emails de baja calidad</span>
+          </div>
         </div>
       </div>
       <div class="result rv"><span class="rk">Resultado</span><span class="rdot"></span><b>Base de datos limpia y lista para prospección</b></div>
@@ -474,7 +525,7 @@ h2.sec em{font-family:var(--serif);font-style:italic;font-weight:500;color:var(-
             <li>Webinar en directo</li>
             <li>Webinar bajo demanda</li>
             <li>Guías prácticas</li>
-            <li>Checklists</li>
+            <li><b>Caso de éxito</b></li>
           </ul>
         </div>
         <div class="pillar rv" style="--pc:var(--cyan)">
@@ -517,31 +568,32 @@ h2.sec em{font-family:var(--serif);font-style:italic;font-weight:500;color:var(-
         <div class="fstage rv" style="--fc:var(--brand)">
           <div class="st-badge">L</div>
           <div class="st-name"><b>Lead</b><em>Interacción ligera</em></div>
-          <div class="st-def">Apertura, clic o visita a la web.</div>
-          <div class="st-side"><div class="kpi">Señal de interés inicial</div></div>
+          <div class="st-def">Han hecho clic, pero no han descargado contenido.</div>
+          <div class="st-side"><div class="kpi">Se suben a mano al acabar la secuencia</div></div>
         </div>
         <div class="fn-conn">↓</div>
         <div class="fstage rv" style="--fc:var(--cyan)">
           <div class="st-badge">MQL</div>
-          <div class="st-name"><b>MQL</b><em>Acción de interés</em></div>
-          <div class="st-def">Descarga de contenido, asistencia a webinar o visualización de recursos.</div>
-          <div class="st-side"><div class="kpi">Entra a workflows de nutrición</div></div>
+          <div class="st-name"><b>MQL</b><sup class="src">✱</sup><em>Acción de interés</em></div>
+          <div class="st-def">Descarga un contenido, asiste a un webinar o visualiza recursos.</div>
+          <div class="st-side"><div class="kpi">Entra directo en HubSpot como MQL</div></div>
         </div>
         <div class="fn-conn">↓</div>
         <div class="fstage rv" style="--fc:var(--blue)">
           <div class="st-badge">SQL</div>
-          <div class="st-name"><b>SQL</b><em>Solicitud de demo</em></div>
-          <div class="st-def">El contacto pide una demo: intención comercial explícita.</div>
-          <div class="st-side"><div class="kpi">Pasa por el filtro <small>↓</small></div></div>
+          <div class="st-name"><b>SQL</b><sup class="src">✱</sup><em>Solicitud de demo</em></div>
+          <div class="st-def">Pide una demo: intención comercial explícita.</div>
+          <div class="st-side"><div class="kpi">Envía precualificación → HubSpot</div></div>
         </div>
       </div>
+      <p class="fn-note rv"><span class="src">✱</span> Los formularios —el de contenido en <b>MQL</b> y el de precualificación en <b>SQL</b>— llevan un <b>campo oculto</b> que marca la fuente de origen como <b>Instantly</b>, para tener estos contactos medidos en HubSpot.</p>
       <div class="gate rv">
         <div class="gicon"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg></div>
         <div>
           <span class="gk">Precalificación automática · antes de ventas</span>
           <div class="gcrit">
             <span>Volumen <b>&gt; 3.000</b> consultas/mes</span>
-            <span>Tiene <b>equipo de soporte</b></span>
+            <span>Equipo de soporte <b>≥ 5 personas</b></span>
             <span><b>Necesidad</b> identificada</span>
           </div>
           <p class="gnote">Un formulario filtra automáticamente: solo los contactos cualificados llegan al equipo comercial.</p>
