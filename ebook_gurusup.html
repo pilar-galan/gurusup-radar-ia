@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GuruSup · Descarga tu e-book</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#26292c;
+    --coral:#e07d68;
+    --coral-strong:#d76a53;
+    --slate:#6d8296;
+    --beige:#dbd6ce;
+    --beige-card:#d9d2c8;
+    --sky:#dcebf4;
+    --paper:#ffffff;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;
+    font-family:'Source Serif 4', Georgia, 'Times New Roman', serif;
+    color:var(--ink);
+    background:var(--paper);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:760px;margin:0 auto}
+
+  /* ---------- HERO (beige) ---------- */
+  .hero{
+    background:var(--beige);
+    padding:44px 26px 64px;
+    text-align:center;
+  }
+  .brand{
+    display:inline-flex;align-items:center;gap:11px;
+    margin-bottom:38px;
+  }
+  .brand svg{display:block}
+  .brand .name{
+    font-family:'Playfair Display', Georgia, serif;
+    font-weight:700;font-size:24px;letter-spacing:.2px;color:var(--ink);
+  }
+  .brand .name b{color:var(--coral);font-weight:700}
+
+  .eyebrow{
+    font-family:'Playfair Display', Georgia, serif;
+    color:var(--coral);
+    font-weight:700;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    font-size:13px;
+    margin:0 0 18px;
+  }
+  h1{
+    font-family:'Playfair Display', Georgia, serif;
+    font-weight:600;
+    color:var(--ink);
+    font-size:clamp(36px,7.2vw,60px);
+    line-height:1.08;
+    margin:0 0 10px;
+    letter-spacing:-.01em;
+    text-wrap:balance;
+  }
+  h1 .accent{color:var(--coral);font-style:italic;font-weight:600;display:block}
+
+  .sd{
+    color:var(--slate);
+    font-size:clamp(16px,2.4vw,19px);
+    line-height:1.62;
+    max-width:1040px;
+    margin:22px auto 0;
+    text-align:justify;
+    text-justify:inter-word;
+    text-wrap:pretty;
+  }
+  .sd b{color:var(--ink);font-weight:600}
+
+  .cta-wrap{margin-top:34px}
+  .cta{
+    display:inline-flex;align-items:center;gap:10px;
+    background:var(--coral-strong);
+    color:#fff;
+    text-decoration:none;
+    font-family:'Playfair Display', Georgia, serif;
+    font-weight:600;
+    font-size:19px;
+    padding:16px 34px;
+    border-radius:999px;
+    box-shadow:0 12px 26px -12px rgba(215,106,83,.75);
+    transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+  }
+  .cta:hover{background:#c95c46;transform:translateY(-2px);box-shadow:0 18px 32px -12px rgba(215,106,83,.8)}
+  .cta .arrow{font-size:20px;line-height:1}
+
+  /* ---------- SKY BAND ---------- */
+  .band{
+    background:var(--sky);
+    padding:56px 26px 62px;
+  }
+  .card{
+    background:var(--beige-card);
+    border-radius:26px;
+    padding:38px 46px;
+    max-width:660px;
+    margin:0 auto;
+    text-align:center;
+  }
+  .card p{
+    font-family:'Playfair Display', Georgia, serif;
+    font-weight:500;
+    font-size:clamp(20px,3vw,26px);
+    line-height:1.42;
+    color:var(--ink);
+    margin:0;
+    text-wrap:pretty;
+  }
+  .card p .c{color:var(--coral)}
+  .card p b{font-weight:700}
+
+  /* ---------- FEATURE ROW ---------- */
+  .feats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    max-width:660px;
+    margin:46px auto 0;
+    text-align:center;
+  }
+  .feat{padding:0 20px;position:relative}
+  .feat + .feat::before{
+    content:"";position:absolute;left:0;top:8px;bottom:8px;width:1px;
+    background:rgba(38,41,44,.14);
+  }
+  .feat .big{
+    font-family:'Playfair Display', Georgia, serif;
+    color:var(--coral);
+    font-weight:600;
+    font-size:clamp(30px,5.5vw,44px);
+    line-height:1;
+    margin-bottom:12px;
+    display:block;
+  }
+  .feat .lbl{
+    color:var(--slate);
+    font-size:15px;
+    line-height:1.4;
+  }
+  .feat .lbl b{color:var(--ink);font-weight:600;display:block;font-size:16px;margin-bottom:2px}
+
+  /* ---------- CLOSING ---------- */
+  .closing{
+    background:var(--paper);
+    padding:60px 26px 40px;
+    text-align:center;
+  }
+  .closing .yay{
+    font-family:'Playfair Display', Georgia, serif;
+    font-weight:600;font-style:italic;
+    font-size:clamp(26px,4.4vw,36px);
+    color:var(--ink);
+    margin:0 0 6px;
+  }
+  .sign{
+    color:var(--coral);
+    font-family:'Playfair Display', Georgia, serif;
+    font-weight:700;
+    font-size:19px;
+    margin-top:14px;
+  }
+
+  footer{
+    background:var(--beige);
+    padding:26px;
+    text-align:center;
+    color:var(--slate);
+    font-size:13px;
+  }
+  footer .brand{margin-bottom:8px}
+
+  /* ---------- MOBILE ---------- */
+  @media (max-width:640px){
+    .sd{text-align:left}
+    .hero{padding:34px 20px 48px}
+    .card{padding:30px 24px}
+    .feats{grid-template-columns:1fr;gap:30px;margin-top:36px}
+    .feat{padding:0}
+    .feat + .feat::before{display:none}
+    .band{padding:44px 20px}
+  }
+</style>
+</head>
+<body>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="brand">
+        <svg viewBox="0 0 42 42" width="40" height="40" fill="none" aria-hidden="true">
+          <circle cx="21" cy="21" r="21" fill="#e07d68" opacity=".15"/>
+          <circle cx="21" cy="21" r="14" fill="#e07d68" opacity=".28"/>
+          <circle cx="21" cy="21" r="7" fill="#e07d68"/>
+          <circle cx="21" cy="21" r="2.5" fill="#fff"/>
+        </svg>
+        <span class="name">Guru<b>Sup</b></span>
+      </div>
+
+      <p class="eyebrow">¡Gracias por tu interés en GuruSup!</p>
+
+      <h1>
+        Ya puedes descargar
+        <span class="accent">tu e-book</span>
+      </h1>
+
+      <p class="sd">
+        ¡Hola! Nos alegra tenerte por aquí. Hemos preparado esta guía para ayudarte a
+        <b>mejorar la atención al cliente en el sector turístico</b>, con ideas prácticas
+        que puedes empezar a aplicar desde hoy mismo.
+      </p>
+
+      <div class="cta-wrap">
+        <a class="cta" href="#" role="button">
+          <span class="arrow">👉</span> Descargar e-book
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SKY BAND ===== -->
+  <section class="band">
+    <div class="card">
+      <p>
+        Esperamos que te resulte útil y que encuentres
+        <span class="c"><b>ideas prácticas</b></span>
+        para ofrecer una experiencia de cliente aún mejor.
+      </p>
+    </div>
+
+    <div class="feats">
+      <div class="feat">
+        <span class="big">Recursos</span>
+        <span class="lbl"><b>Más contenido</b> listo para aplicar en tu día a día</span>
+      </div>
+      <div class="feat">
+        <span class="big">Consejos</span>
+        <span class="lbl"><b>Buenas prácticas</b> para elevar tu atención al cliente</span>
+      </div>
+      <div class="feat">
+        <span class="big">Casos</span>
+        <span class="lbl"><b>Ejemplos reales</b> del sector turístico</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CLOSING ===== -->
+  <section class="closing">
+    <div class="wrap">
+      <p class="yay">¡Esperamos que lo disfrutes!</p>
+      <p class="sd" style="text-align:center;color:var(--slate)">
+        En los próximos días te compartiremos más recursos, consejos y casos reales
+        para acompañarte en el camino.
+      </p>
+      <p class="sign">El equipo de GuruSup</p>
+    </div>
+  </section>
+
+  <footer>
+    <div class="brand">
+      <svg viewBox="0 0 42 42" width="26" height="26" fill="none" aria-hidden="true">
+        <circle cx="21" cy="21" r="21" fill="#e07d68" opacity=".15"/>
+        <circle cx="21" cy="21" r="14" fill="#e07d68" opacity=".28"/>
+        <circle cx="21" cy="21" r="7" fill="#e07d68"/>
+        <circle cx="21" cy="21" r="2.5" fill="#fff"/>
+      </svg>
+      <span class="name" style="font-size:18px">Guru<b>Sup</b></span>
+    </div>
+    <div>Atención al cliente con IA, con el trato de alguien que conoce tu empresa de verdad.</div>
+  </footer>
+
+</body>
+</html>
