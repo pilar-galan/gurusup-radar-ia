@@ -6,5 +6,13 @@
     "opp_cli": 57,
     "cli_churn": 16,
     "captured": "2026-07-31"
+  },
+  "2026-08": {
+    "lead_mql": 31,
+    "mql_sql": 37,
+    "sql_opp": 39,
+    "opp_cli": 56,
+    "cli_churn": 16,
+    "captured": "2026-08-03"
   }
 }
