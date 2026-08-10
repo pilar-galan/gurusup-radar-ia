@@ -858,7 +858,7 @@ def main():
     try:
         _client_deals_all = fetch_all("deals", [
             {"propertyName": "pipeline", "operator": "EQ", "value": CLIENTES_PL},
-        ], ["dealname", "dealstage", "createdate", "hs_is_closed", "hs_is_closed_won",
+        ], ["dealname", "dealstage", "createdate", "closedate", "hs_is_closed", "hs_is_closed_won",
             "num_associated_contacts", "hs_analytics_source", "hs_analytics_source_data_1"])
     except Exception as e:
         print(f"[clientes] error: {e}", file=sys.stderr); _client_deals_all = []
@@ -881,7 +881,12 @@ def main():
             continue   # mismo cliente ya contado (otro departamento/deal)
         _cli_seen.add(_k)
         clientes_activos += 1
-        cli_deal_recs.append({"created": (p.get("createdate") or "")[:10]})
+        # Fecha de "alta como cliente" para el evolutivo: si es ganado/cerrado, la fecha de cierre
+        # (cuando pasa a ser cliente); si no, la de creación de la cuenta. Así las altas ganadas
+        # aparecen en su mes real (p. ej. julio) y no en el mes en que se creó el deal.
+        _cli_when = (p.get("closedate") if p.get("hs_is_closed_won") == "true" and p.get("closedate")
+                     else p.get("createdate")) or ""
+        cli_deal_recs.append({"created": _cli_when[:10]})
         try: _nc = int(p.get("num_associated_contacts") or 0)
         except (TypeError, ValueError): _nc = 0
         cli_contactos += _nc
