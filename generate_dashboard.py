@@ -3022,6 +3022,19 @@ details.chdeals .dl span{font-size:11px;background:rgba(104,209,245,.1);border:1
   .jr-conn{flex-basis:auto;flex-direction:row;gap:8px;padding:6px 0}
   .jr-arrow{transform:rotate(90deg)}
 }
+.agc-funnel{display:flex;align-items:stretch;gap:8px;flex-wrap:nowrap}
+.agc-tile{flex:1 1 0;min-width:0;background:rgba(34,211,238,.06);border:1px solid var(--line2);border-radius:14px;padding:14px 10px;text-align:center}
+.agc-tile.hot{background:rgba(34,211,238,.13);border-color:rgba(34,211,238,.4)}
+.agc-v{font-size:26px;font-weight:900;line-height:1;color:var(--ink)}
+.agc-l{font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:.04em;margin-top:6px;font-weight:700}
+.agc-s{font-size:11px;color:var(--sky);font-weight:800;margin-top:5px}
+.agc-arw{align-self:center;flex:0 0 auto;font-size:11px;font-weight:800;color:var(--mut)}
+.agc-tbl{width:100%;border-collapse:collapse;font-size:13px;margin-top:4px}
+.agc-tbl th,.agc-tbl td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:left}
+.agc-tbl th{color:var(--mut);font-size:11px;text-transform:uppercase;letter-spacing:.04em;font-weight:700}
+.agc-tbl td.agc-n,.agc-tbl th.agc-n{text-align:right;font-variant-numeric:tabular-nums}
+.agc-tbl tr.agc-tot td{border-top:2px solid var(--line);border-bottom:none;font-weight:900;color:var(--ink)}
+@media(max-width:640px){.agc-funnel{flex-wrap:wrap}.agc-tile{flex-basis:40%}.agc-arw{display:none}}
 .strat b{color:var(--brand)}
 .note{background:linear-gradient(150deg,rgba(111,240,162,.12),rgba(111,240,162,.02));border:1px solid var(--line2);border-radius:14px;padding:16px 18px;font-size:13px;color:var(--ink2);margin-top:18px}
 .note b{color:var(--brand)}
@@ -3965,6 +3978,52 @@ def render_exec(d):
     t.addEventListener('input',calc); m.addEventListener('input',calc); calc();
   }})();</script>"""
 
+    # ── Campañas activas de paid · agosto (Meta Ads) · datos de la plataforma (pantallazos) ──
+    def _eur(v):
+        return f"{v:,.2f}".replace(",", "§").replace(".", ",").replace("§", ".") + " €"
+    _ag_spend = 1191.11
+    _ag_impr, _ag_clics, _ag_cont, _ag_cli = 70000, 3000, 16, 0
+    _ag_camps = [
+        ("Meta · Travel", "🏖️", 9, 0),
+        ("Meta · Travel + video demo", "🎬", 3, 1),
+        ("Meta · Ecommerce", "🛒", 1, 0),
+    ]
+    _ag_mql = sum(m for _n, _i, m, _s in _ag_camps)
+    _ag_sql = sum(s for _n, _i, _m, s in _ag_camps)
+    _ag_cpm = _eur(_ag_spend / _ag_mql) if _ag_mql else "—"
+    _ag_cps = _eur(_ag_spend / _ag_sql) if _ag_sql else "—"
+    _ag_cpc = _eur(_ag_spend / _ag_cont) if _ag_cont else "—"
+    _ag_rows = "".join(
+        f'<tr><td>{icon} {esc(nm)}</td><td class="agc-n">{m}</td><td class="agc-n">{s}</td></tr>'
+        for nm, icon, m, s in _ag_camps)
+    ag_camp_html = f"""
+<section>
+  <div class="q">04c · ¿Qué está trayendo el paid activo este mes?</div>
+  <h2 class="sh">Campañas activas · agosto <span class="tot">· Meta Ads</span></h2>
+  <div class="sd wide">Campañas de <b>Meta Ads</b> activas en agosto (travel, ecommerce y demo). Todo el volumen entra como <b>MQL</b> salvo <b>1 SQL</b>. Cifras de la plataforma de Ads (pueden tener ligero retraso frente al CRM).</div>
+  <div class="agc-funnel">
+    <div class="agc-tile"><div class="agc-v">70K</div><div class="agc-l">Impresiones</div></div>
+    <div class="agc-arw">4,1%</div>
+    <div class="agc-tile"><div class="agc-v">3K</div><div class="agc-l">Clics</div></div>
+    <div class="agc-arw">0,6%</div>
+    <div class="agc-tile hot"><div class="agc-v">{_ag_cont}</div><div class="agc-l">Contactos</div><div class="agc-s">{_ag_cpc} c/u</div></div>
+    <div class="agc-arw">0,0%</div>
+    <div class="agc-tile"><div class="agc-v">{_ag_cli}</div><div class="agc-l">Clientes</div></div>
+  </div>
+  <div class="cards" style="margin:14px 0">
+    <div class="stat"><div class="sv tnum">{_eur(_ag_spend)}</div><div class="sl">Gasto en agosto<br><span style="color:var(--mut)">Meta Ads · campañas activas</span></div></div>
+    <div class="stat ok"><div class="sv tnum">{_ag_cpm}</div><div class="sl">Coste por MQL<br><span style="color:var(--mut)">{_ag_mql} MQL generados</span></div></div>
+    <div class="stat warn"><div class="sv tnum">{_ag_cps}</div><div class="sl">Coste por SQL<br><span style="color:var(--mut)">{_ag_sql} SQL generado</span></div></div>
+  </div>
+  <table class="agc-tbl">
+    <thead><tr><th>Campaña activa</th><th class="agc-n">MQL</th><th class="agc-n">SQL</th></tr></thead>
+    <tbody>{_ag_rows}
+      <tr class="agc-tot"><td>Total · agosto</td><td class="agc-n">{_ag_mql}</td><td class="agc-n">{_ag_sql}</td></tr>
+    </tbody>
+  </table>
+  <div class="note" style="margin-top:12px">💡 Coste por MQL = gasto ÷ MQL ({_eur(_ag_spend)} ÷ {_ag_mql}). Coste por SQL = gasto ÷ SQL ({_eur(_ag_spend)} ÷ {_ag_sql}). <b>Travel</b> es la que más volumen trae; el <b>SQL</b> viene de <b>Travel + video demo</b>. Aún <b>0 clientes</b> cerrados de estas campañas. <span style="color:var(--mut)">La plataforma marca 16 contactos y las campañas suman {_ag_mql + _ag_sql} clasificados (MQL/SQL) — los {16 - (_ag_mql + _ag_sql)} restantes aún sin etapa.</span></div>
+</section>"""
+
     body = f"""
 <div class="wrap">
 <header class="xhead">
@@ -4075,6 +4134,7 @@ def render_exec(d):
   <div class="sd">Mové el <b>margen</b> y el <b>payback objetivo</b> para ver el techo de CAC en vivo. La tabla cruza ese techo con lo que cada canal ha <b>costado</b> y las <b>oportunidades con negocio</b> y <b>clientes</b> que ha generado (desde el 1 de enero).</div>
   {cac_html}
 </section>
+{ag_camp_html}
 
 <div class="divbanner">
   <div class="db-l">🔎</div>
