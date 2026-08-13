@@ -4854,6 +4854,7 @@ body {{ background:var(--guru-900); color:var(--text); font-family:-apple-system
       <div class="gl-card"><span class="gl-e">🔭</span><div><b>TOFU <span class="gl-en">· Top of the Funnel</span></b><span>Fase de <strong>descubrimiento</strong>: el lead curiosea, se informa por encima. Poca intención (blog, artículos).</span></div></div>
       <div class="gl-card"><span class="gl-e">📗</span><div><b>MOFU <span class="gl-en">· Middle of the Funnel</span></b><span>Fase de <strong>consideración</strong>: consume contenido <strong>más formativo/de valor</strong> (ebook, webinar, newsletter). Se está formando.</span></div></div>
       <div class="gl-card"><span class="gl-e">🎯</span><div><b>BOFU <span class="gl-en">· Bottom of the Funnel</span></b><span>Fase de <strong>decisión</strong>: compara y evalúa herramientas (calculadora ROI, comparativas, demo). Alta intención.</span></div></div>
+      <div class="gl-card"><span class="gl-e">📊</span><div><b>pp <span class="gl-en">· puntos porcentuales</span></b><span>La <strong>diferencia</strong> entre la tasa de conversión de <strong>este mes</strong> y la del <strong>mes anterior</strong>, medida en puntos. Ej.: de 31% a 35% son <strong>+4 pp</strong> (no +4%).</span></div></div>
     </div>
   </details>
 
