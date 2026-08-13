@@ -894,6 +894,30 @@ def main():
             cli_inb_src += 1; cli_inb_ct += _nc
         else:
             cli_out_src += 1; cli_out_ct += _nc
+    # Clientes de Brain: deals GANADOS del pipeline «GuruSup Brain» (partners/clientes que cierran vía Brain).
+    # No están en el pipeline "Clientes", así que se suman aparte (a clientes activos y al evolutivo).
+    BRAIN_PL = "873502893"
+    cli_brain_src = 0
+    try:
+        _brain_won = fetch_all("deals", [
+            {"propertyName": "pipeline", "operator": "EQ", "value": BRAIN_PL},
+            {"propertyName": "hs_is_closed_won", "operator": "EQ", "value": "true"},
+        ], ["dealname", "createdate", "closedate", "num_associated_contacts"])
+    except Exception as e:
+        print(f"[clientes-brain] error: {e}", file=sys.stderr); _brain_won = []
+    for dl in _brain_won:
+        p = dl["properties"]
+        _k = _cli_norm(p.get("dealname"))
+        if _k in _cli_seen:
+            continue
+        _cli_seen.add(_k)
+        clientes_activos += 1
+        cli_brain_src += 1
+        _bw = (p.get("closedate") or p.get("createdate") or "")
+        cli_deal_recs.append({"created": _bw[:10]})
+        try: _nc = int(p.get("num_associated_contacts") or 0)
+        except (TypeError, ValueError): _nc = 0
+        cli_contactos += _nc
     for dl in all_deals:
         p = dl["properties"]
         name = clean_deal(p.get("dealname", "—")) or "—"
@@ -1753,6 +1777,7 @@ def main():
         "total": clientes_activos, "contactos": cli_contactos,
         "inbound": cli_inb_src, "outbound": cli_out_src,
         "inbound_ct": cli_inb_ct, "outbound_ct": cli_out_ct,
+        "brain": cli_brain_src,
     }
     # ── Churn REAL = cuentas de cliente que ya no lo son (etapa Churned/Dormidos del pipeline Clientes) ──
     exec_extra["churn"] = {"empresas": cli_churn_n, "contactos": churn_contactos,
@@ -3175,7 +3200,7 @@ def render_exec(d):
         f'<div class="emprow">👥 <span class="eb tnum">{fmt(ex.get("opp_contactos",0))}</span> contactos asociados</div></div>'
         + f'<div class="kc"><div class="kl">Clientes <span style="color:var(--mut);font-weight:600;font-size:10px">empresas únicas</span></div><div class="kv tnum">{fmt(ex.get("clientes_activos",0))}</div>'
         f'<div class="kt" style="color:var(--mut)">cuentas de cliente activas · empresa única (excl. churn/dormidos)</div>'
-        f'<div class="kt" style="margin-top:5px"><span style="color:var(--mut)">inb {fmt(ex.get("cli_split",{}).get("inbound",0))} · out {fmt(ex.get("cli_split",{}).get("outbound",0))} · 🧠 brain 0</span></div>'
+        f'<div class="kt" style="margin-top:5px"><span style="color:var(--mut)">inb {fmt(ex.get("cli_split",{}).get("inbound",0))} · out {fmt(ex.get("cli_split",{}).get("outbound",0))} · 🧠 brain {fmt(ex.get("cli_split",{}).get("brain",0))}</span></div>'
         f'<div class="emprow">👥 <span class="eb tnum">{fmt(ex.get("cli_split",{}).get("contactos",0))}</span> contactos asociados</div></div>'
         + f'<div class="kc"><div class="kl">Churn</div><div class="kv tnum">{fmt(ex.get("churn",{}).get("contactos",0))}</div>'
         f'<div class="kt" style="color:var(--mut)">han sido cliente desde el 1 ene y hoy ya no lo son</div>'
