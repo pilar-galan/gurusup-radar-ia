@@ -3709,10 +3709,6 @@ def render_exec(d):
         p = round(val / base * 100) if base else 0
         return (f'<div class="fe-cell"><div class="fe-bar"><div class="fe-bf {cls}" style="width:{p}%"></div></div>'
                 f'<span class="fe-v">{fmt(val)} <small>{p}%</small></span></div>')
-    def _fenum(val):
-        return f'<div class="fe-cell"><span class="fe-v" style="min-width:100%;text-align:left">{val}</span></div>'
-    def _dec(x):
-        return f"{x:.2f}".replace(".", ",")
     _fe_signals = [
         ("📥 Abrió algún email de marketing", fm["has"]["opens"], fl["has"]["opens"]),
         ("🖱️ Hizo clic en un email", fm["has"]["clicks"], fl["has"]["clicks"]),
@@ -3723,14 +3719,6 @@ def render_exec(d):
     _fe_rows = "".join(
         f'<div class="fe-r"><span class="fl">{lbl}</span>{_febar("mql", mv, _fmn)}{_febar("lead", lv, _fln)}</div>'
         for lbl, mv, lv in _fe_signals)
-    _fe_avgs = [
-        ("Ø aperturas de email / contacto", fm["avg"]["opens"], fl["avg"]["opens"]),
-        ("Ø sesiones web / contacto", fm["avg"]["visits"], fl["avg"]["visits"]),
-        ("Ø páginas vistas / contacto", fm["avg"]["views"], fl["avg"]["views"]),
-    ]
-    _fe_rows += "".join(
-        f'<div class="fe-r"><span class="fl">{lbl}</span>{_fenum(_dec(mv))}{_fenum(_dec(lv))}</div>'
-        for lbl, mv, lv in _fe_avgs)
     def _fe_seg(t, base):
         base = base or 1
         order = [("hot", "fe-hot", "🔥"), ("warm", "fe-warm", "🌤"),
@@ -4385,7 +4373,7 @@ def render_exec(d):
 <section>
   <div class="q">07·b · ¿Cómo de calientes están? · Fit &amp; Engagement</div>
   <h2 class="sh">Fit &amp; Engagement score <span class="tot">· {fmt(fm["n"])} MQL · {fmt(fl["n"])} leads</span></h2>
-  <div class="sd wide">Para decidir <b>a quién empujar y a quién nutrir</b> cruzamos el <b>fit</b> (encaje con el perfil objetivo) con el <b>engagement</b> (interacción real de cada contacto). Como el <b>scoring predictivo nativo de HubSpot</b> (<i>Contact priority</i> / <i>Likelihood to close</i>) <b>no está poblado</b> en el portal, construimos un <b>índice de engagement propio</b> con las señales que sí tienen dato: <b>formularios enviados, aperturas y clics de email, sesiones web y páginas vistas</b>. Abajo, esas señales enfrentadas <b>MQL vs Lead</b> y el reparto por temperatura.</div>
+  <div class="sd wide">No es una lista de contactos a tratar, sino la <b>información que nos da el CRM</b> para conocer el <b>interés real</b> de cada contacto y en qué <b>etapa</b> está — más caliente o más frío. Sirve para <b>priorizar cuando hay poca capacidad</b>: identificar bien a los que están <b>calientes</b>, distinguir a los que <b>solo consumieron un contenido y ya no vuelven</b>, y a los que <b>no son target o ni siquiera existen</b>. Como el <b>scoring predictivo nativo de HubSpot</b> (<i>Contact priority</i> / <i>Likelihood to close</i>) <b>no está poblado</b> en el portal, construimos un <b>índice propio</b> con las señales reales: <b>aperturas y clics de email, formularios, sesiones web y páginas vistas</b>. Abajo, esas señales <b>MQL vs Lead</b> y el reparto por temperatura.</div>
 
   <div class="fe-tbl">
     <div class="fe-hd"><span>Señal de interacción</span><span class="mqlc">🎯 MQL · {fmt(fm["n"])}</span><span class="leadc">🌱 Lead · {fmt(fl["n"])}</span></div>
@@ -4406,7 +4394,7 @@ def render_exec(d):
     <span><i style="background:rgba(255,255,255,.14)"></i><b>💤 Dormido</b> — sin interacción registrada</span>
   </div>
 
-  <div class="note" style="margin-top:16px">🔎 <b>Lectura.</b> El <b>MQL está más caliente por email</b>: <b>{_mql_open_p}</b> abre algún email y <b>{_mql_click_p}</b> hace clic, frente a <b>{_lead_open_p}</b> / <b>{_lead_click_p}</b> de los leads — coherente con que ya han consumido contenido. En cambio los <b>leads navegan más la web</b> (más sesiones y páginas vistas de media), porque muchos entran por <b>web/freemium</b>, mientras que el MQL llega sobre todo por <b>lead ads</b> (rellena el formulario y no vuelve). En conjunto, <b>{_mql_active_p} de los MQL</b> están activos (🔥+🌤) vs <b>{_lead_active_p} de los leads</b>. <b>Acción:</b> a los 🔥/🌤 empujarlos al <b>formulario de precualificación</b>; a los ❄️/💤 mantenerlos en <b>nurturing</b> con más aperturas y vuelta a la web como señal de reactivación.</div>
+  <div class="note" style="margin-top:16px">🔎 <b>Lectura.</b> El <b>MQL está más caliente por email</b>: <b>{_mql_open_p}</b> abre algún email y <b>{_mql_click_p}</b> hace clic, frente a <b>{_lead_open_p}</b> / <b>{_lead_click_p}</b> de los leads — coherente con que ya han consumido contenido. En conjunto, <b>{_mql_active_p} de los MQL</b> están activos (🔥+🌤) vs <b>{_lead_active_p} de los leads</b>. <b>Para qué sirve:</b> tener <b>bien identificados a los 🔥/🌤 calientes</b> y priorizarlos cuando hay poca capacidad; y reconocer a los <b>❄️/💤</b> que <b>solo consumieron un contenido y no volvieron</b> (o que no son target) para no gastar esfuerzo ahí y dejarlos en nurturing hasta que den señal de reactivación.</div>
 </section>
 
 <section>
