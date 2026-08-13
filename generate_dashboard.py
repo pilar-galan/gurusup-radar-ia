@@ -3160,6 +3160,14 @@ footer{padding:34px 0 56px;text-align:center;color:var(--mut);font-size:12px;bor
 .fe-legend{display:flex;flex-wrap:wrap;gap:16px;font-size:12px;color:var(--ink2);margin:2px 0 4px}
 .fe-legend b{color:var(--ink)}
 .fe-legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.fe-takes{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:12px;margin-top:18px}
+.fe-take{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--brand);border-radius:12px;padding:14px 16px}
+.fe-take.hot{border-left-color:#ff6b5b} .fe-take.warm{border-left-color:var(--warn)} .fe-take.cool{border-left-color:var(--sky)}
+.fe-take .tk-h{font-size:12px;font-weight:800;letter-spacing:.02em;color:var(--ink);margin-bottom:6px}
+.fe-take .tk-n{font-size:22px;font-weight:800;line-height:1;letter-spacing:-.02em}
+.fe-take .tk-n small{font-size:12px;font-weight:600;color:var(--mut)}
+.fe-take .tk-b{font-size:12.5px;color:var(--ink2);margin-top:6px}
+.fe-take.hot .tk-n{color:#ff8a5b} .fe-take.warm .tk-n{color:var(--warn)} .fe-take.cool .tk-n{color:var(--sky)}
 @media(max-width:560px){ .fe-hd,.fe-r{grid-template-columns:1fr;gap:7px} .fe-hd{display:none} .fe-r .fl{font-weight:700} }
 """
 
@@ -4373,7 +4381,7 @@ def render_exec(d):
 <section>
   <div class="q">07·b · ¿Cómo de calientes están? · Fit &amp; Engagement</div>
   <h2 class="sh">Fit &amp; Engagement score <span class="tot">· {fmt(fm["n"])} MQL · {fmt(fl["n"])} leads</span></h2>
-  <div class="sd wide">No es una lista de contactos a tratar, sino la <b>información que nos da el CRM</b> para conocer el <b>interés real</b> de cada contacto y en qué <b>etapa</b> está — más caliente o más frío. Sirve para <b>priorizar cuando hay poca capacidad</b>: identificar bien a los que están <b>calientes</b>, distinguir a los que <b>solo consumieron un contenido y ya no vuelven</b>, y a los que <b>no son target o ni siquiera existen</b>. Como el <b>scoring predictivo nativo de HubSpot</b> (<i>Contact priority</i> / <i>Likelihood to close</i>) <b>no está poblado</b> en el portal, construimos un <b>índice propio</b> con las señales reales: <b>aperturas y clics de email, formularios, sesiones web y páginas vistas</b>. Abajo, esas señales <b>MQL vs Lead</b> y el reparto por temperatura.</div>
+  <div class="sd wide">Cómo de <b>caliente</b> está cada MQL y lead según su <b>interacción real</b> (email, formularios, web), para saber <b>a quién priorizar</b>. El scoring nativo de HubSpot no está activo, así que lo medimos con <b>señales propias</b>.</div>
 
   <div class="fe-tbl">
     <div class="fe-hd"><span>Señal de interacción</span><span class="mqlc">🎯 MQL · {fmt(fm["n"])}</span><span class="leadc">🌱 Lead · {fmt(fl["n"])}</span></div>
@@ -4394,7 +4402,11 @@ def render_exec(d):
     <span><i style="background:rgba(255,255,255,.14)"></i><b>💤 Dormido</b> — sin interacción registrada</span>
   </div>
 
-  <div class="note" style="margin-top:16px">🔎 <b>Lectura.</b> El <b>MQL está más caliente por email</b>: <b>{_mql_open_p}</b> abre algún email y <b>{_mql_click_p}</b> hace clic, frente a <b>{_lead_open_p}</b> / <b>{_lead_click_p}</b> de los leads — coherente con que ya han consumido contenido. En conjunto, <b>{_mql_active_p} de los MQL</b> están activos (🔥+🌤) vs <b>{_lead_active_p} de los leads</b>. <b>Para qué sirve:</b> tener <b>bien identificados a los 🔥/🌤 calientes</b> y priorizarlos cuando hay poca capacidad; y reconocer a los <b>❄️/💤</b> que <b>solo consumieron un contenido y no volvieron</b> (o que no son target) para no gastar esfuerzo ahí y dejarlos en nurturing hasta que den señal de reactivación.</div>
+  <div class="fe-takes">
+    <div class="fe-take hot"><div class="tk-h">🔥 Más calientes por email</div><div class="tk-n">{_mql_open_p} <small>MQL abre · {_mql_click_p} clica</small></div><div class="tk-b">Vs {_lead_open_p} / {_lead_click_p} del lead: el MQL ya consumió contenido.</div></div>
+    <div class="fe-take warm"><div class="tk-h">🌡️ Nivel de actividad</div><div class="tk-n">{_mql_active_p} <small>MQL activos</small></div><div class="tk-b">Frente a {_lead_active_p} de los leads (🔥+🌤).</div></div>
+    <div class="fe-take cool"><div class="tk-h">🎯 Cómo usarlo</div><div class="tk-n">Prioriza 🔥/🌤</div><div class="tk-b">Los ❄️/💤 solo consumieron y no volvieron (o no son target) → nurturing.</div></div>
+  </div>
 </section>
 
 <section>
