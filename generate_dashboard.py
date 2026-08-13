@@ -4021,7 +4021,24 @@ def render_exec(d):
       <tr class="agc-tot"><td>Total · agosto</td><td class="agc-n">{_ag_mql}</td><td class="agc-n">{_ag_sql}</td></tr>
     </tbody>
   </table>
-  <div class="note" style="margin-top:12px">💡 Coste por MQL = gasto ÷ MQL ({_eur(_ag_spend)} ÷ {_ag_mql}). Coste por SQL = gasto ÷ SQL ({_eur(_ag_spend)} ÷ {_ag_sql}). <b>Travel</b> es la que más volumen trae; el <b>SQL</b> viene de <b>Travel + video demo</b>. Aún <b>0 clientes</b> cerrados de estas campañas. <span style="color:var(--mut)">La plataforma marca 16 contactos y las campañas suman {_ag_mql + _ag_sql} clasificados (MQL/SQL) — los {16 - (_ag_mql + _ag_sql)} restantes aún sin etapa.</span></div>
+  <div class="note" style="margin-top:12px">💡 Coste por MQL = gasto ÷ MQL ({_eur(_ag_spend)} ÷ {_ag_mql}). Coste por SQL = gasto ÷ SQL ({_eur(_ag_spend)} ÷ {_ag_sql}). <b>Travel</b> es la que más volumen trae; el <b>SQL</b> viene de <b>Travel + video demo</b>. Aún <b>0 clientes</b> cerrados de estas campañas. <span style="color:var(--mut)">La plataforma marca {_ag_cont} contactos y las campañas suman {_ag_mql + _ag_sql} clasificados (MQL/SQL) — los {_ag_cont - (_ag_mql + _ag_sql)} restantes aún sin etapa.</span></div>
+
+  <div class="section-label" style="margin:22px 0 10px">LinkedIn Ads · agosto <small>· Ebook sector Travel · 1–13 ago</small></div>
+  <div class="agc-funnel">
+    <div class="agc-tile" style="background:rgba(10,102,194,.08);border-color:rgba(10,102,194,.3)"><div class="agc-v">27K</div><div class="agc-l">Impresiones</div></div>
+    <div class="agc-arw">0,5%</div>
+    <div class="agc-tile" style="background:rgba(10,102,194,.08);border-color:rgba(10,102,194,.3)"><div class="agc-v">127</div><div class="agc-l">Clics</div><div class="agc-s" style="color:#4aa3e0">{_eur(166.62/127)} c/u</div></div>
+    <div class="agc-arw">0,0%</div>
+    <div class="agc-tile"><div class="agc-v">0</div><div class="agc-l">Contactos</div></div>
+    <div class="agc-arw">0,0%</div>
+    <div class="agc-tile"><div class="agc-v">0</div><div class="agc-l">Clientes</div></div>
+  </div>
+  <div class="cards" style="margin:14px 0">
+    <div class="stat"><div class="sv tnum">{_eur(166.62)}</div><div class="sl">Gasto en agosto<br><span style="color:var(--mut)">LinkedIn · Ebook Travel</span></div></div>
+    <div class="stat"><div class="sv tnum">{_eur(166.62/127)}</div><div class="sl">Coste por clic (CPC)<br><span style="color:var(--mut)">127 clics</span></div></div>
+    <div class="stat warn"><div class="sv tnum">0</div><div class="sl">MQL / SQL<br><span style="color:var(--mut)">sin contactos atribuidos aún</span></div></div>
+  </div>
+  <div class="note" style="margin-top:0">🔗 Campaña <b>Ebook_Linkedin_Travel</b> (lead magnet del sector travel). Genera <b>tráfico</b> (127 clics a 1,31 € c/u) pero <b>0 contactos en el CRM</b>: la plataforma reporta <b>63 errores de seguimiento de contactos</b>, así que las descargas del ebook <b>no se están atribuyendo</b> todavía. <b>Acción:</b> revisar el tracking/integración de LinkedIn Lead Gen para que los contactos entren y podamos leer coste por MQL.</div>
 </section>"""
 
     body = f"""
