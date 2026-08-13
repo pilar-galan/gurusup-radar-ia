@@ -4405,7 +4405,6 @@ def render_exec(d):
   <div class="fe-takes">
     <div class="fe-take hot"><div class="tk-h">🔥 Más calientes por email</div><div class="tk-n">{_mql_open_p} <small>MQL abre · {_mql_click_p} clica</small></div><div class="tk-b">Vs {_lead_open_p} / {_lead_click_p} del lead: el MQL ya consumió contenido.</div></div>
     <div class="fe-take warm"><div class="tk-h">🌡️ Nivel de actividad</div><div class="tk-n">{_mql_active_p} <small>MQL activos</small></div><div class="tk-b">Frente a {_lead_active_p} de los leads (🔥+🌤).</div></div>
-    <div class="fe-take cool"><div class="tk-h">🎯 Cómo usarlo</div><div class="tk-n">Prioriza 🔥/🌤</div><div class="tk-b">Los ❄️/💤 solo consumieron y no volvieron (o no son target) → nurturing.</div></div>
   </div>
 </section>
 
