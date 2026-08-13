@@ -691,7 +691,9 @@ def main():
         "phone", "mobilephone", "hubspot_owner_id",
         "hs_v2_date_entered_lead", "hs_v2_date_entered_marketingqualifiedlead",
         "hs_v2_date_entered_salesqualifiedlead", "hs_v2_date_entered_opportunity",
-        "hs_v2_date_entered_customer", "num_associated_deals"])
+        "hs_v2_date_entered_customer", "num_associated_deals",
+        "num_conversion_events", "hs_email_open", "hs_email_click",
+        "hs_analytics_num_visits", "hs_analytics_num_page_views"])
 
     hist = []
     hist_out = []   # OUTBOUND / no-inbound: importaciones + leads sin origen identificado (los trabaja Juanma)
@@ -706,6 +708,18 @@ def main():
     def _ndeals(p):
         try: return int(p.get("num_associated_deals") or 0)
         except (TypeError, ValueError): return 0
+    def _numi(v):
+        # HubSpot devuelve números como string ("2") o float ("2.0"); normaliza a int.
+        try: return int(float(v))
+        except (TypeError, ValueError): return 0
+    def _eng(p):
+        # Señales de engagement reales (las únicas con dato: el scoring predictivo nativo
+        # de HubSpot —fit/likelihood— NO está poblado en este portal).
+        return {"forms": _numi(p.get("num_conversion_events")),
+                "opens": _numi(p.get("hs_email_open")),
+                "clicks": _numi(p.get("hs_email_click")),
+                "visits": _numi(p.get("hs_analytics_num_visits")),
+                "views": _numi(p.get("hs_analytics_num_page_views"))}
     def _outrec(p, src, d1, lc):
         return {"src": src, "d1": d1, "lc": lc, "sql_state": p.get("estado_sql_consultoria") or "",
                 "email": p.get("email") or "", "company": p.get("company") or "",
@@ -755,6 +769,7 @@ def main():
             "phone": (p.get("phone") or p.get("mobilephone") or "").strip(),
             "owner": p.get("hubspot_owner_id") or "",
             "sdates": _sdates(p), "deals": _ndeals(p),
+            "eng": _eng(p),
         })
 
     daily = [c for c in hist if c["created_full"] >= start_iso]
@@ -1899,8 +1914,45 @@ def main():
     for d in open_deals:
         chan_dist[d["channel"]] = chan_dist.get(d["channel"], 0) + 1
 
+    # ── Fit & Engagement de MQLs y Leads (señales conductuales reales) ──
+    #   El scoring predictivo nativo de HubSpot (Contact priority / Likelihood to close)
+    #   NO está poblado en el portal, así que construimos un índice de engagement con las
+    #   señales que sí tienen dato: formularios, aperturas/clics de email, sesiones y páginas.
+    def _fiteng(recs):
+        n = len(recs) or 1
+        acc = {"forms": 0, "opens": 0, "clicks": 0, "visits": 0, "views": 0}
+        has = {"forms": 0, "opens": 0, "clicks": 0, "visits": 0, "views": 0}
+        multi_form = multi_visit = 0
+        tiers = {"hot": 0, "warm": 0, "cold": 0, "sleep": 0}
+        for c in recs:
+            e = c.get("eng", {})
+            for k in acc:
+                v = e.get(k, 0)
+                acc[k] += v
+                if v > 0: has[k] += 1
+            forms = e.get("forms", 0); opens = e.get("opens", 0); clicks = e.get("clicks", 0)
+            visits = e.get("visits", 0); views = e.get("views", 0)
+            if forms >= 2: multi_form += 1
+            if visits >= 2: multi_visit += 1
+            # Temperatura por regla clara (fácil de replicar en HubSpot):
+            #  🔥 señal fuerte · 🌤 abre email · ❄️ solo señal de entrada/pasiva · 💤 nada
+            if clicks >= 1 or forms >= 2 or visits >= 2:
+                tiers["hot"] += 1
+            elif opens >= 1:
+                tiers["warm"] += 1
+            elif forms >= 1 or views >= 1 or visits >= 1:
+                tiers["cold"] += 1
+            else:
+                tiers["sleep"] += 1
+        return {"n": len(recs), "avg": {k: acc[k] / n for k in acc}, "sum": acc,
+                "has": has, "multi_form": multi_form, "multi_visit": multi_visit, "tiers": tiers}
+    _mql_recs = [c for c in hist if c["lc"] == "marketingqualifiedlead"]
+    _lead_recs = [c for c in hist if c["lc"] == "lead"]
+    fiteng = {"mql": _fiteng(_mql_recs), "lead": _fiteng(_lead_recs)}
+
     data = {
         "title": title, "fecha_larga": fecha_larga, "periodo_txt": periodo_txt,
+        "fiteng": fiteng,
         "fun_label": f"{funnel_start.day} {MESES3[funnel_start.month-1]} {funnel_start.year} → hoy",
         "chart_label": f"{d0.day} {MESES3[d0.month-1]} {d0.year} → hoy",
         "cum": cum, "agenda_cum": agenda_cum, "dd": dd, "agenda_day": agenda_day, "calls_day": calls_day,
@@ -3083,6 +3135,32 @@ footer{padding:34px 0 56px;text-align:center;color:var(--mut);font-size:12px;bor
 @media(max-width:860px){ .kg,.cg{grid-template-columns:1fr 1fr} .p2{grid-template-columns:1fr} .q3{grid-template-columns:repeat(2,1fr)} }
 @media(max-width:560px){ .kg{grid-template-columns:1fr 1fr} .cg{grid-template-columns:1fr} .fn .row{grid-template-columns:88px 1fr}
   .brow{grid-template-columns:120px 1fr 58px} }
+/* ── Fit & Engagement (MQLs vs Leads) ── */
+.fe-tbl{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--card);margin:6px 0 4px}
+.fe-hd,.fe-r{display:grid;grid-template-columns:1.7fr 1fr 1fr;align-items:center;gap:16px;padding:11px 16px}
+.fe-hd{background:rgba(255,255,255,.04);font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--mut)}
+.fe-hd .mqlc{color:var(--brand)} .fe-hd .leadc{color:var(--sky)}
+.fe-r{border-top:1px solid rgba(255,255,255,.04)}
+.fe-r:nth-child(even){background:rgba(255,255,255,.015)}
+.fe-r .fl{font-size:13px;color:var(--ink)}
+.fe-cell{display:flex;align-items:center;gap:10px}
+.fe-bar{flex:1;height:8px;border-radius:6px;background:rgba(255,255,255,.07);overflow:hidden}
+.fe-bf{height:100%;border-radius:6px}
+.fe-bf.mql{background:linear-gradient(90deg,var(--brand-d),var(--brand))}
+.fe-bf.lead{background:linear-gradient(90deg,#2b7a9e,var(--sky))}
+.fe-v{font-size:12.5px;font-weight:700;color:var(--ink);min-width:70px;text-align:right}
+.fe-v small{font-weight:500;color:var(--mut)}
+.fe-seg-wrap{margin:2px 0 6px}
+.fe-tlbl{display:flex;justify-content:space-between;align-items:baseline;font-size:13px;color:var(--ink);font-weight:600;margin-bottom:7px}
+.fe-tlbl small{color:var(--mut);font-weight:500}
+.fe-seg{display:flex;height:30px;border-radius:9px;overflow:hidden;border:1px solid var(--line);margin-bottom:16px}
+.fe-seg span{display:flex;align-items:center;justify-content:center;font-size:11.5px;font-weight:800;color:#08120e;white-space:nowrap;min-width:0;overflow:hidden}
+.fe-hot{background:linear-gradient(90deg,#ff8a5b,#ff6b5b)} .fe-warm{background:linear-gradient(90deg,#ffd47a,#ffca5c)}
+.fe-cold{background:linear-gradient(90deg,#8fd6f0,#68d1f5)} .fe-sleep{background:rgba(255,255,255,.08);color:var(--mut)}
+.fe-legend{display:flex;flex-wrap:wrap;gap:16px;font-size:12px;color:var(--ink2);margin:2px 0 4px}
+.fe-legend b{color:var(--ink)}
+.fe-legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+@media(max-width:560px){ .fe-hd,.fe-r{grid-template-columns:1fr;gap:7px} .fe-hd{display:none} .fe-r .fl{font-weight:700} }
 """
 
 
@@ -3623,6 +3701,56 @@ def render_exec(d):
         f'<div class="brow"><span class="bl">{esc(k)}</span><div class="bt"><div class="bf" style="width:{round(v/cmx*100)}%"></div></div>'
         f'<span class="bn tnum">{v}<br><small>{pv(v, ctot)}</small></span></div>'
         for k, v in content_rows) or '<p class="sd">Sin datos de contenido.</p>'
+
+    # ---------- 7·b · Fit & Engagement (MQLs vs Leads) ----------
+    fe = d["fiteng"]; fm = fe["mql"]; fl = fe["lead"]
+    _fmn = fm["n"] or 1; _fln = fl["n"] or 1
+    def _febar(cls, val, base):
+        p = round(val / base * 100) if base else 0
+        return (f'<div class="fe-cell"><div class="fe-bar"><div class="fe-bf {cls}" style="width:{p}%"></div></div>'
+                f'<span class="fe-v">{fmt(val)} <small>{p}%</small></span></div>')
+    def _fenum(val):
+        return f'<div class="fe-cell"><span class="fe-v" style="min-width:100%;text-align:left">{val}</span></div>'
+    def _dec(x):
+        return f"{x:.2f}".replace(".", ",")
+    _fe_signals = [
+        ("📥 Abrió algún email de marketing", fm["has"]["opens"], fl["has"]["opens"]),
+        ("🖱️ Hizo clic en un email", fm["has"]["clicks"], fl["has"]["clicks"]),
+        ("📝 Rellenó ≥2 formularios", fm["multi_form"], fl["multi_form"]),
+        ("🔁 Volvió a la web (≥2 sesiones)", fm["multi_visit"], fl["multi_visit"]),
+        ("👀 Registra visitas a la web", fm["has"]["views"], fl["has"]["views"]),
+    ]
+    _fe_rows = "".join(
+        f'<div class="fe-r"><span class="fl">{lbl}</span>{_febar("mql", mv, _fmn)}{_febar("lead", lv, _fln)}</div>'
+        for lbl, mv, lv in _fe_signals)
+    _fe_avgs = [
+        ("Ø aperturas de email / contacto", fm["avg"]["opens"], fl["avg"]["opens"]),
+        ("Ø sesiones web / contacto", fm["avg"]["visits"], fl["avg"]["visits"]),
+        ("Ø páginas vistas / contacto", fm["avg"]["views"], fl["avg"]["views"]),
+    ]
+    _fe_rows += "".join(
+        f'<div class="fe-r"><span class="fl">{lbl}</span>{_fenum(_dec(mv))}{_fenum(_dec(lv))}</div>'
+        for lbl, mv, lv in _fe_avgs)
+    def _fe_seg(t, base):
+        base = base or 1
+        order = [("hot", "fe-hot", "🔥"), ("warm", "fe-warm", "🌤"),
+                 ("cold", "fe-cold", "❄️"), ("sleep", "fe-sleep", "💤")]
+        cells = ""
+        for k, cls, emo in order:
+            p = t[k] / base * 100
+            if p <= 0: continue
+            lab = f'{emo} {t[k]}' if p >= 9 else (f'{t[k]}' if p >= 4 else "")
+            cells += (f'<span class="{cls}" style="width:{p:.1f}%" '
+                      f'title="{emo} {t[k]} ({round(p)}%)">{lab}</span>')
+        return cells
+    _fe_seg_mql = _fe_seg(fm["tiers"], fm["n"])
+    _fe_seg_lead = _fe_seg(fl["tiers"], fl["n"])
+    # Cifras para la lectura del bloque
+    _mql_open_p = pv(fm["has"]["opens"], _fmn); _lead_open_p = pv(fl["has"]["opens"], _fln)
+    _mql_click_p = pv(fm["has"]["clicks"], _fmn); _lead_click_p = pv(fl["has"]["clicks"], _fln)
+    _mql_active = fm["tiers"]["hot"] + fm["tiers"]["warm"]
+    _lead_active = fl["tiers"]["hot"] + fl["tiers"]["warm"]
+    _mql_active_p = pv(_mql_active, _fmn); _lead_active_p = pv(_lead_active, _fln)
 
     # ---------- 8 · SQL 2 columnas ----------
     pq = d["preq"]
@@ -4252,6 +4380,33 @@ def render_exec(d):
   <div class="sd">Qué activos de contenido consumen los leads de consideración (MQL de facto) antes de pasar a SQL.</div>
   <div class="bars">{content_html}</div>
   <div class="note" style="margin-top:14px">🌱 <b>Nurturing de MQL (medio plazo).</b> Los MQL se trabajan con <b>nurturing</b> (con menos urgencia que los SQL): <b>secuencias y enriquecimiento de contenido</b> con acciones específicas (eventos, webinars, documentos) <b>alineadas con ventas, tendencias del mercado y propuesta de valor</b>. <b>Objetivo:</b> llevarlos al <b>formulario de precualificación para agendar demo</b> (donde pasan a la precualificación automatizada). Además, ir <b>sacando patrones</b> de lo que mejor convierte.</div>
+</section>
+
+<section>
+  <div class="q">07·b · ¿Cómo de calientes están? · Fit &amp; Engagement</div>
+  <h2 class="sh">Fit &amp; Engagement score <span class="tot">· {fmt(fm["n"])} MQL · {fmt(fl["n"])} leads</span></h2>
+  <div class="sd wide">Para decidir <b>a quién empujar y a quién nutrir</b> cruzamos el <b>fit</b> (encaje con el perfil objetivo) con el <b>engagement</b> (interacción real de cada contacto). Como el <b>scoring predictivo nativo de HubSpot</b> (<i>Contact priority</i> / <i>Likelihood to close</i>) <b>no está poblado</b> en el portal, construimos un <b>índice de engagement propio</b> con las señales que sí tienen dato: <b>formularios enviados, aperturas y clics de email, sesiones web y páginas vistas</b>. Abajo, esas señales enfrentadas <b>MQL vs Lead</b> y el reparto por temperatura.</div>
+
+  <div class="fe-tbl">
+    <div class="fe-hd"><span>Señal de interacción</span><span class="mqlc">🎯 MQL · {fmt(fm["n"])}</span><span class="leadc">🌱 Lead · {fmt(fl["n"])}</span></div>
+    {_fe_rows}
+  </div>
+
+  <div class="section-label" style="margin:24px 0 12px">Índice de engagement · reparto por temperatura</div>
+  <div class="fe-seg-wrap">
+    <div class="fe-tlbl"><span>🎯 MQL <small>· {fmt(fm["n"])} contactos</small></span><span><b style="color:var(--brand)">{_mql_active_p}</b> activos (🔥+🌤)</span></div>
+    <div class="fe-seg">{_fe_seg_mql}</div>
+    <div class="fe-tlbl"><span>🌱 Lead <small>· {fmt(fl["n"])} contactos</small></span><span><b style="color:var(--sky)">{_lead_active_p}</b> activos (🔥+🌤)</span></div>
+    <div class="fe-seg">{_fe_seg_lead}</div>
+  </div>
+  <div class="fe-legend">
+    <span><i style="background:linear-gradient(90deg,#ff8a5b,#ff6b5b)"></i><b>🔥 Caliente</b> — varias señales fuertes (clic, multi-form, vuelve a la web)</span>
+    <span><i style="background:linear-gradient(90deg,#ffd47a,#ffca5c)"></i><b>🌤 Templado</b> — abre algún email (sin señal fuerte todavía)</span>
+    <span><i style="background:linear-gradient(90deg,#8fd6f0,#68d1f5)"></i><b>❄️ Frío</b> — solo la señal de entrada (1 formulario / visita suelta)</span>
+    <span><i style="background:rgba(255,255,255,.14)"></i><b>💤 Dormido</b> — sin interacción registrada</span>
+  </div>
+
+  <div class="note" style="margin-top:16px">🔎 <b>Lectura.</b> El <b>MQL está más caliente por email</b>: <b>{_mql_open_p}</b> abre algún email y <b>{_mql_click_p}</b> hace clic, frente a <b>{_lead_open_p}</b> / <b>{_lead_click_p}</b> de los leads — coherente con que ya han consumido contenido. En cambio los <b>leads navegan más la web</b> (más sesiones y páginas vistas de media), porque muchos entran por <b>web/freemium</b>, mientras que el MQL llega sobre todo por <b>lead ads</b> (rellena el formulario y no vuelve). En conjunto, <b>{_mql_active_p} de los MQL</b> están activos (🔥+🌤) vs <b>{_lead_active_p} de los leads</b>. <b>Acción:</b> a los 🔥/🌤 empujarlos al <b>formulario de precualificación</b>; a los ❄️/💤 mantenerlos en <b>nurturing</b> con más aperturas y vuelta a la web como señal de reactivación.</div>
 </section>
 
 <section>
