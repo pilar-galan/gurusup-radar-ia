@@ -894,30 +894,35 @@ def main():
             cli_inb_src += 1; cli_inb_ct += _nc
         else:
             cli_out_src += 1; cli_out_ct += _nc
-    # Clientes de Brain: deals GANADOS del pipeline «GuruSup Brain» (partners/clientes que cierran vía Brain).
-    # No están en el pipeline "Clientes", así que se suman aparte (a clientes activos y al evolutivo).
+    # Clientes GANADOS fuera del pipeline "Clientes" (Brain u otros pipelines, p. ej. Saleschemy):
+    # cuentan como cliente activo. Se suman aparte (a clientes activos, evolutivo y desglose).
     BRAIN_PL = "873502893"
     cli_brain_src = 0
     try:
-        _brain_won = fetch_all("deals", [
-            {"propertyName": "pipeline", "operator": "EQ", "value": BRAIN_PL},
+        _won_extra = fetch_all("deals", [
             {"propertyName": "hs_is_closed_won", "operator": "EQ", "value": "true"},
-        ], ["dealname", "createdate", "closedate", "num_associated_contacts"])
+        ], ["dealname", "pipeline", "createdate", "closedate", "num_associated_contacts",
+            "hs_analytics_source", "hs_analytics_source_data_1"])
     except Exception as e:
-        print(f"[clientes-brain] error: {e}", file=sys.stderr); _brain_won = []
-    for dl in _brain_won:
+        print(f"[clientes-extra] error: {e}", file=sys.stderr); _won_extra = []
+    for dl in _won_extra:
         p = dl["properties"]
+        if p.get("pipeline") == CLIENTES_PL:
+            continue   # los ganados del pipeline Clientes ya se contaron arriba
         _k = _cli_norm(p.get("dealname"))
         if _k in _cli_seen:
             continue
         _cli_seen.add(_k)
         clientes_activos += 1
-        cli_brain_src += 1
         _bw = (p.get("closedate") or p.get("createdate") or "")
         cli_deal_recs.append({"created": _bw[:10]})
         try: _nc = int(p.get("num_associated_contacts") or 0)
         except (TypeError, ValueError): _nc = 0
         cli_contactos += _nc
+        if p.get("pipeline") == BRAIN_PL:
+            cli_brain_src += 1
+        else:
+            cli_out_src += 1; cli_out_ct += _nc
     for dl in all_deals:
         p = dl["properties"]
         name = clean_deal(p.get("dealname", "—")) or "—"
