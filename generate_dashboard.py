@@ -3981,12 +3981,12 @@ def render_exec(d):
     # ── Campañas activas de paid · agosto (Meta Ads) · datos de la plataforma (pantallazos) ──
     def _eur(v):
         return f"{v:,.2f}".replace(",", "§").replace(".", ",").replace("§", ".") + " €"
-    _ag_spend = 1191.11
-    _ag_impr, _ag_clics, _ag_cont, _ag_cli = 70000, 3000, 16, 0
+    _ag_spend = 1368.69
+    _ag_impr, _ag_clics, _ag_cont, _ag_cli = 83000, 4000, 19, 0
     _ag_camps = [
         ("Meta · Travel", "🏖️", 9, 0),
         ("Meta · Travel + video demo", "🎬", 3, 1),
-        ("Meta · Ecommerce", "🛒", 1, 0),
+        ("Meta · Ecommerce", "🛒", 3, 0),
     ]
     _ag_mql = sum(m for _n, _i, m, _s in _ag_camps)
     _ag_sql = sum(s for _n, _i, _m, s in _ag_camps)
@@ -4000,12 +4000,12 @@ def render_exec(d):
 <section>
   <div class="q">04c · ¿Qué está trayendo el paid activo este mes?</div>
   <h2 class="sh">Campañas activas · agosto <span class="tot">· Meta Ads</span></h2>
-  <div class="sd wide">Campañas de <b>Meta Ads</b> activas en agosto (travel, ecommerce y demo). Todo el volumen entra como <b>MQL</b> salvo <b>1 SQL</b>. Cifras de la plataforma de Ads (pueden tener ligero retraso frente al CRM).</div>
+  <div class="sd wide">Campañas de <b>Meta Ads</b> activas del <b>1 al 13 de agosto</b> (travel, ecommerce y demo). Todo el volumen entra como <b>MQL</b> salvo <b>1 SQL</b>. Cifras de la plataforma de Ads (pueden tener ligero retraso frente al CRM).</div>
   <div class="agc-funnel">
-    <div class="agc-tile"><div class="agc-v">70K</div><div class="agc-l">Impresiones</div></div>
-    <div class="agc-arw">4,1%</div>
-    <div class="agc-tile"><div class="agc-v">3K</div><div class="agc-l">Clics</div></div>
-    <div class="agc-arw">0,6%</div>
+    <div class="agc-tile"><div class="agc-v">83K</div><div class="agc-l">Impresiones</div></div>
+    <div class="agc-arw">4,4%</div>
+    <div class="agc-tile"><div class="agc-v">4K</div><div class="agc-l">Clics</div></div>
+    <div class="agc-arw">0,5%</div>
     <div class="agc-tile hot"><div class="agc-v">{_ag_cont}</div><div class="agc-l">Contactos</div><div class="agc-s">{_ag_cpc} c/u</div></div>
     <div class="agc-arw">0,0%</div>
     <div class="agc-tile"><div class="agc-v">{_ag_cli}</div><div class="agc-l">Clientes</div></div>
