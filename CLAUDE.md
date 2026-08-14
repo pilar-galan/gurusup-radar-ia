@@ -16,6 +16,26 @@ fuente hay que commitear y disparar el workflow para que regenere el HTML.
 - Mantener este estilo de párrafo equilibrado/justificado en cualquier bloque de texto
   introductorio o explicativo que se añada en el futuro.
 
+## Portadilla común de materiales (aplicar a TODOS los contenidos)
+
+A partir de ahora **todos los materiales** (infografías, guías, checklists, eBooks,
+embudos y cualquier pieza nueva) deben abrir con la **misma portadilla / identidad visual**:
+
+- **Cabecera a sangre (full-bleed), 100 % de ancho**, sin márgenes blancos ni aspecto de
+  "card". Fondo **azul navy oscuro** (`--hero-bg: #0a162e`).
+- **Eyebrow arriba**: en **coral, mayúsculas y tamaño pequeño**, indica el **formato**
+  (INFOGRAFÍA / GUÍA / CHECKLIST / EBOOK…) y el ámbito (p. ej. `· AGENTES IA PARA CUSTOMER SERVICE`).
+- **Titular en blanco**, destacando la **palabra clave en coral** (`--accent: #fe715d`),
+  normalmente en serif itálica `.accent-serif` (Georgia).
+- **Iconografía/ilustración a la derecha** que ilustre el contenido de la izquierda
+  (p. ej. clipboard con checks para un checklist, círculo de iconos para una infografía).
+- **Debajo del titular, 1–2 líneas** (no párrafos) que introduzcan de qué va el contenido inferior.
+- Paleta común: navy `#0a162e`, texto blanco, acento coral `#fe715d` / `--accent-ink #d64b36`,
+  buenos secundarios verde `#2f9e63` (positivo) y periwinkle `#6a5ce0` (novedad/Brain).
+- Los fuentes de estos materiales viven en el scratchpad de sesión
+  (`build_info.py` = infografía, `build_checklist.py` = checklist, `build.py` = embudo);
+  cada uno renderiza su HTML y su PDF vía Playwright/PyMuPDF.
+
 ## Restricciones permanentes
 
 - Nunca exponer el identificador de modelo en artefactos del repo, commits ni PRs.
