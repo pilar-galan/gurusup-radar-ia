@@ -3116,6 +3116,7 @@ details.chdeals .dl span{font-size:11px;background:rgba(104,209,245,.1);border:1
 .agc-tbl th{color:var(--mut);font-size:11px;text-transform:uppercase;letter-spacing:.04em;font-weight:700}
 .agc-tbl td.agc-n,.agc-tbl th.agc-n{text-align:right;font-variant-numeric:tabular-nums}
 .agc-tbl tr.agc-tot td{border-top:2px solid var(--line);border-bottom:none;font-weight:900;color:var(--ink)}
+.agc-tbl tr.agc-sub td{background:rgba(255,255,255,.03);font-weight:800;color:var(--ink2)}
 @media(max-width:640px){.agc-funnel{flex-wrap:wrap}.agc-tile{flex-basis:40%}.agc-arw{display:none}}
 .strat b{color:var(--brand)}
 .note{background:linear-gradient(150deg,rgba(111,240,162,.12),rgba(111,240,162,.02));border:1px solid var(--line2);border-radius:14px;padding:16px 18px;font-size:13px;color:var(--ink2);margin-top:18px}
@@ -3169,6 +3170,15 @@ footer{padding:34px 0 56px;text-align:center;color:var(--mut);font-size:12px;bor
 .fe-take .tk-b{font-size:12.5px;color:var(--ink2);margin-top:6px}
 .fe-take.hot .tk-n{color:#ff8a5b} .fe-take.warm .tk-n{color:var(--warn)} .fe-take.cool .tk-n{color:var(--sky)}
 @media(max-width:560px){ .fe-hd,.fe-r{grid-template-columns:1fr;gap:7px} .fe-hd{display:none} .fe-r .fl{font-weight:700} }
+/* ── Desplegable ejecutivo (recoge bloques densos) ── */
+.foldbox{border:1px solid var(--line);border-radius:14px;background:var(--card);margin:6px 0 4px;overflow:hidden}
+.foldbox>summary{cursor:pointer;list-style:none;padding:14px 18px;font-size:13.5px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:10px}
+.foldbox>summary::-webkit-details-marker{display:none}
+.foldbox>summary::after{content:"▸";margin-left:auto;color:var(--mut);transition:transform .2s;font-size:15px}
+.foldbox[open]>summary::after{transform:rotate(90deg)}
+.foldbox>summary .fb-hint{font-weight:500;font-size:11.5px;color:var(--mut)}
+.foldbox[open]>summary{border-bottom:1px solid var(--line)}
+.foldbox>.fb-body{padding:14px 16px 16px}
 """
 
 
@@ -4135,64 +4145,71 @@ def render_exec(d):
     # ── Campañas activas de paid · agosto (Meta Ads) · datos de la plataforma (pantallazos) ──
     def _eur(v):
         return f"{v:,.2f}".replace(",", "§").replace(".", ",").replace("§", ".") + " €"
-    _ag_spend = 1368.69
-    _ag_impr, _ag_clics, _ag_cont, _ag_cli = 83000, 4000, 19, 0
+    # Gasto por plataforma (Meta total repartido no disponible por campaña → gasto a nivel plataforma)
+    _meta_spend = 1368.69
+    _li_spend = 166.62
+    _ag_spend = _meta_spend + _li_spend                 # gasto total Social Ads agosto
+    _meta_impr, _meta_clics, _meta_cont = 83000, 4000, 19
+    _li_impr, _li_clics, _li_cont = 27000, 127, 0
+    _ag_impr = _meta_impr + _li_impr                    # 110K
+    _ag_clics = _meta_clics + _li_clics                 # 4.127
+    _ag_cont = _meta_cont + _li_cont                    # 19
+    _ag_cli = 0
+    # (nombre, icono, plataforma, MQL, SQL, gasto|None)  · gasto solo a nivel plataforma
     _ag_camps = [
-        ("Meta · Travel", "🏖️", 9, 0),
-        ("Meta · Travel + video demo", "🎬", 3, 1),
-        ("Meta · Ecommerce", "🛒", 3, 0),
+        ("Meta · Travel", "🏖️", "meta", 9, 0, None),
+        ("Meta · Travel + video demo", "🎬", "meta", 3, 1, None),
+        ("Meta · Ecommerce", "🛒", "meta", 3, 0, None),
+        ("LinkedIn · Ebook Travel", "🔗", "li", 0, 0, _li_spend),
     ]
-    _ag_mql = sum(m for _n, _i, m, _s in _ag_camps)
-    _ag_sql = sum(s for _n, _i, _m, s in _ag_camps)
+    _ag_mql = sum(c[3] for c in _ag_camps)
+    _ag_sql = sum(c[4] for c in _ag_camps)
+    _meta_mql = sum(c[3] for c in _ag_camps if c[2] == "meta")
+    _meta_sql = sum(c[4] for c in _ag_camps if c[2] == "meta")
     _ag_cpm = _eur(_ag_spend / _ag_mql) if _ag_mql else "—"
     _ag_cps = _eur(_ag_spend / _ag_sql) if _ag_sql else "—"
     _ag_cpc = _eur(_ag_spend / _ag_cont) if _ag_cont else "—"
-    _ag_rows = "".join(
-        f'<tr><td>{icon} {esc(nm)}</td><td class="agc-n">{m}</td><td class="agc-n">{s}</td></tr>'
-        for nm, icon, m, s in _ag_camps)
+    def _cps_cell(spend, sql):
+        return _eur(spend / sql) if (spend and sql) else "—"
+    _ag_rows = ""
+    for nm, icon, plat, m, s, sp in _ag_camps:
+        _sp_txt = _eur(sp) if sp is not None else '<span style="color:var(--mut)">—</span>'
+        _ag_rows += (f'<tr><td>{icon} {esc(nm)}</td><td class="agc-n">{_sp_txt}</td>'
+                     f'<td class="agc-n">{m}</td><td class="agc-n">{s}</td>'
+                     f'<td class="agc-n">{_cps_cell(sp, s)}</td></tr>')
+    # Subtotal Meta (gasto a nivel plataforma) intercalado tras sus campañas
+    _meta_subtotal = (f'<tr class="agc-sub"><td>Σ Meta Ads</td><td class="agc-n">{_eur(_meta_spend)}</td>'
+                      f'<td class="agc-n">{_meta_mql}</td><td class="agc-n">{_meta_sql}</td>'
+                      f'<td class="agc-n">{_cps_cell(_meta_spend, _meta_sql)}</td></tr>')
+    # Insertar el subtotal Meta justo antes de la fila de LinkedIn
+    _ag_rows = _ag_rows.replace('<tr><td>🔗', _meta_subtotal + '<tr><td>🔗', 1)
+    _imprK = f"{round(_ag_impr/1000)}K"
     ag_camp_html = f"""
 <section>
   <div class="q">04c · ¿Qué está trayendo el paid activo este mes?</div>
-  <h2 class="sh">Campañas activas · agosto <span class="tot">· Meta Ads</span></h2>
-  <div class="sd wide">Campañas de <b>Meta Ads</b> activas del <b>1 al 13 de agosto</b> (travel, ecommerce y demo). Todo el volumen entra como <b>MQL</b> salvo <b>1 SQL</b>. Cifras de la plataforma de Ads (pueden tener ligero retraso frente al CRM).</div>
+  <h2 class="sh">Campañas activas · agosto <span class="tot">· Social Ads · Meta + LinkedIn</span></h2>
+  <div class="sd wide">Campañas de <b>Meta Ads</b> y <b>LinkedIn Ads</b> activas del <b>1 al 13 de agosto</b> (travel, ecommerce y demo). Volumen combinado y desglose por campaña. Cifras de las plataformas de Ads (pueden tener ligero retraso frente al CRM).</div>
   <div class="agc-funnel">
-    <div class="agc-tile"><div class="agc-v">83K</div><div class="agc-l">Impresiones</div></div>
-    <div class="agc-arw">4,4%</div>
-    <div class="agc-tile"><div class="agc-v">4K</div><div class="agc-l">Clics</div></div>
-    <div class="agc-arw">0,5%</div>
+    <div class="agc-tile"><div class="agc-v">{_imprK}</div><div class="agc-l">Impresiones</div></div>
+    <div class="agc-arw">{pv(_ag_clics, _ag_impr)}</div>
+    <div class="agc-tile"><div class="agc-v">{fmt(_ag_clics)}</div><div class="agc-l">Clics</div></div>
+    <div class="agc-arw">{pv(_ag_cont, _ag_clics)}</div>
     <div class="agc-tile hot"><div class="agc-v">{_ag_cont}</div><div class="agc-l">Contactos</div><div class="agc-s">{_ag_cpc} c/u</div></div>
-    <div class="agc-arw">0,0%</div>
+    <div class="agc-arw">{pv(_ag_cli, _ag_cont)}</div>
     <div class="agc-tile"><div class="agc-v">{_ag_cli}</div><div class="agc-l">Clientes</div></div>
   </div>
   <div class="cards" style="margin:14px 0">
-    <div class="stat"><div class="sv tnum">{_eur(_ag_spend)}</div><div class="sl">Gasto en agosto<br><span style="color:var(--mut)">Meta Ads · campañas activas</span></div></div>
+    <div class="stat"><div class="sv tnum">{_eur(_ag_spend)}</div><div class="sl">Gasto total · agosto<br><span style="color:var(--mut)">Meta {_eur(_meta_spend)} + LinkedIn {_eur(_li_spend)}</span></div></div>
     <div class="stat ok"><div class="sv tnum">{_ag_cpm}</div><div class="sl">Coste por MQL<br><span style="color:var(--mut)">{_ag_mql} MQL generados</span></div></div>
     <div class="stat warn"><div class="sv tnum">{_ag_cps}</div><div class="sl">Coste por SQL<br><span style="color:var(--mut)">{_ag_sql} SQL generado</span></div></div>
   </div>
   <table class="agc-tbl">
-    <thead><tr><th>Campaña activa</th><th class="agc-n">MQL</th><th class="agc-n">SQL</th></tr></thead>
+    <thead><tr><th>Campaña activa</th><th class="agc-n">Gasto</th><th class="agc-n">MQL</th><th class="agc-n">SQL</th><th class="agc-n">€ / SQL</th></tr></thead>
     <tbody>{_ag_rows}
-      <tr class="agc-tot"><td>Total · agosto</td><td class="agc-n">{_ag_mql}</td><td class="agc-n">{_ag_sql}</td></tr>
+      <tr class="agc-tot"><td>Total · agosto</td><td class="agc-n">{_eur(_ag_spend)}</td><td class="agc-n">{_ag_mql}</td><td class="agc-n">{_ag_sql}</td><td class="agc-n">{_cps_cell(_ag_spend, _ag_sql)}</td></tr>
     </tbody>
   </table>
-  <div class="note" style="margin-top:12px">💡 Coste por MQL = gasto ÷ MQL ({_eur(_ag_spend)} ÷ {_ag_mql}). Coste por SQL = gasto ÷ SQL ({_eur(_ag_spend)} ÷ {_ag_sql}). <b>Travel</b> es la que más volumen trae; el <b>SQL</b> viene de <b>Travel + video demo</b>. Aún <b>0 clientes</b> cerrados de estas campañas. <span style="color:var(--mut)">La plataforma marca {_ag_cont} contactos y las campañas suman {_ag_mql + _ag_sql} clasificados (MQL/SQL) — los {_ag_cont - (_ag_mql + _ag_sql)} restantes aún sin etapa.</span></div>
-
-  <div class="section-label" style="margin:22px 0 10px">LinkedIn Ads · agosto <small>· Ebook sector Travel · 1–13 ago</small></div>
-  <div class="agc-funnel">
-    <div class="agc-tile" style="background:rgba(10,102,194,.08);border-color:rgba(10,102,194,.3)"><div class="agc-v">27K</div><div class="agc-l">Impresiones</div></div>
-    <div class="agc-arw">0,5%</div>
-    <div class="agc-tile" style="background:rgba(10,102,194,.08);border-color:rgba(10,102,194,.3)"><div class="agc-v">127</div><div class="agc-l">Clics</div><div class="agc-s" style="color:#4aa3e0">{_eur(166.62/127)} c/u</div></div>
-    <div class="agc-arw">0,0%</div>
-    <div class="agc-tile"><div class="agc-v">0</div><div class="agc-l">Contactos</div></div>
-    <div class="agc-arw">0,0%</div>
-    <div class="agc-tile"><div class="agc-v">0</div><div class="agc-l">Clientes</div></div>
-  </div>
-  <div class="cards" style="margin:14px 0">
-    <div class="stat"><div class="sv tnum">{_eur(166.62)}</div><div class="sl">Gasto en agosto<br><span style="color:var(--mut)">LinkedIn · Ebook Travel</span></div></div>
-    <div class="stat"><div class="sv tnum">{_eur(166.62/127)}</div><div class="sl">Coste por clic (CPC)<br><span style="color:var(--mut)">127 clics</span></div></div>
-    <div class="stat warn"><div class="sv tnum">0</div><div class="sl">MQL / SQL<br><span style="color:var(--mut)">sin contactos atribuidos aún</span></div></div>
-  </div>
-  <div class="note" style="margin-top:0">🔗 Campaña <b>Ebook_Linkedin_Travel</b> (lead magnet del sector travel). Genera <b>tráfico</b> (127 clics a 1,31 € c/u) pero <b>0 contactos en el CRM</b>: la plataforma reporta <b>63 errores de seguimiento de contactos</b>, así que las descargas del ebook <b>no se están atribuyendo</b> todavía. <b>Acción:</b> revisar el tracking/integración de LinkedIn Lead Gen para que los contactos entren y podamos leer coste por MQL.</div>
+  <div class="note" style="margin-top:12px">💡 <b>Gasto total {_eur(_ag_spend)}</b> (Meta {_eur(_meta_spend)} + LinkedIn {_eur(_li_spend)}) → <b>{_ag_mql} MQL</b> y <b>{_ag_sql} SQL</b>. Coste por MQL = {_ag_cpm}; coste por SQL = {_ag_cps}. <b>Travel (Meta)</b> es la que más volumen trae; el <b>SQL</b> viene de <b>Travel + video demo</b>. <b>LinkedIn</b> genera tráfico (127 clics a {_eur(_li_spend/_li_clics)} c/u) pero <b>0 contactos en el CRM</b>: la plataforma reporta errores de seguimiento y las descargas del ebook <b>no se están atribuyendo</b> aún — revisar el tracking de LinkedIn Lead Gen. El gasto de Meta no viene desglosado por campaña, por eso se muestra a nivel plataforma (Σ Meta).</div>
 </section>"""
 
     body = f"""
@@ -4295,7 +4312,7 @@ def render_exec(d):
   <div class="q">04 · ¿Qué canal genera negocio real?</div>
   <h2 class="sh">Rendimiento por canal <span class="tot">· global</span></h2>
   <div class="sd">Cómo rinde cada canal del contacto al negocio (acumulado desde el 1 de enero, sin Freemium), separado en <b style="color:var(--brand)">🟢 Inbound</b>, <b style="color:var(--warn)">🟠 Outbound</b> y <b style="color:var(--violet)">🧠 Brain</b>.</div>
-  {matrix_html}
+  <details class="foldbox"><summary>📊 Ver rendimiento por canal · mes a mes <span class="fb-hint">— desplegar y navegar por meses</span></summary><div class="fb-body">{matrix_html}</div></details>
   <div class="note" style="margin-top:16px">📌 <b>Lectura importante de los meses anteriores.</b> Hasta ahora no había un criterio único de atribución: muchos contactos estaban en la <b>etapa de ciclo de vida equivocada</b> (p. ej. <b>freemiums marcados como SQL u oportunidad</b>), lo que <b>sesga el dato</b>. Por eso los meses previos (p. ej. el volumen de oportunidades de febrero/marzo) <b>no reflejan oportunidades reales</b> según la lógica actual del pipeline. <b>Desde junio-julio</b> se ha establecido un <b>criterio de atribución</b> para trazar bien la adquisición y entender cómo evoluciona cada contacto. A partir de aquí el evolutivo es fiable y comparable — la clave es <b>mantener el proceso estable</b>.</div>
 </section>
 
@@ -4330,8 +4347,7 @@ def render_exec(d):
     <div class="stat ok"><div class="sv tnum">{fmt(cum["lead"])}</div><div class="sl">🟢 Inbound<br><span style="color:var(--mut)">{pv(cum["lead"], g_lead)} del total</span></div></div>
     <div class="stat warn"><div class="sv tnum">{fmt(ob["lead"])}</div><div class="sl">🟠 Outbound / comercial<br><span style="color:var(--mut)">{pv(ob["lead"], g_lead)} del total</span></div></div>
   </div>
-  <div class="section-label" style="margin:4px 0 10px">Origen / contenido de los leads inbound <small>· {fmt(cum["lead"])}</small></div>
-  <div class="bars">{leads_html}</div>
+  <details class="foldbox"><summary>🟢 Ver origen / contenido de los leads inbound <span class="fb-hint">· {fmt(cum["lead"])} leads — desplegar desglose</span></summary><div class="fb-body"><div class="bars">{leads_html}</div></div></details>
   <div class="section-label" style="margin:22px 0 10px">La estrategia · de contacto anónimo a demo pedida por el propio cliente</div>
   <div class="journey">
     <!-- Etapa 1 · LEAD -->
@@ -4374,7 +4390,7 @@ def render_exec(d):
   <div class="q">07 · ¿Qué consumen los MQL?</div>
   <h2 class="sh">Estado de los MQL <span class="tot">· {fmt(ctot)}</span> · contenido consumido</h2>
   <div class="sd">Qué activos de contenido consumen los leads de consideración (MQL de facto) antes de pasar a SQL.</div>
-  <div class="bars">{content_html}</div>
+  <details class="foldbox"><summary>📗 Ver contenido consumido por los MQL <span class="fb-hint">— desplegar desglose</span></summary><div class="fb-body"><div class="bars">{content_html}</div></div></details>
   <div class="note" style="margin-top:14px">🌱 <b>Nurturing de MQL (medio plazo).</b> Los MQL se trabajan con <b>nurturing</b> (con menos urgencia que los SQL): <b>secuencias y enriquecimiento de contenido</b> con acciones específicas (eventos, webinars, documentos) <b>alineadas con ventas, tendencias del mercado y propuesta de valor</b>. <b>Objetivo:</b> llevarlos al <b>formulario de precualificación para agendar demo</b> (donde pasan a la precualificación automatizada). Además, ir <b>sacando patrones</b> de lo que mejor convierte.</div>
 </section>
 
