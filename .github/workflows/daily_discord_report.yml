@@ -75,7 +75,7 @@ jobs:
               "embeds": [{
                   "title": f"📊 {asunto}",
                   "description": f"**Período:** {periodo}\n\n👉 **Ver dashboard completo →** {dash_url}",
-                  "color": 0xFF6B5B,
+                  "color": 0x2ECF8F,
                   "footer": {"text": "GuruSup · Dashboard Diario · datos actualizados desde HubSpot"},
               }],
           }

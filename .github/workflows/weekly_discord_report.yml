@@ -46,7 +46,7 @@ jobs:
               "embeds": [{
                   "title": "📊 Seguimiento Semanal de Oportunidades · GuruSup",
                   "description": f"**Semana {week}**",
-                  "color": 0xFF6B5B,
+                  "color": 0x2ECF8F,
                   "fields": [
                       {"name": "🔢 Leads totales",        "value": "**116**",                                         "inline": True},
                       {"name": "✅ Ya gestionados",        "value": "**31** · 27% del total",                        "inline": True},

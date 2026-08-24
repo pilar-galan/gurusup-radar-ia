@@ -74,11 +74,11 @@ body{{font-family:Helvetica,Arial,sans-serif;background:#2B2D31;padding:20px;wid
 .wrapper{{background:#1A1D28;border-radius:12px;overflow:hidden}}
 .banner{{padding:24px 30px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #252836;gap:20px}}
 .bl .label{{color:#fff;font-size:15px;font-weight:300;letter-spacing:.08em;text-transform:uppercase}}
-.bl .brand{{color:#FF6B5B;font-size:28px;font-family:Georgia,serif;font-style:italic;margin:4px 0 5px}}
+.bl .brand{{color:#2ECF8F;font-size:28px;font-family:Georgia,serif;font-style:italic;margin:4px 0 5px}}
 .bl .date{{color:#AEAEAE;font-size:15px}}
 .bubble{{background:#fff;border-radius:14px 14px 4px 14px;padding:12px 18px;font-size:15px;color:#171717;white-space:nowrap;flex-shrink:0}}
 .cards{{padding:12px}}
-.card{{background:#fff;border-radius:10px;border-left:5px solid #FF6B5B;margin-bottom:10px;overflow:hidden}}
+.card{{background:#fff;border-radius:10px;border-left:5px solid #2ECF8F;margin-bottom:10px;overflow:hidden}}
 .card:last-child{{margin-bottom:0}}
 .card-body{{padding:18px 20px 12px}}
 .tag{{display:inline-block;background:#171717;color:#fff;font-size:13px;font-weight:700;padding:5px 12px;border-radius:4px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:14px}}
@@ -86,10 +86,10 @@ body{{font-family:Helvetica,Arial,sans-serif;background:#2B2D31;padding:20px;wid
 .para{{font-size:16px;color:#4b5563;line-height:1.65;margin-bottom:12px}}
 .kpis{{margin-bottom:4px}}
 .kpi{{font-size:16px;color:#4b5563;line-height:2.0}}
-.kpi strong{{color:#FF6B5B}}
+.kpi strong{{color:#2ECF8F}}
 .rec{{background:#FAE5DC;padding:14px 20px;font-size:15px;color:#171717;font-style:italic;line-height:1.6}}
 .src{{padding:10px 20px 14px;font-size:14px;color:#9ca3af}}
-.src a{{color:#FF6B5B;text-decoration:none}}
+.src a{{color:#2ECF8F;text-decoration:none}}
 </style></head><body><div class="wrapper">
 <div class="banner"><div class="bl"><div class="label">Radar IA / CX / ATC</div><div class="brand">GuruSup</div><div class="date">{escape(today)}</div></div><div class="bubble">Lo que no te puedes perder hoy!</div></div>
 <div class="cards">{cards_html}</div></div></body></html>"""
