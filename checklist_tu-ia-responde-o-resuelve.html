@@ -28,17 +28,20 @@ body{font-family:var(--sans);color:var(--fg);background:var(--canvas);-webkit-fo
 .slab.inv .t{color:var(--primary)}
 
 /* hero (inverted) */
-.hero{background:var(--inverted);color:var(--inv-fg);padding:30px 34px 34px;}
-.hero .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:34px}
+.hero{background:var(--inverted);color:var(--inv-fg);padding:44px 44px 56px;}
+.hero .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:44px}
 .hero .kick{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--primary);display:flex;align-items:center;gap:8px}
 .hero .kick .s{width:10px;height:10px;background:var(--primary)}
-.hero h1{font-weight:600;font-size:44px;line-height:1.05;letter-spacing:-1.4px;margin-top:16px;max-width:15ch}
+.hero h1{font-weight:600;font-size:44px;line-height:1.1;letter-spacing:-1.4px;margin-top:26px;max-width:15ch}
 .hero h1 .g{color:var(--primary)}
-.hero .sub{font-size:15px;line-height:1.55;color:var(--inv-muted);margin-top:16px;max-width:58ch}
+.hero .sub{font-size:15px;line-height:1.6;color:var(--inv-muted);margin-top:26px;max-width:58ch}
 .hero .sub b{color:var(--inv-fg);font-weight:600}
 
+/* content wrapper (after hero) */
+.content{flex:1 1 auto;display:flex;flex-direction:column;padding:44px 44px 40px;}
+
 /* legend */
-.legend{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:16px 34px;border-bottom:1px solid var(--border);}
+.legend{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-bottom:22px;margin-bottom:32px;border-bottom:1px solid var(--border);}
 .legend .l{display:flex;gap:26px;align-items:center}
 .legend .li{display:flex;gap:9px;align-items:center;font-size:14px;font-weight:500}
 .legend .note{font-family:var(--mono);font-size:12px;color:var(--muted)}
@@ -51,24 +54,24 @@ body{font-family:var(--sans);color:var(--fg);background:var(--canvas);-webkit-fo
 .grid{flex:1 1 auto;display:grid;border-top:1px solid var(--border);border-left:1px solid var(--border);}
 .grid.g3{grid-template-columns:repeat(3,1fr)}
 .grid.g2{grid-template-columns:repeat(2,1fr)}
-.card{border-right:1px solid var(--border);border-bottom:1px solid var(--border);padding:20px 20px 18px;display:flex;flex-direction:column;background:var(--bg);}
-.chead{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.card{border-right:1px solid var(--border);border-bottom:1px solid var(--border);padding:26px 26px 26px;display:flex;flex-direction:column;background:var(--bg);}
+.chead{display:flex;align-items:center;gap:10px;margin-bottom:18px}
 .cnum{font-family:var(--mono);font-size:13px;color:var(--muted)}
-.card h3{font-weight:600;font-size:19px;line-height:1.2;letter-spacing:-.4px;margin-bottom:16px;min-height:46px}
-.items{display:flex;flex-direction:column;gap:11px;flex:1 1 auto}
-.it{display:flex;gap:11px;align-items:flex-start;font-size:13.5px;line-height:1.32}
+.card h3{font-weight:600;font-size:19px;line-height:1.32;letter-spacing:-.4px;margin-bottom:24px;min-height:50px}
+.items{display:flex;flex-direction:column;gap:15px}
+.it{display:flex;gap:12px;align-items:flex-start;font-size:14px;line-height:1.45}
 .cbx{width:18px;height:18px;border:1.5px solid var(--fg);flex:0 0 auto;margin-top:1px}
-.alert{margin-top:16px;background:rgba(196,67,46,.07);border-left:3px solid var(--destructive);
-  padding:10px 12px;font-size:12px;line-height:1.4;color:var(--fg)}
+.alert{margin-top:26px;background:rgba(196,67,46,.07);border-left:3px solid var(--destructive);
+  padding:12px 14px;font-size:12.5px;line-height:1.45;color:var(--fg)}
 .alert .al{font-family:var(--mono);font-weight:600;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--destructive)}
 
 /* running header */
-.runhead{display:flex;align-items:center;justify-content:space-between;padding:26px 34px 16px;border-bottom:1px solid var(--border)}
+.runhead{display:flex;align-items:center;justify-content:space-between;padding:30px 44px 18px;border-bottom:1px solid var(--border)}
 .runhead .rh{font-family:var(--mono);font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--fg)}
 .runhead .rh .g{color:var(--primary-ink)}
 
 /* page3 blocks */
-.body{flex:1 1 auto;padding:30px 34px;display:flex;flex-direction:column;gap:26px}
+.body{flex:1 1 auto;padding:40px 44px;display:flex;flex-direction:column;gap:32px}
 .important{background:var(--inverted);color:var(--inv-fg);padding:24px 28px}
 .important .sub{font-size:15px;line-height:1.55;margin-top:12px;color:var(--inv-fg)}
 .important .sub b{font-weight:600}
@@ -114,15 +117,16 @@ footer .fg{color:var(--fg)} footer a,footer .site{color:var(--primary-ink);text-
     <p class="sub">No todas las soluciones hacen lo mismo. Marca punto por punto y descubre si la tuya
       <b>resuelve de principio a fin</b>.</p>
   </div>
-  <div class="legend">
-    <div class="l">
-      <span class="li"><span class="mkon"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12.5 L10 17.5 L19 6.5" stroke="#1D1E1A" stroke-width="3" stroke-linecap="square"/></svg></span>Lo que tu IA ya hace</span>
-      <span class="li"><span class="mkoff"></span>Lo que todavía le falta</span>
+  <div class="content">
+    <div class="legend">
+      <div class="l">
+        <span class="li"><span class="mkon"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12.5 L10 17.5 L19 6.5" stroke="#1D1E1A" stroke-width="3" stroke-linecap="square"/></svg></span>Lo que tu IA ya hace</span>
+        <span class="li"><span class="mkoff"></span>Lo que todavía le falta</span>
+      </div>
+      <span class="note">Marca cada punto y suma tu resultado <b>sobre 7</b></span>
     </div>
-    <span class="note">Marca cada punto y suma tu resultado <b>sobre 7</b></span>
-  </div>
-  <div class="grid g3">
-    <div class="card">
+    <div class="grid g3">
+      <div class="card">
   <div class="chead"><span class="cnum">01</span><span class="slab "><span class="s"></span><span class="t">Datos</span></span></div>
   <h3>¿Mira el dato real antes de responder?</h3>
   <div class="items"><div class="it"><span class="cbx"></span><span>Consulta información actualizada en tus sistemas</span></div><div class="it"><span class="cbx"></span><span>No depende solo de una base de conocimiento estática</span></div><div class="it"><span class="cbx"></span><span>Accede al dato que necesita para cada caso</span></div><div class="it"><span class="cbx"></span><span>Distingue entre información disponible y contexto insuficiente</span></div></div>
@@ -138,6 +142,7 @@ footer .fg{color:var(--fg)} footer a,footer .site{color:var(--primary-ink);text-
   <div class="items"><div class="it"><span class="cbx"></span><span>Tiene reglas claras de escalado</span></div><div class="it"><span class="cbx"></span><span>Identifica casos sensibles o excepciones</span></div><div class="it"><span class="cbx"></span><span>Deriva según tipo de cliente, importe o situación</span></div><div class="it"><span class="cbx"></span><span>Entrega el caso con contexto al equipo</span></div></div>
   <div class="alert"><span class="al">Señal de alerta</span> intenta responder incluso cuando no tiene suficiente información o el caso requiere intervención humana.</div>
 </div>
+    </div>
   </div>
 </section>
 
@@ -147,8 +152,9 @@ footer .fg{color:var(--fg)} footer a,footer .site{color:var(--primary-ink);text-
   <span class="rh">CHECKLIST · ¿TU IA RESPONDE O <span class="g">RESUELVE?</span></span>
   <span class="logo sm"><svg viewBox="0 0 100 100" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M56.14 0.0 L50.06 15.3 L44.04 0.0 L34.25 0.0 L45.26 27.78 L54.86 27.78 L65.74 0.0 L56.14 0.0 Z"/><path d="M99.99 56.14 L84.69 50.06 L99.99 44.05 L99.99 34.26 L72.21 45.26 L72.21 54.86 L99.99 65.74 L99.99 56.14 Z"/><path d="M43.85 100.0 L49.93 84.7 L55.95 100.0 L65.74 100.0 L54.73 72.22 L45.13 72.22 L34.25 100.0 L43.85 100.0 Z"/><path d="M0.0 43.86 L15.3 49.94 L0.0 55.95 L0.0 65.74 L27.77 54.74 L27.77 45.14 L0.0 34.26 L0.0 43.86 Z"/><path d="M30.86 37.38 L38.48 29.76 L17.29 8.58 L9.68 16.19 L30.86 37.38 Z"/><path d="M61.9 29.76 L69.51 37.38 L90.7 16.19 L83.08 8.58 L61.9 29.76 Z"/><path d="M69.51 61.83 L61.9 69.44 L83.08 90.63 L90.7 83.01 L69.51 61.83 Z"/><path d="M38.48 69.44 L30.86 61.83 L9.68 83.01 L17.29 90.63 L38.48 69.44 Z"/></svg><span class="lw">Gurusup</span></span>
 </div>
-  <div class="grid g2">
-    <div class="card">
+  <div class="content">
+    <div class="grid g2">
+      <div class="card">
   <div class="chead"><span class="cnum">04</span><span class="slab "><span class="s"></span><span class="t">Calidad</span></span></div>
   <h3>¿Sabes cuándo la IA se equivoca?</h3>
   <div class="items"><div class="it"><span class="cbx"></span><span>Se revisan las conversaciones de forma sistemática</span></div><div class="it"><span class="cbx"></span><span>Los errores se clasifican y localizan</span></div><div class="it"><span class="cbx"></span><span>Puedes identificar dónde se rompe un flujo</span></div><div class="it"><span class="cbx"></span><span>Las correcciones se incorporan al sistema</span></div></div>
@@ -169,6 +175,7 @@ footer .fg{color:var(--fg)} footer a,footer .site{color:var(--primary-ink);text-
   <div class="items"><div class="it"><span class="cbx"></span><span>Puedes conectar nuevas fuentes y sistemas</span></div><div class="it"><span class="cbx"></span><span>Cada integración resuelve nuevos tipos de consultas</span></div><div class="it"><span class="cbx"></span><span>La automatización crece con la operación</span></div><div class="it"><span class="cbx"></span><span>El límite no está solo en el modelo de IA</span></div></div>
   <div class="alert"><span class="al">Señal de alerta</span> la herramienta se estanca en un porcentaje y no sabes qué cambiar para avanzar.</div>
 </div>
+    </div>
   </div>
 </section>
 
