@@ -25,9 +25,12 @@ fuente hay que commitear y disparar el workflow para que regenere el HTML.
   `#1D1E1A` fondo, `#F8F9F2` texto, bordes al 16% (ahí el verde sí es legible como texto).
 - **Etiqueta de sección:** Geist Mono 14px, mayúsculas con tracking, en `primary-ink`,
   precedida SIEMPRE de un cuadrado verde. Hero h1 sin puntuación final.
+- **Logo:** isotipo oficial (destello radial de 8 rayos) en `design/gurusup-mark.svg`
+  (monocromo, `fill:currentColor`; blanco sobre oscuro, tinta sobre claro). Wordmark del
+  logo = «Gurusup» en Geist; en prosa el nombre es «GuruSup».
 - Piezas ya alineadas al sistema: `ebook_gurusup.html`,
   `ebook_cover_responder-no-es-resolver.{html,png}`,
-  `checklist_preview_atencion-cliente-ia.{html,png}`.
+  `checklist_tu-ia-responde-o-resuelve.{html,pdf}`.
 
 ## Convención de diseño LEGACY (solo `dashboard_ejecutivo.html` / `generate_dashboard.py`)
 
