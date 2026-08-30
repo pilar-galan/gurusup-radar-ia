@@ -12,6 +12,11 @@
     --paper:#FFFFFF;
     --line:#E7EAEC;
     --wash:#F4FBF8;
+    /* tonos oscuros verdosos ya usados en el sistema de dashboards de GuruSup (generate_dashboard.py) */
+    --surface-dark:#0F1E18;
+    --card-dark:#132A20;
+    --line-dark:#20402F;
+    --text-dark-soft:#B3D2C4;
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
@@ -87,6 +92,22 @@
     padding:40px 0;
   }
   .row + .row{ border-top:1px solid var(--line); }
+
+  /* fondo alterno para las secciones 2, 4 y 6 — tono verde-oscuro de marca, a juego con el hero */
+  .row.row-alt{
+    background:var(--card-dark);
+    margin:0 -64px; padding:48px 64px;
+    border-top:none;
+  }
+  .row.row-alt + .row{ border-top:none; }
+  .row.row-alt .content-col h2{ color:#FFFFFF; }
+  .row.row-alt .content-col .tagline{ color:var(--green); }
+  .row.row-alt .content-col .sd{ color:var(--text-dark-soft); }
+  .row.row-alt .content-col .sd .hl, .row.row-alt .bullet p .hl{ color:var(--green); }
+  .row.row-alt .bullet p{ color:#EAF4EE; }
+  .row.row-alt .bullet .ic{ background:var(--green); }
+  .row.row-alt .bullet .ic svg{ color:var(--ink); }
+  .row.row-alt .illus{ box-shadow:0 10px 26px rgba(0,0,0,.35); }
 
   .illus-col{ width:180px; flex:none; display:flex; flex-direction:column; align-items:center; gap:14px; }
   .badge{
@@ -212,7 +233,7 @@
     </div>
 
     <!-- 2 PRODUCTO CX -->
-    <div class="row">
+    <div class="row row-alt">
       <div class="illus-col">
         <div class="badge">2</div>
         <div class="illus"><svg viewBox="0 0 100 100" fill="none">
@@ -282,7 +303,7 @@
     </div>
 
     <!-- 4 COMPANY BRAIN -->
-    <div class="row">
+    <div class="row row-alt">
       <div class="illus-col">
         <div class="badge">4</div>
         <div class="illus"><svg viewBox="0 0 100 100" fill="none">
@@ -341,7 +362,7 @@
     </div>
 
     <!-- 6 VICTOR -->
-    <div class="row">
+    <div class="row row-alt">
       <div class="illus-col">
         <div class="badge">6</div>
         <div class="illus"><svg viewBox="0 0 100 100" fill="none">
