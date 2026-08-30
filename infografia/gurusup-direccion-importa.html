@@ -109,10 +109,12 @@
   .row.row-alt .bullet .ic svg{ color:var(--ink); }
 
   .illus-col{ width:180px; flex:none; display:flex; flex-direction:column; align-items:center; gap:14px; }
+  .title-row{ display:flex; align-items:center; gap:14px; margin:0 0 6px; }
   .badge{
-    width:40px;height:40px;border-radius:9px;background:var(--green);
-    color:var(--ink); font-weight:800; font-size:21px;
+    width:36px;height:36px;border-radius:9px;background:var(--green);
+    color:var(--ink); font-weight:800; font-size:19px;
     display:flex;align-items:center;justify-content:center;
+    flex:none;
     box-shadow:0 6px 14px rgba(46,207,143,.35);
   }
   .illus{
@@ -126,7 +128,7 @@
   .content-col{ flex:1; min-width:0; }
   .content-col h2{
     font-size:26px; font-weight:800; letter-spacing:.2px;
-    margin:0 0 6px; text-transform:uppercase;
+    margin:0; text-transform:uppercase;
   }
   .content-col .sd .hl{ color:var(--green-dark); font-weight:800; }
   .bullet p .hl{ color:var(--green-dark); font-weight:800; }
@@ -202,7 +204,6 @@
     <!-- 1 CULTURA -->
     <div class="row">
       <div class="illus-col">
-        <div class="badge">1</div>
         <div class="illus"><svg viewBox="0 0 100 100" fill="none">
   <circle cx="50" cy="50" r="9" fill="none" stroke="#17A874" stroke-width="3.2"/>
   <circle cx="50" cy="50" r="2.6" fill="#17A874"/>
@@ -216,7 +217,7 @@
 </svg></div>
       </div>
       <div class="content-col">
-        <h2>Cultura</h2>
+        <div class="title-row"><span class="badge">1</span><h2>Cultura</h2></div>
         <p class="tagline">Diferentes caminos. Un mismo objetivo.</p>
         <p class="sd">La fuerza de un equipo alineado y colaborativo: cada persona llega desde su propio
           talento y su propio camino, pero todas convergen en un mismo centro. Esa convergencia es lo que
@@ -234,7 +235,6 @@
     <!-- 2 PRODUCTO CX -->
     <div class="row row-alt">
       <div class="illus-col">
-        <div class="badge">2</div>
         <div class="illus"><svg viewBox="0 0 100 100" fill="none">
   <circle cx="50" cy="52" r="12" fill="none" stroke="#17A874" stroke-width="3.2"/>
   <circle cx="50" cy="46" r="4.5" fill="#17A874"/>
@@ -249,7 +249,7 @@
 </svg></div>
       </div>
       <div class="content-col">
-        <h2>Producto CX</h2>
+        <div class="title-row"><span class="badge">2</span><h2>Producto CX</h2></div>
         <p class="tagline">Muchos agentes. Una sola experiencia.</p>
         <p class="sd">La IA escala el soporte sin fragmentar la experiencia: cinco, quince o más agentes
           trabajando a la vez, pero siempre entregando una respuesta a la misma persona. Todas las
@@ -267,7 +267,6 @@
     <!-- 3 TECNOLOGIA -->
     <div class="row">
       <div class="illus-col">
-        <div class="badge">3</div>
         <div class="illus"><svg viewBox="0 0 100 100" fill="none">
   <circle cx="50" cy="50" r="7" fill="#17A874"/>
   <g stroke="#17A874" stroke-width="2.6" stroke-linecap="round">
@@ -282,7 +281,7 @@
 </svg></div>
       </div>
       <div class="content-col">
-        <h2>Tecnología</h2>
+        <div class="title-row"><span class="badge">3</span><h2>Tecnología</h2></div>
         <p class="tagline">Conexiones que generan acción.</p>
         <p class="sd">De la información dispersa a la acción inteligente: una red que conecta personas,
           datos, herramientas y canales, y que no se limita a transmitir información, sino que la
@@ -304,7 +303,6 @@
     <!-- 4 COMPANY BRAIN -->
     <div class="row row-alt">
       <div class="illus-col">
-        <div class="badge">4</div>
         <div class="illus"><svg viewBox="0 0 100 100" fill="none">
   <g transform="translate(50,49) scale(2.15) translate(-12,-12)" fill="none" stroke="#0B0E11" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
     <path d="M9 3.5a3 3 0 0 0-3 3v.3A3 3 0 0 0 4 9.5v1a3 3 0 0 0 1 2.2 3 3 0 0 0 2 5v.3a3 3 0 0 0 6 0v-11a3 3 0 0 0-3-3.5Z"/>
@@ -323,7 +321,7 @@
 </svg></div>
       </div>
       <div class="content-col">
-        <h2>Company Brain</h2>
+        <div class="title-row"><span class="badge">4</span><h2>Company Brain</h2></div>
         <p class="tagline">Todo el conocimiento. Un solo cerebro.</p>
         <p class="sd">El conocimiento de toda la organización, accesible, consultable y accionable desde
           un único lugar: información de todas las fuentes y equipos, disponible mediante consulta en
@@ -341,11 +339,10 @@
     <!-- 5 PERSPECTIVA -->
     <div class="row">
       <div class="illus-col">
-        <div class="badge">5</div>
         <div class="illus"><img src="data:image/png;base64,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" style="width:98px;height:auto;display:block;" alt=""></div>
       </div>
       <div class="content-col">
-        <h2>Perspectiva</h2>
+        <div class="title-row"><span class="badge">5</span><h2>Perspectiva</h2></div>
         <p class="tagline">La dirección marca la diferencia.</p>
         <p class="sd">Una misma V, en el centro, flanqueada por dos íes. Mirando hacia la derecha se lee
           V + I = VI, el 6 romano. Mirando hacia la izquierda se lee I + V = IV, el 4 romano. Los datos
@@ -363,7 +360,6 @@
     <!-- 6 VICTOR -->
     <div class="row row-alt">
       <div class="illus-col">
-        <div class="badge">6</div>
         <div class="illus"><svg viewBox="0 0 100 100" fill="none">
   <circle cx="50" cy="38" r="14" fill="none" stroke="#0B0E11" stroke-width="3.2"/>
   <circle cx="41" cy="44" r="0.75" fill="#0B0E11" opacity="0.55"/><circle cx="44" cy="47" r="0.75" fill="#0B0E11" opacity="0.55"/><circle cx="47" cy="49.5" r="0.75" fill="#0B0E11" opacity="0.55"/><circle cx="50" cy="50.5" r="0.75" fill="#0B0E11" opacity="0.55"/><circle cx="53" cy="49.5" r="0.75" fill="#0B0E11" opacity="0.55"/><circle cx="56" cy="47" r="0.75" fill="#0B0E11" opacity="0.55"/><circle cx="59" cy="44" r="0.75" fill="#0B0E11" opacity="0.55"/><circle cx="39" cy="41" r="0.75" fill="#0B0E11" opacity="0.55"/><circle cx="61" cy="41" r="0.75" fill="#0B0E11" opacity="0.55"/><circle cx="43" cy="44.5" r="0.75" fill="#0B0E11" opacity="0.55"/><circle cx="57" cy="44.5" r="0.75" fill="#0B0E11" opacity="0.55"/><circle cx="46" cy="47.5" r="0.75" fill="#0B0E11" opacity="0.55"/><circle cx="54" cy="47.5" r="0.75" fill="#0B0E11" opacity="0.55"/><circle cx="50" cy="48" r="0.75" fill="#0B0E11" opacity="0.55"/>
@@ -372,7 +368,7 @@
 </svg></div>
       </div>
       <div class="content-col">
-        <h2>Víctor</h2>
+        <div class="title-row"><span class="badge">6</span><h2>Víctor</h2></div>
         <p class="tagline">V + I = VI</p>
         <p class="sd">Un guiño personal a nuestro capitán y a nuestro origen: las iniciales de nuestro CEO
           escondidas en el propio símbolo de la marca. Liderazgo, visión y dirección resumidos en dos
