@@ -90,8 +90,8 @@
 
   .illus-col{ width:180px; flex:none; display:flex; flex-direction:column; align-items:center; gap:14px; }
   .badge{
-    width:34px;height:34px;border-radius:9px;background:var(--green);
-    color:var(--ink); font-weight:800; font-size:16px;
+    width:36px;height:36px;border-radius:9px;background:var(--green);
+    color:var(--ink); font-weight:800; font-size:19px;
     display:flex;align-items:center;justify-content:center;
     box-shadow:0 6px 14px rgba(46,207,143,.35);
   }
@@ -321,22 +321,7 @@
     <div class="row">
       <div class="illus-col">
         <div class="badge">5</div>
-        <div class="illus"><svg viewBox="0 0 100 100" fill="none">
-  <circle cx="50" cy="50" r="30" fill="none" stroke="#E3F3EC" stroke-width="2"/>
-  <g stroke-linecap="round" fill="none">
-    <path d="M45 34c-4 3-7 7-8 15" stroke="#0B0E11" stroke-width="1.8" stroke-dasharray="1 4"/>
-    <path d="M55 34c4 3 7 7 8 15" stroke="#17A874" stroke-width="1.8" stroke-dasharray="1 4"/>
-  </g>
-  <g font-family="Helvetica Neue, Arial, sans-serif" font-weight="800" text-anchor="middle" paint-order="stroke fill" stroke-linejoin="round">
-    <text x="50" y="42" font-size="28" fill="#0B0E11" stroke="#0B0E11" stroke-width="1.6">V</text>
-    <text x="34" y="61" font-size="24" fill="#0B0E11" stroke="#0B0E11" stroke-width="1.4">I</text>
-    <text x="66" y="61" font-size="24" fill="#17A874" stroke="#17A874" stroke-width="1.4">I</text>
-  </g>
-  <g font-family="Helvetica Neue, Arial, sans-serif" font-weight="700" text-anchor="middle">
-    <text x="34" y="74" font-size="9" fill="#0B0E11" opacity="0.8">IV</text>
-    <text x="66" y="74" font-size="9" fill="#17A874" opacity="0.9">VI</text>
-  </g>
-</svg></div>
+        <div class="illus"><img src="data:image/png;base64,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" style="width:98px;height:auto;display:block;" alt=""></div>
       </div>
       <div class="content-col">
         <h2>Perspectiva</h2>
