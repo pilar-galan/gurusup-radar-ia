@@ -1564,6 +1564,23 @@ def main():
     hist_nf = [c for c in hist_fun if not is_free(c)]
     hist_out_fun = [c for c in hist_out if c["created_full"] >= funnel_iso and not is_free(c)]
     exec_extra["total_contactos"] = len(hist_nf)
+    # ── Totales del CRM COMPLETO (incluye Freemium) para la franja superior del ejecutivo ──
+    #    total / marketing (facturable) / no-marketing. Se leen en cada regeneración (cada 15 min)
+    #    directamente de HubSpot, así el dato siempre está al día y la suma cuadra: no-mkt = total - mkt.
+    def _crm_count(filters):
+        try:
+            _d = api_post("/crm/v3/objects/contacts/search",
+                          {"filterGroups": ([{"filters": filters}] if filters else []),
+                           "properties": ["hs_object_id"], "limit": 1})
+            return int(_d.get("total") or 0)
+        except Exception as _e:
+            print(f"[crm-count] error: {_e}", file=sys.stderr)
+            return 0
+    _crm_total = _crm_count(None)
+    _crm_mkt = _crm_count([{"propertyName": "hs_marketable_status", "operator": "EQ", "value": "true"}])
+    exec_extra["crm_total"] = _crm_total
+    exec_extra["crm_mkt"] = _crm_mkt
+    exec_extra["crm_nomkt"] = (_crm_total - _crm_mkt) if (_crm_total and _crm_mkt) else 0
     q_tot = len(hist_nf) or 1
     exec_extra["quality"] = {
         "total": len(hist_nf),
@@ -2626,6 +2643,17 @@ section{padding:34px 0;border-top:1px solid var(--line)}
 .rates-head b{color:var(--ink2)}
 .fnote{font-size:12px;color:var(--mut);border-left:2px solid var(--line2);padding-left:12px;margin-top:16px;line-height:1.5}
 .fnote b{color:var(--ink2)}
+.band-title{font-size:13.5px;font-weight:800;color:var(--ink);margin:2px 0 11px;letter-spacing:-.01em}
+.band-title span{color:var(--mut);font-weight:600;font-size:11.5px}
+.bandrow{margin-top:0}
+.kc.band{background:linear-gradient(165deg,rgba(30,64,47,.95),rgba(19,41,30,.75))}
+.kc.band .kv{color:var(--ink)}
+.kc.band.mk{border-color:var(--brand)}
+.kc.band.mk .kv{color:var(--brand)}
+.kc.band.mk::after{background:linear-gradient(90deg,transparent,rgba(111,240,162,.55),transparent)}
+.kc.band.no::after{background:linear-gradient(90deg,transparent,rgba(255,202,92,.4),transparent)}
+.bpct{font-size:16px;font-weight:800;margin-left:6px;color:var(--mut)}
+.bpct.up{color:var(--brand)}
 .cg{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
 .chartc{background:linear-gradient(165deg,rgba(24,52,38,.7),rgba(19,41,30,.5));border:1px solid var(--line);border-radius:16px;padding:18px 18px 14px}
 .chartc .chd{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:2px}
@@ -3285,6 +3313,31 @@ def render_exec(d):
                 f'<div class="kt">{arrow(t)}<span style="color:var(--mut)">· {conv}</span></div>'
                 f'<div class="kt" style="margin-top:5px">{io(inb, out)}</div>'
                 f'<div class="emprow">🏢 <span class="eb tnum">{fmt(emp)}</span> empresas / negocios</div></div>')
+    # ── Franja superior: volumen TOTAL del CRM (incl. Freemium) → marketing (facturable) → no-marketing ──
+    _crm_t = ex.get("crm_total", 0); _crm_m = ex.get("crm_mkt", 0); _crm_n = ex.get("crm_nomkt", 0)
+    band_html = ""
+    if _crm_t > 0:
+        band_html = (
+            f'<div class="kc band"><div class="kl">Total de contactos · CRM</div>'
+            f'<div class="kv tnum">{fmt(_crm_t)}</div>'
+            f'<div class="kt" style="color:var(--mut)">todo el CRM, incluido Freemium</div></div>'
+            f'<div class="kc band mk"><div class="kl">Contactos de marketing '
+            f'<span style="color:var(--mut);font-weight:600;font-size:10px">facturables</span></div>'
+            f'<div class="kv tnum">{fmt(_crm_m)} <span class="bpct up">{pv(_crm_m, _crm_t)}</span></div>'
+            f'<div class="kt" style="color:var(--mut)">se les puede enviar comunicaciones de marketing</div></div>'
+            f'<div class="kc band no"><div class="kl">No son de marketing '
+            f'<span style="color:var(--mut);font-weight:600;font-size:10px">*</span></div>'
+            f'<div class="kv tnum">{fmt(_crm_n)} <span class="bpct">{pv(_crm_n, _crm_t)}</span></div>'
+            f'<div class="kt" style="color:var(--mut)">fuera del plan de marketing · no facturan</div></div>')
+    band_block = ""
+    if band_html:
+        band_block = (
+            '<div class="band-title">🗂️ Volumen total de contactos en el CRM '
+            '<span>· en HubSpot se paga por los de marketing</span></div>'
+            f'<div class="kg kg3 bandrow">{band_html}</div>'
+            '<div class="fnote">* Aquí ha salido buena parte de los <b>Freemium</b> (altas por la app): '
+            'son un <b>porcentaje muy alto</b> del total del CRM y se han <b>sacado de contactos de marketing</b> '
+            'porque no entran en el proceso comercial y consumían espacio del plan de marketing de HubSpot.</div>')
     kpi_html = (
         f'<div class="kc"><div class="kl">Nuevos contactos</div><div class="kv tnum">{fmt(g_contactos)}</div>'
         f'<div class="kt">{arrow(tr["contactos"])}</div>'
@@ -4249,6 +4302,7 @@ def render_exec(d):
         <div class="cat-body"><span class="src-chip br">🧠 Brain</span></div></div>
     </div>
     Cifra grande = total de contactos; debajo, <b>inb</b> / <b>out</b>. En Oportunidades el pequeño es nº de <b>empresas / negocios</b>; en Clientes, <b>cuentas activas</b> del pipeline «Clientes».</div>
+  {band_block}
   <div class="kg-trendlab">📈 Las flechas de cada KPI comparan <b>lo que va de mes</b> (del 1 a hoy) con el <b>mismo tramo del mes anterior</b> — misma ventana que la matriz por canal y los gráficos, aunque el mes en curso no haya terminado, para que los números cuadren en todas las secciones.</div>
   <div class="kg">{kpi_html}</div>
   <div class="kg kg3">{kpi_html2}</div>
