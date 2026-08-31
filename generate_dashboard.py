@@ -2697,6 +2697,7 @@ section{padding:34px 0;border-top:1px solid var(--line)}
 .mf-deals span{font-size:10.5px;font-weight:600;color:var(--ink2);background:rgba(255,255,255,.05);border-radius:6px;padding:2px 8px}
 .io-val{margin-top:14px;padding:11px 13px;border-radius:12px;background:rgba(111,240,162,.09);border:1px solid var(--brand-d);font-size:11.5px;color:var(--ink2);font-weight:700;display:flex;align-items:center;justify-content:space-between;gap:10px}
 .io-val span{font-size:21px;font-weight:900;color:var(--brand)}
+.io-val .io-ast{font-size:12px;font-weight:800;color:#ffca5c;margin-left:-4px}
 .iocol.out .io-val{background:rgba(255,202,92,.09);border-color:#a5741f}
 .iocol.brain .io-val{background:rgba(200,166,255,.09);border-color:#6a4fa0}
 .iocol.out .io-val span{color:var(--warn)} .iocol.brain .io-val span{color:var(--violet)}
@@ -4318,7 +4319,7 @@ def render_exec(d):
   <div class="q">02 · ¿Dónde está cada contacto?</div>
   <h2 class="sh">Embudos por vía <span class="tot">· Inbound · Outbound · Brain</span></h2>
   <div class="sd">Desglose del embudo por vía. Cada columna es su volumen de <b>contactos</b> por etapa y el % <b>sobre su total de contactos</b>. El <b>pipeline de ventas es compartido</b>: inbound y outbound lo trabajan de forma conjunta.</div>
-  <div class="cac-spendbar" style="background:rgba(111,240,162,.08);border-color:var(--brand-d);max-width:640px;margin:12px auto 0"><span class="cac-sb-cap" style="color:var(--brand)">💰 Valor estimado total del pipeline de ventas <small>· todas las etapas abiertas</small></span><span class="cac-sb-val" style="color:var(--brand)">{("€"+fmt(round(ex.get("inb_value",0) + ex.get("out_value",0) + ex.get("brain_value",0)))) if (ex.get("inb_value",0) + ex.get("out_value",0) + ex.get("brain_value",0)) else "—"}</span></div>
+  <div class="cac-spendbar" style="background:rgba(111,240,162,.08);border-color:var(--brand-d);max-width:640px;margin:12px auto 0"><span class="cac-sb-cap" style="color:var(--brand)">💰 Valor total estimado · <b>MRR (mensual)</b> <small>· ingreso recurrente mensual · todas las etapas abiertas del pipeline</small></span><span class="cac-sb-val" style="color:var(--brand)">{("€"+fmt(round(ex.get("inb_value",0) + ex.get("out_value",0) + ex.get("brain_value",0)))) if (ex.get("inb_value",0) + ex.get("out_value",0) + ex.get("brain_value",0)) else "—"}</span></div>
   <div class="io3grp">
    <div class="iogrp cx">
     <div class="iogrp-h">🚀 GuruSup CX <span>Customer Experience</span></div>
@@ -4346,11 +4347,13 @@ def render_exec(d):
         <details class="mf-det"><summary class="mf-row"><div class="mf-l"><b class="tnum">{fmt(ex.get("brain_open", 0))}</b> Oportunidad (negocio) <span class="mf-see">🎯 ver</span></div><div class="mf-bar"><div class="mf-fill" style="width:{max(5, round(ex.get("brain_open",0)/(brain_ct or 1)*100))}%"></div></div><span class="mf-c">{pv(ex.get("brain_open",0), brain_ct or 1)}</span></summary><div class="mf-deals">{"".join(f'<span>{esc(n)}</span>' for n in _brain_opp_names) or "—"}</div></details>
       </div>
       <div class="pend" style="margin-top:12px">⏳ Embudo intermedio de <b>Brain</b> (lead→MQL→SQL) pendiente de conectar; hoy se ven contactos y oportunidades.</div>
-      <div class="io-val">💰 Valor estimado pipeline<span>{("€"+fmt(round(ex.get("brain_value",0)))) if ex.get("brain_value") else "— (importes sin cargar)"}</span></div>
+      <div class="io-val">💰 Valor estimado pipeline <span class="io-ast">*</span><span>{("€"+fmt(round(ex.get("brain_value",0)))) if ex.get("brain_value") else "— (importes sin cargar)"}</span></div>
     </div>
     </div>
    </div>
   </div>
+  <div class="fnote">💡 <b>MRR</b> = <i>Monthly Recurring Revenue</i> — <b>ingreso recurrente mensual</b>: el «Valor total estimado» es la estimación <b>mensual</b> del pipeline abierto (todas las etapas sin cerrar), no el importe total del contrato.</div>
+  <div class="fnote">* <b>Brain — work in progress</b>: el pipeline de GuruSup Brain aún se está <b>construyendo y conectando</b>; sus importes y el embudo intermedio (lead→MQL→SQL) pueden variar mientras se termina de configurar.</div>
 </section>
 
 <section>
