@@ -1581,6 +1581,12 @@ def main():
     exec_extra["crm_total"] = _crm_total
     exec_extra["crm_mkt"] = _crm_mkt
     exec_extra["crm_nomkt"] = (_crm_total - _crm_mkt) if (_crm_total and _crm_mkt) else 0
+    # ── Volumen ACTUAL por etapa de ciclo de vida (foto de hoy, no acumulado) ──
+    #    Los KPIs de arriba son acumulados (todo lo que entró); esto es cuántos hay HOY en cada etapa.
+    _stg_val = {"lead": "lead", "mql": "marketingqualifiedlead", "sql": "salesqualifiedlead",
+                "opp": "opportunity", "cli": "customer", "churn": "1378704506"}
+    exec_extra["crm_stage"] = {k: _crm_count([{"propertyName": "lifecyclestage", "operator": "EQ", "value": v}])
+                               for k, v in _stg_val.items()}
     q_tot = len(hist_nf) or 1
     exec_extra["quality"] = {
         "total": len(hist_nf),
@@ -2654,6 +2660,18 @@ section{padding:34px 0;border-top:1px solid var(--line)}
 .kc.band.no::after{background:linear-gradient(90deg,transparent,rgba(255,202,92,.4),transparent)}
 .bpct{font-size:16px;font-weight:800;margin-left:6px;color:var(--mut)}
 .bpct.up{color:var(--brand)}
+.band-wrap{background:rgba(111,240,162,.05);border:1px solid var(--line);border-radius:16px;padding:14px}
+.band-wrap .bandrow{margin-top:0}
+.crm-stages{margin-top:13px;padding-top:12px;border-top:1px dashed var(--line2)}
+.crm-stages .cs-h{font-size:12px;font-weight:800;color:var(--ink2);margin-bottom:9px}
+.crm-stages .cs-h span{color:var(--mut);font-weight:600}
+.cs-row{display:flex;flex-wrap:wrap;gap:8px 16px}
+.cs-chip{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:var(--ink2);background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:20px;padding:5px 12px}
+.cs-chip i{width:11px;height:11px;border-radius:3px;display:inline-block}
+.cs-chip b{color:var(--ink);font-variant-numeric:tabular-nums}
+.cn-ast{margin-top:8px;font-size:10.5px;color:var(--mut);line-height:1.45}
+.cn-ast b{color:var(--ink2)}
+.ch-ast{color:#ffca5c;font-size:13px;font-weight:800}
 .cg{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
 .chartc{background:linear-gradient(165deg,rgba(24,52,38,.7),rgba(19,41,30,.5));border:1px solid var(--line);border-radius:16px;padding:18px 18px 14px}
 .chartc .chd{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:2px}
@@ -3327,18 +3345,35 @@ def render_exec(d):
             f'<div class="kv tnum">{fmt(_crm_m)} <span class="bpct up">{pv(_crm_m, _crm_t)}</span></div>'
             f'<div class="kt" style="color:var(--mut)">se les puede enviar comunicaciones de marketing</div></div>'
             f'<div class="kc band no"><div class="kl">No son de marketing '
-            f'<span style="color:var(--mut);font-weight:600;font-size:10px">*</span></div>'
+            f'<span style="color:var(--mut);font-weight:600;font-size:10px">**</span></div>'
             f'<div class="kv tnum">{fmt(_crm_n)} <span class="bpct">{pv(_crm_n, _crm_t)}</span></div>'
             f'<div class="kt" style="color:var(--mut)">fuera del plan de marketing · no facturan</div></div>')
+    # Desglose por etapa ACTUAL (foto de hoy) — volumen que hay ahora mismo en cada etapa
+    _st = ex.get("crm_stage", {})
+    stage_row = ""
+    if any(_st.values()):
+        _stage_defs = [("Leads", "lead", "#6ff0a2"), ("MQL", "mql", "#ffca5c"), ("SQL", "sql", "#68d1f5"),
+                       ("Oportunidad", "opp", "#ff6f61"), ("Cliente", "cli", "#c8a6ff"), ("Churn", "churn", "#7a4a6b")]
+        chips = "".join(
+            f'<span class="cs-chip"><i style="background:{col}"></i>{lab} <b class="tnum">{fmt(_st.get(key,0))}</b></span>'
+            for lab, key, col in _stage_defs)
+        stage_row = (
+            '<div class="crm-stages"><div class="cs-h">📍 Volumen <b>actual</b> por etapa '
+            '<span>· foto de hoy en el CRM <b>*</b></span></div>'
+            f'<div class="cs-row">{chips}</div></div>')
     band_block = ""
     if band_html:
         band_block = (
             '<div class="band-title">🗂️ Volumen total de contactos en el CRM '
             '<span>· en HubSpot se paga por los de marketing</span></div>'
-            f'<div class="kg kg3 bandrow">{band_html}</div>'
-            '<div class="fnote">* Aquí ha salido buena parte de los <b>Freemium</b> (altas por la app): '
+            f'<div class="band-wrap"><div class="kg kg3 bandrow">{band_html}</div>{stage_row}</div>'
+            '<div class="fnote">** Aquí ha salido buena parte de los <b>Freemium</b> (altas por la app): '
             'son un <b>porcentaje muy alto</b> del total del CRM y se han <b>sacado de contactos de marketing</b> '
-            'porque no entran en el proceso comercial y consumían espacio del plan de marketing de HubSpot.</div>')
+            'porque no entran en el proceso comercial y consumían espacio del plan de marketing de HubSpot.</div>'
+            '<div class="fnote">* El desglose por etapa es el <b>volumen actual</b> (cuántos contactos hay HOY en cada etapa). '
+            'Los KPIs de abajo (<b>Nuevos contactos, Leads, MQL, SQL</b>) son el <b>acumulado</b> de todo lo que ha '
+            '<b>entrado</b> desde el 1 ene; como los contactos <b>van cambiando de etapa</b> con el tiempo, el acumulado '
+            '<b>no coincide</b> con el volumen actual de cada etapa.</div>')
     kpi_html = (
         f'<div class="kc"><div class="kl">Nuevos contactos</div><div class="kv tnum">{fmt(g_contactos)}</div>'
         f'<div class="kt">{arrow(tr["contactos"])}</div>'
@@ -3448,9 +3483,14 @@ def render_exec(d):
         ("Oportunidades", ex.get("cum_opp_m", opp_real), ex["svg_opp_m"], '📈 <b>Negocios (deals) creados cada mes</b> en el pipeline, por todas las fuentes (ventas + Brain).<br>⚠️ Antes se colaban <b>muchas importaciones</b> en la etapa de ciclo de vida «oportunidad» que inflaban el dato. Aquí contamos <b>solo los que tienen un negocio asociado</b> en el pipeline de ventas o de Brain y están <b>abiertos</b> (excluye cerrados/perdidos). Por eso el <b>acumulado cuadra</b> con el KPI de oportunidades y con los pipelines inbound/outbound/brain.'),
         ("Clientes", ex.get("cum_cli_m", cli_e), ex["svg_cli_m"], '📈 <b>Cuentas de cliente activas</b> (empresa única) del pipeline «Clientes», por fecha de creación de la cuenta. Cuenta por <b>empresa</b>, no por los contactos asociados a cada cliente. El acumulado cuadra con el KPI de clientes.'),
     ]
+    _EVO_AST = ('<div class="cn cn-ast">* <b>Evolutivo (acumulado)</b>: suma los nuevos que van entrando, '
+                'pero <b>no resta</b> los que cambian de etapa, se descartan o se eliminan → queda <b>sesgado</b> '
+                'respecto al volumen <b>actual</b> del CRM. Sirve para ver <b>crecimiento y picos mensuales</b>, '
+                'no la foto de hoy (para eso, el desglose por etapa de arriba).</div>')
     charts_html = "".join(
-        f'<div class="chartc"><div class="chd"><h3>{lab}</h3><span class="cbig tnum">{fmt(val)}</span></div>'
+        f'<div class="chartc"><div class="chd"><h3>{lab} <span class="ch-ast">*</span></h3><span class="cbig tnum">{fmt(val)}</span></div>'
         f'<div class="cn">acumulado diario · 1 ene → hoy · el nº sobre la línea es el total al cierre de cada mes</div>{svg}'
+        f'{_EVO_AST}'
         f'<div class="cfoot">{note}</div></div>'
         for lab, val, svg, note in charts)
 
