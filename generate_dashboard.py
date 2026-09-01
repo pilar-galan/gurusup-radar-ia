@@ -1587,6 +1587,9 @@ def main():
                 "opp": "opportunity", "cli": "customer", "churn": "1378704506"}
     exec_extra["crm_stage"] = {k: _crm_count([{"propertyName": "lifecyclestage", "operator": "EQ", "value": v}])
                                for k, v in _stg_val.items()}
+    # De los contactos en etapa Oportunidad, cuántos tienen un negocio (deal) asociado
+    exec_extra["crm_opp_deal"] = _crm_count([{"propertyName": "lifecyclestage", "operator": "EQ", "value": "opportunity"},
+                                             {"propertyName": "num_associated_deals", "operator": "GTE", "value": "1"}])
     q_tot = len(hist_nf) or 1
     exec_extra["quality"] = {
         "total": len(hist_nf),
@@ -2669,6 +2672,7 @@ section{padding:34px 0;border-top:1px solid var(--line)}
 .cs-chip{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:var(--ink2);background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:20px;padding:5px 12px}
 .cs-chip i{width:11px;height:11px;border-radius:3px;display:inline-block}
 .cs-chip b{color:var(--ink);font-variant-numeric:tabular-nums}
+.cs-chip .cs-sub{color:var(--sky);font-weight:700;font-size:11.5px}
 .cn-ast{margin-top:8px;font-size:10.5px;color:var(--mut);line-height:1.45}
 .cn-ast b{color:var(--ink2)}
 .ch-ast{color:#ffca5c;font-size:13px;font-weight:800}
@@ -3354,9 +3358,14 @@ def render_exec(d):
     if any(_st.values()):
         _stage_defs = [("Leads", "lead", "#6ff0a2"), ("MQL", "mql", "#ffca5c"), ("SQL", "sql", "#68d1f5"),
                        ("Oportunidad", "opp", "#ff6f61"), ("Cliente", "cli", "#c8a6ff"), ("Churn", "churn", "#7a4a6b")]
-        chips = "".join(
-            f'<span class="cs-chip"><i style="background:{col}"></i>{lab} <b class="tnum">{fmt(_st.get(key,0))}</b></span>'
-            for lab, key, col in _stage_defs)
+        _opp_deal = ex.get("crm_opp_deal", 0)
+        def _chip(lab, key, col):
+            extra = ""
+            if key == "opp" and _opp_deal:
+                extra = f' <span class="cs-sub">· 🎯 {fmt(_opp_deal)} con negocio</span>'
+            return (f'<span class="cs-chip"><i style="background:{col}"></i>{lab} '
+                    f'<b class="tnum">{fmt(_st.get(key,0))}</b>{extra}</span>')
+        chips = "".join(_chip(lab, key, col) for lab, key, col in _stage_defs)
         stage_row = (
             '<div class="crm-stages"><div class="cs-h">📍 Volumen <b>actual</b> por etapa '
             '<span>· foto de hoy en el CRM <b>*</b></span></div>'
@@ -3375,9 +3384,9 @@ def render_exec(d):
             '<b>entrado</b> desde el 1 ene; como los contactos <b>van cambiando de etapa</b> con el tiempo, el acumulado '
             '<b>no coincide</b> con el volumen actual de cada etapa.</div>')
     kpi_html = (
-        f'<div class="kc"><div class="kl">Nuevos contactos</div><div class="kv tnum">{fmt(g_contactos)}</div>'
+        f'<div class="kc"><div class="kl">Nuevos contactos <span style="color:var(--mut);font-weight:700;font-size:10px">(2026)</span></div><div class="kv tnum">{fmt(g_contactos)}</div>'
         f'<div class="kt">{arrow(tr["contactos"])}</div>'
-        f'<div class="kt" style="margin-top:5px"><span style="color:var(--mut)">inb {fmt(total_nf)} · out {fmt(ob["contactos"])} · 🧠 brain {fmt(brain_ct)}</span></div></div>' +
+        f'<div class="kt" style="margin-top:5px"><span style="color:var(--mut)">evolución acumulada desde el 1 ene 2026 · inb {fmt(total_nf)} · out {fmt(ob["contactos"])} · 🧠 brain {fmt(brain_ct)}</span></div></div>' +
         kpi_io("Leads", g_lead, tr["leads"], cum["lead"], ob["lead"]) +
         kpi_io("MQL", g_mql, tr["mql"], _mql_in, _mql_out) +
         kpi_io("SQL", g_sql, tr["sql"], _sql_in_disp, _sql_out_disp))
