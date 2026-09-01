@@ -691,7 +691,9 @@ def main():
         "phone", "mobilephone", "hubspot_owner_id",
         "hs_v2_date_entered_lead", "hs_v2_date_entered_marketingqualifiedlead",
         "hs_v2_date_entered_salesqualifiedlead", "hs_v2_date_entered_opportunity",
-        "hs_v2_date_entered_customer", "num_associated_deals"])
+        "hs_v2_date_entered_customer", "num_associated_deals",
+        "num_conversion_events", "hs_email_open", "hs_email_click",
+        "hs_analytics_num_visits", "hs_analytics_num_page_views"])
 
     hist = []
     hist_out = []   # OUTBOUND / no-inbound: importaciones + leads sin origen identificado (los trabaja Juanma)
@@ -706,6 +708,18 @@ def main():
     def _ndeals(p):
         try: return int(p.get("num_associated_deals") or 0)
         except (TypeError, ValueError): return 0
+    def _numi(v):
+        # HubSpot devuelve números como string ("2") o float ("2.0"); normaliza a int.
+        try: return int(float(v))
+        except (TypeError, ValueError): return 0
+    def _eng(p):
+        # Señales de engagement reales (las únicas con dato: el scoring predictivo nativo
+        # de HubSpot —fit/likelihood— NO está poblado en este portal).
+        return {"forms": _numi(p.get("num_conversion_events")),
+                "opens": _numi(p.get("hs_email_open")),
+                "clicks": _numi(p.get("hs_email_click")),
+                "visits": _numi(p.get("hs_analytics_num_visits")),
+                "views": _numi(p.get("hs_analytics_num_page_views"))}
     def _outrec(p, src, d1, lc):
         return {"src": src, "d1": d1, "lc": lc, "sql_state": p.get("estado_sql_consultoria") or "",
                 "email": p.get("email") or "", "company": p.get("company") or "",
@@ -755,6 +769,7 @@ def main():
             "phone": (p.get("phone") or p.get("mobilephone") or "").strip(),
             "owner": p.get("hubspot_owner_id") or "",
             "sdates": _sdates(p), "deals": _ndeals(p),
+            "eng": _eng(p),
         })
 
     daily = [c for c in hist if c["created_full"] >= start_iso]
@@ -1549,6 +1564,23 @@ def main():
     hist_nf = [c for c in hist_fun if not is_free(c)]
     hist_out_fun = [c for c in hist_out if c["created_full"] >= funnel_iso and not is_free(c)]
     exec_extra["total_contactos"] = len(hist_nf)
+    # ── Totales del CRM COMPLETO (incluye Freemium) para la franja superior del ejecutivo ──
+    #    total / marketing (facturable) / no-marketing. Se leen en cada regeneración (cada 15 min)
+    #    directamente de HubSpot, así el dato siempre está al día y la suma cuadra: no-mkt = total - mkt.
+    def _crm_count(filters):
+        try:
+            _d = api_post("/crm/v3/objects/contacts/search",
+                          {"filterGroups": ([{"filters": filters}] if filters else []),
+                           "properties": ["hs_object_id"], "limit": 1})
+            return int(_d.get("total") or 0)
+        except Exception as _e:
+            print(f"[crm-count] error: {_e}", file=sys.stderr)
+            return 0
+    _crm_total = _crm_count(None)
+    _crm_mkt = _crm_count([{"propertyName": "hs_marketable_status", "operator": "EQ", "value": "true"}])
+    exec_extra["crm_total"] = _crm_total
+    exec_extra["crm_mkt"] = _crm_mkt
+    exec_extra["crm_nomkt"] = (_crm_total - _crm_mkt) if (_crm_total and _crm_mkt) else 0
     q_tot = len(hist_nf) or 1
     exec_extra["quality"] = {
         "total": len(hist_nf),
@@ -1899,8 +1931,45 @@ def main():
     for d in open_deals:
         chan_dist[d["channel"]] = chan_dist.get(d["channel"], 0) + 1
 
+    # ── Fit & Engagement de MQLs y Leads (señales conductuales reales) ──
+    #   El scoring predictivo nativo de HubSpot (Contact priority / Likelihood to close)
+    #   NO está poblado en el portal, así que construimos un índice de engagement con las
+    #   señales que sí tienen dato: formularios, aperturas/clics de email, sesiones y páginas.
+    def _fiteng(recs):
+        n = len(recs) or 1
+        acc = {"forms": 0, "opens": 0, "clicks": 0, "visits": 0, "views": 0}
+        has = {"forms": 0, "opens": 0, "clicks": 0, "visits": 0, "views": 0}
+        multi_form = multi_visit = 0
+        tiers = {"hot": 0, "warm": 0, "cold": 0, "sleep": 0}
+        for c in recs:
+            e = c.get("eng", {})
+            for k in acc:
+                v = e.get(k, 0)
+                acc[k] += v
+                if v > 0: has[k] += 1
+            forms = e.get("forms", 0); opens = e.get("opens", 0); clicks = e.get("clicks", 0)
+            visits = e.get("visits", 0); views = e.get("views", 0)
+            if forms >= 2: multi_form += 1
+            if visits >= 2: multi_visit += 1
+            # Temperatura por regla clara (fácil de replicar en HubSpot):
+            #  🔥 señal fuerte · 🌤 abre email · ❄️ solo señal de entrada/pasiva · 💤 nada
+            if clicks >= 1 or forms >= 2 or visits >= 2:
+                tiers["hot"] += 1
+            elif opens >= 1:
+                tiers["warm"] += 1
+            elif forms >= 1 or views >= 1 or visits >= 1:
+                tiers["cold"] += 1
+            else:
+                tiers["sleep"] += 1
+        return {"n": len(recs), "avg": {k: acc[k] / n for k in acc}, "sum": acc,
+                "has": has, "multi_form": multi_form, "multi_visit": multi_visit, "tiers": tiers}
+    _mql_recs = [c for c in hist if c["lc"] == "marketingqualifiedlead"]
+    _lead_recs = [c for c in hist if c["lc"] == "lead"]
+    fiteng = {"mql": _fiteng(_mql_recs), "lead": _fiteng(_lead_recs)}
+
     data = {
         "title": title, "fecha_larga": fecha_larga, "periodo_txt": periodo_txt,
+        "fiteng": fiteng,
         "fun_label": f"{funnel_start.day} {MESES3[funnel_start.month-1]} {funnel_start.year} → hoy",
         "chart_label": f"{d0.day} {MESES3[d0.month-1]} {d0.year} → hoy",
         "cum": cum, "agenda_cum": agenda_cum, "dd": dd, "agenda_day": agenda_day, "calls_day": calls_day,
@@ -2574,6 +2643,17 @@ section{padding:34px 0;border-top:1px solid var(--line)}
 .rates-head b{color:var(--ink2)}
 .fnote{font-size:12px;color:var(--mut);border-left:2px solid var(--line2);padding-left:12px;margin-top:16px;line-height:1.5}
 .fnote b{color:var(--ink2)}
+.band-title{font-size:13.5px;font-weight:800;color:var(--ink);margin:2px 0 11px;letter-spacing:-.01em}
+.band-title span{color:var(--mut);font-weight:600;font-size:11.5px}
+.bandrow{margin-top:0}
+.kc.band{background:linear-gradient(165deg,rgba(30,64,47,.95),rgba(19,41,30,.75))}
+.kc.band .kv{color:var(--ink)}
+.kc.band.mk{border-color:var(--brand)}
+.kc.band.mk .kv{color:var(--brand)}
+.kc.band.mk::after{background:linear-gradient(90deg,transparent,rgba(111,240,162,.55),transparent)}
+.kc.band.no::after{background:linear-gradient(90deg,transparent,rgba(255,202,92,.4),transparent)}
+.bpct{font-size:16px;font-weight:800;margin-left:6px;color:var(--mut)}
+.bpct.up{color:var(--brand)}
 .cg{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
 .chartc{background:linear-gradient(165deg,rgba(24,52,38,.7),rgba(19,41,30,.5));border:1px solid var(--line);border-radius:16px;padding:18px 18px 14px}
 .chartc .chd{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:2px}
@@ -2617,6 +2697,7 @@ section{padding:34px 0;border-top:1px solid var(--line)}
 .mf-deals span{font-size:10.5px;font-weight:600;color:var(--ink2);background:rgba(255,255,255,.05);border-radius:6px;padding:2px 8px}
 .io-val{margin-top:14px;padding:11px 13px;border-radius:12px;background:rgba(111,240,162,.09);border:1px solid var(--brand-d);font-size:11.5px;color:var(--ink2);font-weight:700;display:flex;align-items:center;justify-content:space-between;gap:10px}
 .io-val span{font-size:21px;font-weight:900;color:var(--brand)}
+.io-val .io-ast{font-size:12px;font-weight:800;color:#ffca5c;margin-left:-4px}
 .iocol.out .io-val{background:rgba(255,202,92,.09);border-color:#a5741f}
 .iocol.brain .io-val{background:rgba(200,166,255,.09);border-color:#6a4fa0}
 .iocol.out .io-val span{color:var(--warn)} .iocol.brain .io-val span{color:var(--violet)}
@@ -3064,6 +3145,7 @@ details.chdeals .dl span{font-size:11px;background:rgba(104,209,245,.1);border:1
 .agc-tbl th{color:var(--mut);font-size:11px;text-transform:uppercase;letter-spacing:.04em;font-weight:700}
 .agc-tbl td.agc-n,.agc-tbl th.agc-n{text-align:right;font-variant-numeric:tabular-nums}
 .agc-tbl tr.agc-tot td{border-top:2px solid var(--line);border-bottom:none;font-weight:900;color:var(--ink)}
+.agc-tbl tr.agc-sub td{background:rgba(255,255,255,.03);font-weight:800;color:var(--ink2)}
 @media(max-width:640px){.agc-funnel{flex-wrap:wrap}.agc-tile{flex-basis:40%}.agc-arw{display:none}}
 .strat b{color:var(--brand)}
 .note{background:linear-gradient(150deg,rgba(111,240,162,.12),rgba(111,240,162,.02));border:1px solid var(--line2);border-radius:14px;padding:16px 18px;font-size:13px;color:var(--ink2);margin-top:18px}
@@ -3083,6 +3165,49 @@ footer{padding:34px 0 56px;text-align:center;color:var(--mut);font-size:12px;bor
 @media(max-width:860px){ .kg,.cg{grid-template-columns:1fr 1fr} .p2{grid-template-columns:1fr} .q3{grid-template-columns:repeat(2,1fr)} }
 @media(max-width:560px){ .kg{grid-template-columns:1fr 1fr} .cg{grid-template-columns:1fr} .fn .row{grid-template-columns:88px 1fr}
   .brow{grid-template-columns:120px 1fr 58px} }
+/* ── Fit & Engagement (MQLs vs Leads) ── */
+.fe-tbl{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--card);margin:6px 0 4px}
+.fe-hd,.fe-r{display:grid;grid-template-columns:1.7fr 1fr 1fr;align-items:center;gap:16px;padding:11px 16px}
+.fe-hd{background:rgba(255,255,255,.04);font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--mut)}
+.fe-hd .mqlc{color:var(--brand)} .fe-hd .leadc{color:var(--sky)}
+.fe-r{border-top:1px solid rgba(255,255,255,.04)}
+.fe-r:nth-child(even){background:rgba(255,255,255,.015)}
+.fe-r .fl{font-size:13px;color:var(--ink)}
+.fe-cell{display:flex;align-items:center;gap:10px}
+.fe-bar{flex:1;height:8px;border-radius:6px;background:rgba(255,255,255,.07);overflow:hidden}
+.fe-bf{height:100%;border-radius:6px}
+.fe-bf.mql{background:linear-gradient(90deg,var(--brand-d),var(--brand))}
+.fe-bf.lead{background:linear-gradient(90deg,#2b7a9e,var(--sky))}
+.fe-v{font-size:12.5px;font-weight:700;color:var(--ink);min-width:70px;text-align:right}
+.fe-v small{font-weight:500;color:var(--mut)}
+.fe-seg-wrap{margin:2px 0 6px}
+.fe-tlbl{display:flex;justify-content:space-between;align-items:baseline;font-size:13px;color:var(--ink);font-weight:600;margin-bottom:7px}
+.fe-tlbl small{color:var(--mut);font-weight:500}
+.fe-seg{display:flex;height:30px;border-radius:9px;overflow:hidden;border:1px solid var(--line);margin-bottom:16px}
+.fe-seg span{display:flex;align-items:center;justify-content:center;font-size:11.5px;font-weight:800;color:#08120e;white-space:nowrap;min-width:0;overflow:hidden}
+.fe-hot{background:linear-gradient(90deg,#ff8a5b,#ff6b5b)} .fe-warm{background:linear-gradient(90deg,#ffd47a,#ffca5c)}
+.fe-cold{background:linear-gradient(90deg,#8fd6f0,#68d1f5)} .fe-sleep{background:rgba(255,255,255,.08);color:var(--mut)}
+.fe-legend{display:flex;flex-wrap:wrap;gap:16px;font-size:12px;color:var(--ink2);margin:2px 0 4px}
+.fe-legend b{color:var(--ink)}
+.fe-legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.fe-takes{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:12px;margin-top:18px}
+.fe-take{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--brand);border-radius:12px;padding:14px 16px}
+.fe-take.hot{border-left-color:#ff6b5b} .fe-take.warm{border-left-color:var(--warn)} .fe-take.cool{border-left-color:var(--sky)}
+.fe-take .tk-h{font-size:12px;font-weight:800;letter-spacing:.02em;color:var(--ink);margin-bottom:6px}
+.fe-take .tk-n{font-size:22px;font-weight:800;line-height:1;letter-spacing:-.02em}
+.fe-take .tk-n small{font-size:12px;font-weight:600;color:var(--mut)}
+.fe-take .tk-b{font-size:12.5px;color:var(--ink2);margin-top:6px}
+.fe-take.hot .tk-n{color:#ff8a5b} .fe-take.warm .tk-n{color:var(--warn)} .fe-take.cool .tk-n{color:var(--sky)}
+@media(max-width:560px){ .fe-hd,.fe-r{grid-template-columns:1fr;gap:7px} .fe-hd{display:none} .fe-r .fl{font-weight:700} }
+/* ── Desplegable ejecutivo (recoge bloques densos) ── */
+.foldbox{border:1px solid var(--line);border-radius:14px;background:var(--card);margin:6px 0 4px;overflow:hidden}
+.foldbox>summary{cursor:pointer;list-style:none;padding:14px 18px;font-size:13.5px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:10px}
+.foldbox>summary::-webkit-details-marker{display:none}
+.foldbox>summary::after{content:"▸";margin-left:auto;color:var(--mut);transition:transform .2s;font-size:15px}
+.foldbox[open]>summary::after{transform:rotate(90deg)}
+.foldbox>summary .fb-hint{font-weight:500;font-size:11.5px;color:var(--mut)}
+.foldbox[open]>summary{border-bottom:1px solid var(--line)}
+.foldbox>.fb-body{padding:14px 16px 16px}
 """
 
 
@@ -3189,6 +3314,31 @@ def render_exec(d):
                 f'<div class="kt">{arrow(t)}<span style="color:var(--mut)">· {conv}</span></div>'
                 f'<div class="kt" style="margin-top:5px">{io(inb, out)}</div>'
                 f'<div class="emprow">🏢 <span class="eb tnum">{fmt(emp)}</span> empresas / negocios</div></div>')
+    # ── Franja superior: volumen TOTAL del CRM (incl. Freemium) → marketing (facturable) → no-marketing ──
+    _crm_t = ex.get("crm_total", 0); _crm_m = ex.get("crm_mkt", 0); _crm_n = ex.get("crm_nomkt", 0)
+    band_html = ""
+    if _crm_t > 0:
+        band_html = (
+            f'<div class="kc band"><div class="kl">Total de contactos · CRM</div>'
+            f'<div class="kv tnum">{fmt(_crm_t)}</div>'
+            f'<div class="kt" style="color:var(--mut)">todo el CRM, incluido Freemium</div></div>'
+            f'<div class="kc band mk"><div class="kl">Contactos de marketing '
+            f'<span style="color:var(--mut);font-weight:600;font-size:10px">facturables</span></div>'
+            f'<div class="kv tnum">{fmt(_crm_m)} <span class="bpct up">{pv(_crm_m, _crm_t)}</span></div>'
+            f'<div class="kt" style="color:var(--mut)">se les puede enviar comunicaciones de marketing</div></div>'
+            f'<div class="kc band no"><div class="kl">No son de marketing '
+            f'<span style="color:var(--mut);font-weight:600;font-size:10px">*</span></div>'
+            f'<div class="kv tnum">{fmt(_crm_n)} <span class="bpct">{pv(_crm_n, _crm_t)}</span></div>'
+            f'<div class="kt" style="color:var(--mut)">fuera del plan de marketing · no facturan</div></div>')
+    band_block = ""
+    if band_html:
+        band_block = (
+            '<div class="band-title">🗂️ Volumen total de contactos en el CRM '
+            '<span>· en HubSpot se paga por los de marketing</span></div>'
+            f'<div class="kg kg3 bandrow">{band_html}</div>'
+            '<div class="fnote">* Aquí ha salido buena parte de los <b>Freemium</b> (altas por la app): '
+            'son un <b>porcentaje muy alto</b> del total del CRM y se han <b>sacado de contactos de marketing</b> '
+            'porque no entran en el proceso comercial y consumían espacio del plan de marketing de HubSpot.</div>')
     kpi_html = (
         f'<div class="kc"><div class="kl">Nuevos contactos</div><div class="kv tnum">{fmt(g_contactos)}</div>'
         f'<div class="kt">{arrow(tr["contactos"])}</div>'
@@ -3624,6 +3774,44 @@ def render_exec(d):
         f'<span class="bn tnum">{v}<br><small>{pv(v, ctot)}</small></span></div>'
         for k, v in content_rows) or '<p class="sd">Sin datos de contenido.</p>'
 
+    # ---------- 7·b · Fit & Engagement (MQLs vs Leads) ----------
+    fe = d["fiteng"]; fm = fe["mql"]; fl = fe["lead"]
+    _fmn = fm["n"] or 1; _fln = fl["n"] or 1
+    def _febar(cls, val, base):
+        p = round(val / base * 100) if base else 0
+        return (f'<div class="fe-cell"><div class="fe-bar"><div class="fe-bf {cls}" style="width:{p}%"></div></div>'
+                f'<span class="fe-v">{fmt(val)} <small>{p}%</small></span></div>')
+    _fe_signals = [
+        ("📥 Abrió algún email de marketing", fm["has"]["opens"], fl["has"]["opens"]),
+        ("🖱️ Hizo clic en un email", fm["has"]["clicks"], fl["has"]["clicks"]),
+        ("📝 Rellenó ≥2 formularios", fm["multi_form"], fl["multi_form"]),
+        ("🔁 Volvió a la web (≥2 sesiones)", fm["multi_visit"], fl["multi_visit"]),
+        ("👀 Registra visitas a la web", fm["has"]["views"], fl["has"]["views"]),
+    ]
+    _fe_rows = "".join(
+        f'<div class="fe-r"><span class="fl">{lbl}</span>{_febar("mql", mv, _fmn)}{_febar("lead", lv, _fln)}</div>'
+        for lbl, mv, lv in _fe_signals)
+    def _fe_seg(t, base):
+        base = base or 1
+        order = [("hot", "fe-hot", "🔥"), ("warm", "fe-warm", "🌤"),
+                 ("cold", "fe-cold", "❄️"), ("sleep", "fe-sleep", "💤")]
+        cells = ""
+        for k, cls, emo in order:
+            p = t[k] / base * 100
+            if p <= 0: continue
+            lab = f'{emo} {t[k]}' if p >= 9 else (f'{t[k]}' if p >= 4 else "")
+            cells += (f'<span class="{cls}" style="width:{p:.1f}%" '
+                      f'title="{emo} {t[k]} ({round(p)}%)">{lab}</span>')
+        return cells
+    _fe_seg_mql = _fe_seg(fm["tiers"], fm["n"])
+    _fe_seg_lead = _fe_seg(fl["tiers"], fl["n"])
+    # Cifras para la lectura del bloque
+    _mql_open_p = pv(fm["has"]["opens"], _fmn); _lead_open_p = pv(fl["has"]["opens"], _fln)
+    _mql_click_p = pv(fm["has"]["clicks"], _fmn); _lead_click_p = pv(fl["has"]["clicks"], _fln)
+    _mql_active = fm["tiers"]["hot"] + fm["tiers"]["warm"]
+    _lead_active = fl["tiers"]["hot"] + fl["tiers"]["warm"]
+    _mql_active_p = pv(_mql_active, _fmn); _lead_active_p = pv(_lead_active, _fln)
+
     # ---------- 8 · SQL 2 columnas ----------
     pq = d["preq"]
     ag_base = pq.get("ag_sql", 0) or 1
@@ -4011,64 +4199,71 @@ def render_exec(d):
     # ── Campañas activas de paid · agosto (Meta Ads) · datos de la plataforma (pantallazos) ──
     def _eur(v):
         return f"{v:,.2f}".replace(",", "§").replace(".", ",").replace("§", ".") + " €"
-    _ag_spend = 1368.69
-    _ag_impr, _ag_clics, _ag_cont, _ag_cli = 83000, 4000, 19, 0
+    # Gasto por plataforma (Meta total repartido no disponible por campaña → gasto a nivel plataforma)
+    _meta_spend = 1368.69
+    _li_spend = 166.62
+    _ag_spend = _meta_spend + _li_spend                 # gasto total Social Ads agosto
+    _meta_impr, _meta_clics, _meta_cont = 83000, 4000, 19
+    _li_impr, _li_clics, _li_cont = 27000, 127, 0
+    _ag_impr = _meta_impr + _li_impr                    # 110K
+    _ag_clics = _meta_clics + _li_clics                 # 4.127
+    _ag_cont = _meta_cont + _li_cont                    # 19
+    _ag_cli = 0
+    # (nombre, icono, plataforma, MQL, SQL, gasto|None)  · gasto solo a nivel plataforma
     _ag_camps = [
-        ("Meta · Travel", "🏖️", 9, 0),
-        ("Meta · Travel + video demo", "🎬", 3, 1),
-        ("Meta · Ecommerce", "🛒", 3, 0),
+        ("Meta · Travel", "🏖️", "meta", 9, 0, None),
+        ("Meta · Travel + video demo", "🎬", "meta", 3, 1, None),
+        ("Meta · Ecommerce", "🛒", "meta", 3, 0, None),
+        ("LinkedIn · Ebook Travel", "🔗", "li", 0, 0, _li_spend),
     ]
-    _ag_mql = sum(m for _n, _i, m, _s in _ag_camps)
-    _ag_sql = sum(s for _n, _i, _m, s in _ag_camps)
+    _ag_mql = sum(c[3] for c in _ag_camps)
+    _ag_sql = sum(c[4] for c in _ag_camps)
+    _meta_mql = sum(c[3] for c in _ag_camps if c[2] == "meta")
+    _meta_sql = sum(c[4] for c in _ag_camps if c[2] == "meta")
     _ag_cpm = _eur(_ag_spend / _ag_mql) if _ag_mql else "—"
     _ag_cps = _eur(_ag_spend / _ag_sql) if _ag_sql else "—"
     _ag_cpc = _eur(_ag_spend / _ag_cont) if _ag_cont else "—"
-    _ag_rows = "".join(
-        f'<tr><td>{icon} {esc(nm)}</td><td class="agc-n">{m}</td><td class="agc-n">{s}</td></tr>'
-        for nm, icon, m, s in _ag_camps)
+    def _cps_cell(spend, sql):
+        return _eur(spend / sql) if (spend and sql) else "—"
+    _ag_rows = ""
+    for nm, icon, plat, m, s, sp in _ag_camps:
+        _sp_txt = _eur(sp) if sp is not None else '<span style="color:var(--mut)">—</span>'
+        _ag_rows += (f'<tr><td>{icon} {esc(nm)}</td><td class="agc-n">{_sp_txt}</td>'
+                     f'<td class="agc-n">{m}</td><td class="agc-n">{s}</td>'
+                     f'<td class="agc-n">{_cps_cell(sp, s)}</td></tr>')
+    # Subtotal Meta (gasto a nivel plataforma) intercalado tras sus campañas
+    _meta_subtotal = (f'<tr class="agc-sub"><td>Σ Meta Ads</td><td class="agc-n">{_eur(_meta_spend)}</td>'
+                      f'<td class="agc-n">{_meta_mql}</td><td class="agc-n">{_meta_sql}</td>'
+                      f'<td class="agc-n">{_cps_cell(_meta_spend, _meta_sql)}</td></tr>')
+    # Insertar el subtotal Meta justo antes de la fila de LinkedIn
+    _ag_rows = _ag_rows.replace('<tr><td>🔗', _meta_subtotal + '<tr><td>🔗', 1)
+    _imprK = f"{round(_ag_impr/1000)}K"
     ag_camp_html = f"""
 <section>
   <div class="q">04c · ¿Qué está trayendo el paid activo este mes?</div>
-  <h2 class="sh">Campañas activas · agosto <span class="tot">· Meta Ads</span></h2>
-  <div class="sd wide">Campañas de <b>Meta Ads</b> activas del <b>1 al 13 de agosto</b> (travel, ecommerce y demo). Todo el volumen entra como <b>MQL</b> salvo <b>1 SQL</b>. Cifras de la plataforma de Ads (pueden tener ligero retraso frente al CRM).</div>
+  <h2 class="sh">Campañas activas · agosto <span class="tot">· Social Ads · Meta + LinkedIn</span></h2>
+  <div class="sd wide">Campañas de <b>Meta Ads</b> y <b>LinkedIn Ads</b> activas del <b>1 al 13 de agosto</b> (travel, ecommerce y demo). Volumen combinado y desglose por campaña. Cifras de las plataformas de Ads (pueden tener ligero retraso frente al CRM).</div>
   <div class="agc-funnel">
-    <div class="agc-tile"><div class="agc-v">83K</div><div class="agc-l">Impresiones</div></div>
-    <div class="agc-arw">4,4%</div>
-    <div class="agc-tile"><div class="agc-v">4K</div><div class="agc-l">Clics</div></div>
-    <div class="agc-arw">0,5%</div>
+    <div class="agc-tile"><div class="agc-v">{_imprK}</div><div class="agc-l">Impresiones</div></div>
+    <div class="agc-arw">{pv(_ag_clics, _ag_impr)}</div>
+    <div class="agc-tile"><div class="agc-v">{fmt(_ag_clics)}</div><div class="agc-l">Clics</div></div>
+    <div class="agc-arw">{pv(_ag_cont, _ag_clics)}</div>
     <div class="agc-tile hot"><div class="agc-v">{_ag_cont}</div><div class="agc-l">Contactos</div><div class="agc-s">{_ag_cpc} c/u</div></div>
-    <div class="agc-arw">0,0%</div>
+    <div class="agc-arw">{pv(_ag_cli, _ag_cont)}</div>
     <div class="agc-tile"><div class="agc-v">{_ag_cli}</div><div class="agc-l">Clientes</div></div>
   </div>
   <div class="cards" style="margin:14px 0">
-    <div class="stat"><div class="sv tnum">{_eur(_ag_spend)}</div><div class="sl">Gasto en agosto<br><span style="color:var(--mut)">Meta Ads · campañas activas</span></div></div>
+    <div class="stat"><div class="sv tnum">{_eur(_ag_spend)}</div><div class="sl">Gasto total · agosto<br><span style="color:var(--mut)">Meta {_eur(_meta_spend)} + LinkedIn {_eur(_li_spend)}</span></div></div>
     <div class="stat ok"><div class="sv tnum">{_ag_cpm}</div><div class="sl">Coste por MQL<br><span style="color:var(--mut)">{_ag_mql} MQL generados</span></div></div>
     <div class="stat warn"><div class="sv tnum">{_ag_cps}</div><div class="sl">Coste por SQL<br><span style="color:var(--mut)">{_ag_sql} SQL generado</span></div></div>
   </div>
   <table class="agc-tbl">
-    <thead><tr><th>Campaña activa</th><th class="agc-n">MQL</th><th class="agc-n">SQL</th></tr></thead>
+    <thead><tr><th>Campaña activa</th><th class="agc-n">Gasto</th><th class="agc-n">MQL</th><th class="agc-n">SQL</th><th class="agc-n">€ / SQL</th></tr></thead>
     <tbody>{_ag_rows}
-      <tr class="agc-tot"><td>Total · agosto</td><td class="agc-n">{_ag_mql}</td><td class="agc-n">{_ag_sql}</td></tr>
+      <tr class="agc-tot"><td>Total · agosto</td><td class="agc-n">{_eur(_ag_spend)}</td><td class="agc-n">{_ag_mql}</td><td class="agc-n">{_ag_sql}</td><td class="agc-n">{_cps_cell(_ag_spend, _ag_sql)}</td></tr>
     </tbody>
   </table>
-  <div class="note" style="margin-top:12px">💡 Coste por MQL = gasto ÷ MQL ({_eur(_ag_spend)} ÷ {_ag_mql}). Coste por SQL = gasto ÷ SQL ({_eur(_ag_spend)} ÷ {_ag_sql}). <b>Travel</b> es la que más volumen trae; el <b>SQL</b> viene de <b>Travel + video demo</b>. Aún <b>0 clientes</b> cerrados de estas campañas. <span style="color:var(--mut)">La plataforma marca {_ag_cont} contactos y las campañas suman {_ag_mql + _ag_sql} clasificados (MQL/SQL) — los {_ag_cont - (_ag_mql + _ag_sql)} restantes aún sin etapa.</span></div>
-
-  <div class="section-label" style="margin:22px 0 10px">LinkedIn Ads · agosto <small>· Ebook sector Travel · 1–13 ago</small></div>
-  <div class="agc-funnel">
-    <div class="agc-tile" style="background:rgba(10,102,194,.08);border-color:rgba(10,102,194,.3)"><div class="agc-v">27K</div><div class="agc-l">Impresiones</div></div>
-    <div class="agc-arw">0,5%</div>
-    <div class="agc-tile" style="background:rgba(10,102,194,.08);border-color:rgba(10,102,194,.3)"><div class="agc-v">127</div><div class="agc-l">Clics</div><div class="agc-s" style="color:#4aa3e0">{_eur(166.62/127)} c/u</div></div>
-    <div class="agc-arw">0,0%</div>
-    <div class="agc-tile"><div class="agc-v">0</div><div class="agc-l">Contactos</div></div>
-    <div class="agc-arw">0,0%</div>
-    <div class="agc-tile"><div class="agc-v">0</div><div class="agc-l">Clientes</div></div>
-  </div>
-  <div class="cards" style="margin:14px 0">
-    <div class="stat"><div class="sv tnum">{_eur(166.62)}</div><div class="sl">Gasto en agosto<br><span style="color:var(--mut)">LinkedIn · Ebook Travel</span></div></div>
-    <div class="stat"><div class="sv tnum">{_eur(166.62/127)}</div><div class="sl">Coste por clic (CPC)<br><span style="color:var(--mut)">127 clics</span></div></div>
-    <div class="stat warn"><div class="sv tnum">0</div><div class="sl">MQL / SQL<br><span style="color:var(--mut)">sin contactos atribuidos aún</span></div></div>
-  </div>
-  <div class="note" style="margin-top:0">🔗 Campaña <b>Ebook_Linkedin_Travel</b> (lead magnet del sector travel). Genera <b>tráfico</b> (127 clics a 1,31 € c/u) pero <b>0 contactos en el CRM</b>: la plataforma reporta <b>63 errores de seguimiento de contactos</b>, así que las descargas del ebook <b>no se están atribuyendo</b> todavía. <b>Acción:</b> revisar el tracking/integración de LinkedIn Lead Gen para que los contactos entren y podamos leer coste por MQL.</div>
+  <div class="note" style="margin-top:12px">💡 <b>Gasto total {_eur(_ag_spend)}</b> (Meta {_eur(_meta_spend)} + LinkedIn {_eur(_li_spend)}) → <b>{_ag_mql} MQL</b> y <b>{_ag_sql} SQL</b>. Coste por MQL = {_ag_cpm}; coste por SQL = {_ag_cps}. <b>Travel (Meta)</b> es la que más volumen trae; el <b>SQL</b> viene de <b>Travel + video demo</b>. <b>LinkedIn</b> genera tráfico (127 clics a {_eur(_li_spend/_li_clics)} c/u) pero <b>0 contactos en el CRM</b>: la plataforma reporta errores de seguimiento y las descargas del ebook <b>no se están atribuyendo</b> aún — revisar el tracking de LinkedIn Lead Gen. El gasto de Meta no viene desglosado por campaña, por eso se muestra a nivel plataforma (Σ Meta).</div>
 </section>"""
 
     body = f"""
@@ -4108,6 +4303,7 @@ def render_exec(d):
         <div class="cat-body"><span class="src-chip br">🧠 Brain</span></div></div>
     </div>
     Cifra grande = total de contactos; debajo, <b>inb</b> / <b>out</b>. En Oportunidades el pequeño es nº de <b>empresas / negocios</b>; en Clientes, <b>cuentas activas</b> del pipeline «Clientes».</div>
+  {band_block}
   <div class="kg-trendlab">📈 Las flechas de cada KPI comparan <b>lo que va de mes</b> (del 1 a hoy) con el <b>mismo tramo del mes anterior</b> — misma ventana que la matriz por canal y los gráficos, aunque el mes en curso no haya terminado, para que los números cuadren en todas las secciones.</div>
   <div class="kg">{kpi_html}</div>
   <div class="kg kg3">{kpi_html2}</div>
@@ -4123,7 +4319,7 @@ def render_exec(d):
   <div class="q">02 · ¿Dónde está cada contacto?</div>
   <h2 class="sh">Embudos por vía <span class="tot">· Inbound · Outbound · Brain</span></h2>
   <div class="sd">Desglose del embudo por vía. Cada columna es su volumen de <b>contactos</b> por etapa y el % <b>sobre su total de contactos</b>. El <b>pipeline de ventas es compartido</b>: inbound y outbound lo trabajan de forma conjunta.</div>
-  <div class="cac-spendbar" style="background:rgba(111,240,162,.08);border-color:var(--brand-d);max-width:640px;margin:12px auto 0"><span class="cac-sb-cap" style="color:var(--brand)">💰 Valor estimado total del pipeline de ventas <small>· todas las etapas abiertas</small></span><span class="cac-sb-val" style="color:var(--brand)">{("€"+fmt(round(ex.get("inb_value",0) + ex.get("out_value",0) + ex.get("brain_value",0)))) if (ex.get("inb_value",0) + ex.get("out_value",0) + ex.get("brain_value",0)) else "—"}</span></div>
+  <div class="cac-spendbar" style="background:rgba(111,240,162,.08);border-color:var(--brand-d);max-width:640px;margin:12px auto 0"><span class="cac-sb-cap" style="color:var(--brand)">💰 Valor total estimado · <b>MRR (mensual)</b> <small>· ingreso recurrente mensual · todas las etapas abiertas del pipeline</small></span><span class="cac-sb-val" style="color:var(--brand)">{("€"+fmt(round(ex.get("inb_value",0) + ex.get("out_value",0) + ex.get("brain_value",0)))) if (ex.get("inb_value",0) + ex.get("out_value",0) + ex.get("brain_value",0)) else "—"}</span></div>
   <div class="io3grp">
    <div class="iogrp cx">
     <div class="iogrp-h">🚀 GuruSup CX <span>Customer Experience</span></div>
@@ -4151,11 +4347,13 @@ def render_exec(d):
         <details class="mf-det"><summary class="mf-row"><div class="mf-l"><b class="tnum">{fmt(ex.get("brain_open", 0))}</b> Oportunidad (negocio) <span class="mf-see">🎯 ver</span></div><div class="mf-bar"><div class="mf-fill" style="width:{max(5, round(ex.get("brain_open",0)/(brain_ct or 1)*100))}%"></div></div><span class="mf-c">{pv(ex.get("brain_open",0), brain_ct or 1)}</span></summary><div class="mf-deals">{"".join(f'<span>{esc(n)}</span>' for n in _brain_opp_names) or "—"}</div></details>
       </div>
       <div class="pend" style="margin-top:12px">⏳ Embudo intermedio de <b>Brain</b> (lead→MQL→SQL) pendiente de conectar; hoy se ven contactos y oportunidades.</div>
-      <div class="io-val">💰 Valor estimado pipeline<span>{("€"+fmt(round(ex.get("brain_value",0)))) if ex.get("brain_value") else "— (importes sin cargar)"}</span></div>
+      <div class="io-val">💰 Valor estimado pipeline <span class="io-ast">*</span><span>{("€"+fmt(round(ex.get("brain_value",0)))) if ex.get("brain_value") else "— (importes sin cargar)"}</span></div>
     </div>
     </div>
    </div>
   </div>
+  <div class="fnote">💡 <b>MRR</b> = <i>Monthly Recurring Revenue</i> — <b>ingreso recurrente mensual</b>: el «Valor total estimado» es la estimación <b>mensual</b> del pipeline abierto (todas las etapas sin cerrar), no el importe total del contrato.</div>
+  <div class="fnote">* <b>Brain — work in progress</b>: el pipeline de GuruSup Brain aún se está <b>construyendo y conectando</b>; sus importes y el embudo intermedio (lead→MQL→SQL) pueden variar mientras se termina de configurar.</div>
 </section>
 
 <section>
@@ -4171,7 +4369,7 @@ def render_exec(d):
   <div class="q">04 · ¿Qué canal genera negocio real?</div>
   <h2 class="sh">Rendimiento por canal <span class="tot">· global</span></h2>
   <div class="sd">Cómo rinde cada canal del contacto al negocio (acumulado desde el 1 de enero, sin Freemium), separado en <b style="color:var(--brand)">🟢 Inbound</b>, <b style="color:var(--warn)">🟠 Outbound</b> y <b style="color:var(--violet)">🧠 Brain</b>.</div>
-  {matrix_html}
+  <details class="foldbox"><summary>📊 Ver rendimiento por canal · mes a mes <span class="fb-hint">— desplegar y navegar por meses</span></summary><div class="fb-body">{matrix_html}</div></details>
   <div class="note" style="margin-top:16px">📌 <b>Lectura importante de los meses anteriores.</b> Hasta ahora no había un criterio único de atribución: muchos contactos estaban en la <b>etapa de ciclo de vida equivocada</b> (p. ej. <b>freemiums marcados como SQL u oportunidad</b>), lo que <b>sesga el dato</b>. Por eso los meses previos (p. ej. el volumen de oportunidades de febrero/marzo) <b>no reflejan oportunidades reales</b> según la lógica actual del pipeline. <b>Desde junio-julio</b> se ha establecido un <b>criterio de atribución</b> para trazar bien la adquisición y entender cómo evoluciona cada contacto. A partir de aquí el evolutivo es fiable y comparable — la clave es <b>mantener el proceso estable</b>.</div>
 </section>
 
@@ -4206,8 +4404,7 @@ def render_exec(d):
     <div class="stat ok"><div class="sv tnum">{fmt(cum["lead"])}</div><div class="sl">🟢 Inbound<br><span style="color:var(--mut)">{pv(cum["lead"], g_lead)} del total</span></div></div>
     <div class="stat warn"><div class="sv tnum">{fmt(ob["lead"])}</div><div class="sl">🟠 Outbound / comercial<br><span style="color:var(--mut)">{pv(ob["lead"], g_lead)} del total</span></div></div>
   </div>
-  <div class="section-label" style="margin:4px 0 10px">Origen / contenido de los leads inbound <small>· {fmt(cum["lead"])}</small></div>
-  <div class="bars">{leads_html}</div>
+  <details class="foldbox"><summary>🟢 Ver origen / contenido de los leads inbound <span class="fb-hint">· {fmt(cum["lead"])} leads — desplegar desglose</span></summary><div class="fb-body"><div class="bars">{leads_html}</div></div></details>
   <div class="section-label" style="margin:22px 0 10px">La estrategia · de contacto anónimo a demo pedida por el propio cliente</div>
   <div class="journey">
     <!-- Etapa 1 · LEAD -->
@@ -4250,8 +4447,38 @@ def render_exec(d):
   <div class="q">07 · ¿Qué consumen los MQL?</div>
   <h2 class="sh">Estado de los MQL <span class="tot">· {fmt(ctot)}</span> · contenido consumido</h2>
   <div class="sd">Qué activos de contenido consumen los leads de consideración (MQL de facto) antes de pasar a SQL.</div>
-  <div class="bars">{content_html}</div>
+  <details class="foldbox"><summary>📗 Ver contenido consumido por los MQL <span class="fb-hint">— desplegar desglose</span></summary><div class="fb-body"><div class="bars">{content_html}</div></div></details>
   <div class="note" style="margin-top:14px">🌱 <b>Nurturing de MQL (medio plazo).</b> Los MQL se trabajan con <b>nurturing</b> (con menos urgencia que los SQL): <b>secuencias y enriquecimiento de contenido</b> con acciones específicas (eventos, webinars, documentos) <b>alineadas con ventas, tendencias del mercado y propuesta de valor</b>. <b>Objetivo:</b> llevarlos al <b>formulario de precualificación para agendar demo</b> (donde pasan a la precualificación automatizada). Además, ir <b>sacando patrones</b> de lo que mejor convierte.</div>
+</section>
+
+<section>
+  <div class="q">07·b · ¿Cómo de calientes están? · Fit &amp; Engagement</div>
+  <h2 class="sh">Fit &amp; Engagement score <span class="tot">· {fmt(fm["n"])} MQL · {fmt(fl["n"])} leads</span></h2>
+  <div class="sd wide">Cómo de <b>caliente</b> está cada MQL y lead según su <b>interacción real</b> (email, formularios, web), para saber <b>a quién priorizar</b>. El scoring nativo de HubSpot no está activo, así que lo medimos con <b>señales propias</b>.</div>
+
+  <div class="fe-tbl">
+    <div class="fe-hd"><span>Señal de interacción</span><span class="mqlc">🎯 MQL · {fmt(fm["n"])}</span><span class="leadc">🌱 Lead · {fmt(fl["n"])}</span></div>
+    {_fe_rows}
+  </div>
+
+  <div class="section-label" style="margin:24px 0 12px">Índice de engagement · reparto por temperatura</div>
+  <div class="fe-seg-wrap">
+    <div class="fe-tlbl"><span>🎯 MQL <small>· {fmt(fm["n"])} contactos</small></span><span><b style="color:var(--brand)">{_mql_active_p}</b> activos (🔥+🌤)</span></div>
+    <div class="fe-seg">{_fe_seg_mql}</div>
+    <div class="fe-tlbl"><span>🌱 Lead <small>· {fmt(fl["n"])} contactos</small></span><span><b style="color:var(--sky)">{_lead_active_p}</b> activos (🔥+🌤)</span></div>
+    <div class="fe-seg">{_fe_seg_lead}</div>
+  </div>
+  <div class="fe-legend">
+    <span><i style="background:linear-gradient(90deg,#ff8a5b,#ff6b5b)"></i><b>🔥 Caliente</b> — varias señales fuertes (clic, multi-form, vuelve a la web)</span>
+    <span><i style="background:linear-gradient(90deg,#ffd47a,#ffca5c)"></i><b>🌤 Templado</b> — abre algún email (sin señal fuerte todavía)</span>
+    <span><i style="background:linear-gradient(90deg,#8fd6f0,#68d1f5)"></i><b>❄️ Frío</b> — solo la señal de entrada (1 formulario / visita suelta)</span>
+    <span><i style="background:rgba(255,255,255,.14)"></i><b>💤 Dormido</b> — sin interacción registrada</span>
+  </div>
+
+  <div class="fe-takes">
+    <div class="fe-take hot"><div class="tk-h">🔥 Más calientes por email</div><div class="tk-n">{_mql_open_p} <small>MQL abre · {_mql_click_p} clica</small></div><div class="tk-b">Vs {_lead_open_p} / {_lead_click_p} del lead: el MQL ya consumió contenido.</div></div>
+    <div class="fe-take warm"><div class="tk-h">🌡️ Nivel de actividad</div><div class="tk-n">{_mql_active_p} <small>MQL activos</small></div><div class="tk-b">Frente a {_lead_active_p} de los leads (🔥+🌤).</div></div>
+  </div>
 </section>
 
 <section>
