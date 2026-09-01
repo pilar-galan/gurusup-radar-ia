@@ -1621,6 +1621,14 @@ def main():
     # De los contactos en etapa Oportunidad, cuántos tienen un negocio (deal) asociado
     exec_extra["crm_opp_deal"] = _crm_count([{"propertyName": "lifecyclestage", "operator": "EQ", "value": "opportunity"},
                                              {"propertyName": "num_associated_deals", "operator": "GTE", "value": "1"}])
+    # Cobertura de PROPIETARIO por etapa comercial (con propietario / total), en vivo
+    exec_extra["owner_by_stage"] = {}
+    for _ok, _ov in {"lead": "lead", "mql": "marketingqualifiedlead", "sql": "salesqualifiedlead",
+                     "opp": "opportunity", "cli": "customer"}.items():
+        _ot = exec_extra["crm_stage"].get(_ok, 0)
+        _oh = _crm_count([{"propertyName": "lifecyclestage", "operator": "EQ", "value": _ov},
+                          {"propertyName": "hubspot_owner_id", "operator": "HAS_PROPERTY"}])
+        exec_extra["owner_by_stage"][_ok] = (_oh, _ot)
     q_tot = len(hist_nf) or 1
     exec_extra["quality"] = {
         "total": len(hist_nf),
@@ -3208,6 +3216,19 @@ details.chdeals .dl span{font-size:11px;background:rgba(104,209,245,.1);border:1
 .agc-tbl tr.agc-sub td{background:rgba(255,255,255,.03);font-weight:800;color:var(--ink2)}
 .agc-badge{font-size:9.5px;font-weight:800;letter-spacing:.02em;text-transform:uppercase;padding:2px 7px;border-radius:20px;margin-left:6px;vertical-align:middle}
 .agc-badge.on{background:rgba(87,224,138,.15);color:#57e08a} .agc-badge.off{background:rgba(255,255,255,.08);color:var(--mut)}
+.owner-evo{margin-top:14px;background:linear-gradient(165deg,rgba(24,52,38,.7),rgba(19,41,30,.5));border:1px solid var(--line);border-radius:16px;padding:18px}
+.owner-evo .oe-head{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.oe-big span{font-size:34px;font-weight:900;letter-spacing:-.02em;color:var(--brand)} .oe-big small{display:block;font-size:12px;color:var(--ink2);margin-top:2px} .oe-big small b{color:var(--ink)}
+.oe-delta{font-size:16px;font-weight:900;color:#57e08a;text-align:right} .oe-delta span{display:block;font-size:10.5px;color:var(--mut);font-weight:600}
+.oe-track{display:flex;height:26px;border-radius:8px;overflow:hidden;margin:14px 0 4px;border:1px solid var(--line)}
+.oe-track .oe-was{background:rgba(255,255,255,.09);display:flex;align-items:center;justify-content:center} .oe-track .oe-now{background:linear-gradient(90deg,var(--brand-d,#2bb673),#57e08a);display:flex;align-items:center;justify-content:center}
+.oe-track span{font-size:10.5px;font-weight:800;color:#08120e;white-space:nowrap;padding:0 6px} .oe-track .oe-was span{color:var(--ink2)}
+.oe-cap{font-size:12px;color:var(--ink2);margin:10px 0 8px;line-height:1.5} .oe-cap b{color:var(--ink)}
+.ow-list{display:flex;flex-direction:column;gap:6px}
+.ow-row{display:grid;grid-template-columns:110px 1fr auto;align-items:center;gap:10px;font-size:12px}
+.ow-row .ow-lab{color:var(--ink2);display:flex;align-items:center;gap:7px} .ow-row .ow-lab i{width:10px;height:10px;border-radius:3px}
+.ow-row .ow-bar{height:8px;border-radius:5px;background:rgba(255,255,255,.07);overflow:hidden} .ow-row .ow-fill{display:block;height:100%;border-radius:5px}
+.ow-row .ow-v{color:var(--ink2);font-variant-numeric:tabular-nums;white-space:nowrap} .ow-row .ow-v b{color:var(--ink)}
 @media(max-width:640px){.agc-funnel{flex-wrap:wrap}.agc-tile{flex-basis:40%}.agc-arw{display:none}}
 .strat b{color:var(--brand)}
 .note{background:linear-gradient(150deg,rgba(111,240,162,.12),rgba(111,240,162,.02));border:1px solid var(--line2);border-radius:14px;padding:16px 18px;font-size:13px;color:var(--ink2);margin-top:18px}
@@ -3823,6 +3844,31 @@ def render_exec(d):
         f'<div class="qp">{pv(pr["total"], qt)} lo indican</div>'
         f'<div class="qsplit">📞 {pr["tel"]} <small>({pv(pr["tel"], pr_t)})</small> · ✉️ {pr["mail"]} <small>({pv(pr["mail"], pr_t)})</small></div>'
         f'<div class="qnote">campo del formulario desde el 9 jul</div></div>')
+    # ── Cobertura de PROPIETARIO · evolución (antes casi nadie tenía → hoy casi todos) ──
+    _obs = ex.get("owner_by_stage", {})
+    _own_have = sum(h for h, t in _obs.values())
+    _own_tot = sum(t for h, t in _obs.values()) or 1
+    _own_pct = round(_own_have / _own_tot * 100)
+    _own_base = 32   # auditoría inicial: 68% de los leads SIN propietario → ~32% con propietario
+    _own_delta = _own_pct - _own_base
+    _own_stage_defs = [("Leads", "lead", "#6ff0a2"), ("MQL", "mql", "#ffca5c"), ("SQL", "sql", "#68d1f5"),
+                       ("Oportunidad", "opp", "#ff6f61"), ("Cliente", "cli", "#c8a6ff")]
+    _own_rows = ""
+    for lab, key, col in _own_stage_defs:
+        h, t = _obs.get(key, (0, 0)); p = round(h / t * 100) if t else 0
+        _own_rows += (f'<div class="ow-row"><span class="ow-lab"><i style="background:{col}"></i>{lab}</span>'
+                      f'<span class="ow-bar"><span class="ow-fill" style="width:{p}%;background:{col}"></span></span>'
+                      f'<span class="ow-v"><b class="tnum">{fmt(h)}</b>/{fmt(t)} · {p}%</span></div>')
+    owner_evo_html = f"""
+  <div class="owner-evo">
+    <div class="oe-head">
+      <div class="oe-big"><span class="tnum">{_own_pct}%</span><small>de los contactos comerciales <b>con propietario</b></small></div>
+      <div class="oe-delta">▲ +{_own_delta} pp<span>desde la auditoría inicial</span></div>
+    </div>
+    <div class="oe-track"><div class="oe-was" style="width:{_own_base}%"><span>antes {_own_base}%</span></div><div class="oe-now" style="width:{_own_pct - _own_base}%"><span>hoy {_own_pct}%</span></div></div>
+    <div class="oe-cap">📈 En la <b>auditoría inicial, el 68% de los leads no tenían propietario</b> (scoring 0%). Hoy <b>{fmt(_own_have)} de {fmt(_own_tot)}</b> contactos comerciales tienen uno asignado. Cobertura por etapa:</div>
+    <div class="ow-list">{_own_rows}</div>
+  </div>"""
     vq = ex.get("volq", {}); vq_t = sum(vq.values()) or 1
     VOLROWS = [("✅ ≥ 3.000 consultas/mes", vq.get("ge3000", 0), "ok"),
                ("🤷 «No lo sé»", vq.get("nose", 0), ""),
@@ -4485,7 +4531,8 @@ def render_exec(d):
   <h2 class="sh">Calidad de los nuevos contactos</h2>
   <div class="sd">Sobre el total de contactos desde el 1 de enero: completitud del dato (email corporativo, teléfono, empresa) y preferencia de contacto declarada.</div>
   <div class="q3">{qcols}</div>
-  <div class="note" style="margin-top:14px">👤 <b>Con propietario ({pv(ql.get("owner",0), qt)}):</b> se asigna un propietario a partir de que hay seguimiento directo — es decir, <b>desde SQL</b> en adelante. Los <b>leads y MQL todavía no tienen propietario</b> asignado, por eso el porcentaje es bajo.</div>
+  {owner_evo_html}
+  <div class="note" style="margin-top:14px">👤 <b>Propietarios:</b> se ha <b>asignado propietario a casi toda la base comercial</b> (antes solo se asignaba desde SQL; los leads y MQL quedaban sin dueño). Hoy los <b>leads y MQL ya tienen propietario</b> por temperatura (Pilar/Piku los bajos, Agustín los altos/medios y SQL), por eso la cobertura ha crecido con fuerza. Los pocos <b>sin asignar</b> se concentran en SQL/Cliente antiguos pendientes de revisar.</div>
 </section>
 
 <section>
