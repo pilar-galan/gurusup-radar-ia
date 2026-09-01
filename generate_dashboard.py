@@ -1546,10 +1546,41 @@ def main():
             return (f'📈 <b>Pico en {mes}</b> (+{n}, ~{round(n/med,1)}× la media), sobre todo por '
                     f'<b>{esc(ch)}</b> ({round(cn/n*100)}%).')
         return "📈 Crecimiento sostenido, sin picos marcados."
+    # Mini-listado: pico de entrada de cada mes con la fuente que más ha traído
+    def spike_list(pred, keyf=None, recs=None, top=4):
+        recs = recs if recs is not None else hist
+        def _lab(it):
+            if is_import(it.get("src"), it.get("d1")): return "Importaciones"
+            return classify_channel(it.get("src"), it.get("d1"))[0]
+        mtot, mchan, seen = {}, {}, set()
+        for it in recs:
+            if it["created"] in idx and pred(it):
+                if keyf:
+                    k = keyf(it)
+                    if k in seen: continue
+                    seen.add(k)
+                mo = it["created"][:7]
+                mtot[mo] = mtot.get(mo, 0) + 1
+                mchan.setdefault(mo, _Ctr())[_lab(it)] += 1
+        if not mtot:
+            return ""
+        top_mo = sorted(mtot, key=lambda m: mtot[m], reverse=True)[:top]
+        top_mo = sorted(top_mo)   # orden cronológico para leerlo como evolución
+        lis = ""
+        for mo in top_mo:
+            mes = MESES[int(mo[5:7]) - 1]; n = mtot[mo]
+            ch, cn = mchan[mo].most_common(1)[0]
+            lis += (f'<li><b>{mes}</b> <span class="pk-n">+{n}</span> · 🔝 {esc(ch)} '
+                    f'<span class="pk-p">{round(cn/n*100)}%</span></li>')
+        return f'<div class="pk-cap">Entrada por mes · pico y fuente top</div><ul class="pk-list">{lis}</ul>'
     # Notas de pico: TODAS las fuentes, coherentes con las líneas de los gráficos
     exec_extra["note_mql"] = spike_note(lambda c: rank(c["lc"]) >= 2, recs=_hist_all)
     exec_extra["note_sql"] = spike_note(lambda c: c["lc"] == "salesqualifiedlead", recs=_hist_all)
     exec_extra["note_opp"] = spike_note(lambda c: rank(c["lc"]) >= 4, compkey, recs=_hist_all)
+    exec_extra["list_mql"] = spike_list(lambda c: rank(c["lc"]) >= 2, recs=_hist_all)
+    exec_extra["list_sql"] = spike_list(lambda c: c["lc"] == "salesqualifiedlead", recs=_hist_all)
+    exec_extra["list_opp"] = spike_list(lambda c: rank(c["lc"]) >= 4, compkey, recs=_hist_all)
+    exec_extra["list_cli"] = spike_list(lambda c: c["lc"] == "customer", compkey, recs=_hist_all)
     exec_extra["note_cli"] = spike_note(lambda c: c["lc"] == "customer", compkey, recs=_hist_all)
     # Calidad del dato (sobre contactos desde 1 ene): email corporativo, teléfono, empresa
     FREE_MAIL = {"gmail.com", "hotmail.com", "outlook.com", "yahoo.com", "yahoo.es", "icloud.com",
@@ -1658,7 +1689,8 @@ def main():
                 r = s if s > r else r
         return r
     # (label, inicio, fin): cada mes es una COHORTE de contactos creados ESE mes (no acumulado)
-    _MONTH_ENDS = [("jun 2026", "2026-06-01", "2026-06-30"), ("may 2026", "2026-05-01", "2026-05-31"),
+    _MONTH_ENDS = [("ago 2026", "2026-08-01", "2026-08-31"), ("jul 2026", "2026-07-01", "2026-07-31"),
+                   ("jun 2026", "2026-06-01", "2026-06-30"), ("may 2026", "2026-05-01", "2026-05-31"),
                    ("abr 2026", "2026-04-01", "2026-04-30"), ("mar 2026", "2026-03-01", "2026-03-31"),
                    ("feb 2026", "2026-02-01", "2026-02-28"), ("ene 2026", "2026-01-01", "2026-01-31")]
     def _cname(c):
@@ -2676,6 +2708,12 @@ section{padding:34px 0;border-top:1px solid var(--line)}
 .cn-ast{margin-top:8px;font-size:10.5px;color:var(--mut);line-height:1.45}
 .cn-ast b{color:var(--ink2)}
 .ch-ast{color:#ffca5c;font-size:13px;font-weight:800}
+.pk-cap{margin-top:10px;font-size:10.5px;font-weight:800;letter-spacing:.03em;text-transform:uppercase;color:var(--mut)}
+.pk-list{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column;gap:4px}
+.pk-list li{font-size:12px;color:var(--ink2);display:flex;align-items:center;gap:7px}
+.pk-list li b{color:var(--ink);text-transform:capitalize;min-width:34px}
+.pk-list .pk-n{color:var(--brand);font-weight:800;font-variant-numeric:tabular-nums}
+.pk-list .pk-p{color:var(--mut);font-variant-numeric:tabular-nums;margin-left:auto}
 .cg{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
 .chartc{background:linear-gradient(165deg,rgba(24,52,38,.7),rgba(19,41,30,.5));border:1px solid var(--line);border-radius:16px;padding:18px 18px 14px}
 .chartc .chd{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:2px}
@@ -3487,10 +3525,10 @@ def render_exec(d):
                  '<b>importaciones automáticas</b> que generaron SQLs/oportunidades de golpe (y no descuenta los que se '
                  'eliminan, se descartan o no cualifican). El dato vivo real es el de los KPIs de arriba.')
     charts = [
-        ("MQL", ex.get("cum_mql_m", mql_d), ex["svg_mql_m"], ex.get("note_mql", "")),
-        ("SQL", ex.get("cum_sql_m", ex.get("sql_stage_total", cum["sql"])), ex["svg_sql_m"], ex.get("note_sql", "") + '<br>ℹ️ Etapa <b>exacta</b> SQL por mes de creación (mismo criterio que el KPI). Los meses antiguos salen a <b>0</b> porque esos contactos ya <b>avanzaron</b> a oportunidad/cliente o se descartaron: hoy no están en etapa SQL. El acumulado (total) coincide con el KPI de arriba.'),
-        ("Oportunidades", ex.get("cum_opp_m", opp_real), ex["svg_opp_m"], '📈 <b>Negocios (deals) creados cada mes</b> en el pipeline, por todas las fuentes (ventas + Brain).<br>⚠️ Antes se colaban <b>muchas importaciones</b> en la etapa de ciclo de vida «oportunidad» que inflaban el dato. Aquí contamos <b>solo los que tienen un negocio asociado</b> en el pipeline de ventas o de Brain y están <b>abiertos</b> (excluye cerrados/perdidos). Por eso el <b>acumulado cuadra</b> con el KPI de oportunidades y con los pipelines inbound/outbound/brain.'),
-        ("Clientes", ex.get("cum_cli_m", cli_e), ex["svg_cli_m"], '📈 <b>Cuentas de cliente activas</b> (empresa única) del pipeline «Clientes», por fecha de creación de la cuenta. Cuenta por <b>empresa</b>, no por los contactos asociados a cada cliente. El acumulado cuadra con el KPI de clientes.'),
+        ("MQL", ex.get("cum_mql_m", mql_d), ex["svg_mql_m"], ex.get("note_mql", ""), ex.get("list_mql", "")),
+        ("SQL", ex.get("cum_sql_m", ex.get("sql_stage_total", cum["sql"])), ex["svg_sql_m"], ex.get("note_sql", "") + '<br>ℹ️ Etapa <b>exacta</b> SQL por mes de creación (mismo criterio que el KPI). Los meses antiguos salen a <b>0</b> porque esos contactos ya <b>avanzaron</b> a oportunidad/cliente o se descartaron: hoy no están en etapa SQL. El acumulado (total) coincide con el KPI de arriba.', ex.get("list_sql", "")),
+        ("Oportunidades", ex.get("cum_opp_m", opp_real), ex["svg_opp_m"], '📈 <b>Negocios (deals) creados cada mes</b> en el pipeline, por todas las fuentes (ventas + Brain).<br>⚠️ Antes se colaban <b>muchas importaciones</b> en la etapa de ciclo de vida «oportunidad» que inflaban el dato. Aquí contamos <b>solo los que tienen un negocio asociado</b> en el pipeline de ventas o de Brain y están <b>abiertos</b> (excluye cerrados/perdidos). Por eso el <b>acumulado cuadra</b> con el KPI de oportunidades y con los pipelines inbound/outbound/brain.', ex.get("list_opp", "")),
+        ("Clientes", ex.get("cum_cli_m", cli_e), ex["svg_cli_m"], '📈 <b>Cuentas de cliente activas</b> (empresa única) del pipeline «Clientes», por fecha de creación de la cuenta. Cuenta por <b>empresa</b>, no por los contactos asociados a cada cliente. El acumulado cuadra con el KPI de clientes.', ex.get("list_cli", "")),
     ]
     _EVO_AST = ('<div class="cn cn-ast">* <b>Evolutivo (acumulado)</b>: suma los nuevos que van entrando, '
                 'pero <b>no resta</b> los que cambian de etapa, se descartan o se eliminan → queda <b>sesgado</b> '
@@ -3499,9 +3537,10 @@ def render_exec(d):
     charts_html = "".join(
         f'<div class="chartc"><div class="chd"><h3>{lab} <span class="ch-ast">*</span></h3><span class="cbig tnum">{fmt(val)}</span></div>'
         f'<div class="cn">acumulado diario · 1 ene → hoy · el nº sobre la línea es el total al cierre de cada mes</div>{svg}'
+        f'{lst}'
         f'{_EVO_AST}'
         f'<div class="cfoot">{note}</div></div>'
-        for lab, val, svg, note in charts)
+        for lab, val, svg, note, lst in charts)
 
     # ---------- 3 · FUNNEL ----------
     # Oportunidad = reales (con deal); Cliente = cuentas activas del pipeline Clientes
