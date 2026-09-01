@@ -3206,6 +3206,8 @@ details.chdeals .dl span{font-size:11px;background:rgba(104,209,245,.1);border:1
 .agc-tbl td.agc-n,.agc-tbl th.agc-n{text-align:right;font-variant-numeric:tabular-nums}
 .agc-tbl tr.agc-tot td{border-top:2px solid var(--line);border-bottom:none;font-weight:900;color:var(--ink)}
 .agc-tbl tr.agc-sub td{background:rgba(255,255,255,.03);font-weight:800;color:var(--ink2)}
+.agc-badge{font-size:9.5px;font-weight:800;letter-spacing:.02em;text-transform:uppercase;padding:2px 7px;border-radius:20px;margin-left:6px;vertical-align:middle}
+.agc-badge.on{background:rgba(87,224,138,.15);color:#57e08a} .agc-badge.off{background:rgba(255,255,255,.08);color:var(--mut)}
 @media(max-width:640px){.agc-funnel{flex-wrap:wrap}.agc-tile{flex-basis:40%}.agc-arw{display:none}}
 .strat b{color:var(--brand)}
 .note{background:linear-gradient(150deg,rgba(111,240,162,.12),rgba(111,240,162,.02));border:1px solid var(--line2);border-radius:14px;padding:16px 18px;font-size:13px;color:var(--ink2);margin-top:18px}
@@ -4284,53 +4286,56 @@ def render_exec(d):
     t.addEventListener('input',calc); m.addEventListener('input',calc); calc();
   }})();</script>"""
 
-    # ── Campañas activas de paid · agosto (Meta Ads) · datos de la plataforma (pantallazos) ──
+    # ── Campañas activas de paid · AGOSTO (mes completo) · Meta + LinkedIn · datos de plataforma ──
     def _eur(v):
         return f"{v:,.2f}".replace(",", "§").replace(".", ",").replace("§", ".") + " €"
-    # Gasto por plataforma (Meta total repartido no disponible por campaña → gasto a nivel plataforma)
-    _meta_spend = 1368.69
-    _li_spend = 166.62
-    _ag_spend = _meta_spend + _li_spend                 # gasto total Social Ads agosto
-    _meta_impr, _meta_clics, _meta_cont = 83000, 4000, 19
-    _li_impr, _li_clics, _li_cont = 27000, 127, 0
-    _ag_impr = _meta_impr + _li_impr                    # 110K
-    _ag_clics = _meta_clics + _li_clics                 # 4.127
-    _ag_cont = _meta_cont + _li_cont                    # 19
-    _ag_cli = 0
-    # (nombre, icono, plataforma, MQL, SQL, gasto|None)  · gasto solo a nivel plataforma
+    # (nombre, icono, plataforma, estado, contactos, MQL, SQL, €/contacto|None, impresiones, clics)
     _ag_camps = [
-        ("Meta · Travel", "🏖️", "meta", 9, 0, None),
-        ("Meta · Travel + video demo", "🎬", "meta", 3, 1, None),
-        ("Meta · Ecommerce", "🛒", "meta", 3, 0, None),
-        ("LinkedIn · Ebook Travel", "🔗", "li", 0, 0, _li_spend),
+        ("Meta · Ecommerce (MQLs)", "🛒", "meta", "Activo",  33, 29, 0, 57.92, 96401, 1983),
+        ("Meta · Travel (MQLs)", "🏖️", "meta", "Pausada", 15, 15, 0, 93.36, 70878, 712),
+        ("Meta · Travel + video demo", "🎬", "meta", "Pausada", 4, 3, 1, 133.91, 66805, 5676),
+        ("Meta · Ecommerce (SQLs)", "🎯", "meta", "Activo", 3, 0, 2, 95.06, 5112, 150),
+        ("LinkedIn · Ebook Travel", "🔗", "li", "Activo", 0, 0, 0, None, 36149, 165),
     ]
-    _ag_mql = sum(c[3] for c in _ag_camps)
-    _ag_sql = sum(c[4] for c in _ag_camps)
-    _meta_mql = sum(c[3] for c in _ag_camps if c[2] == "meta")
-    _meta_sql = sum(c[4] for c in _ag_camps if c[2] == "meta")
-    _ag_cpm = _eur(_ag_spend / _ag_mql) if _ag_mql else "—"
-    _ag_cps = _eur(_ag_spend / _ag_sql) if _ag_sql else "—"
-    _ag_cpc = _eur(_ag_spend / _ag_cont) if _ag_cont else "—"
-    def _cps_cell(spend, sql):
-        return _eur(spend / sql) if (spend and sql) else "—"
+    def _spend_of(cont, cpc):
+        return round(cont * cpc, 2) if (cpc is not None and cont) else None
+    _meta_spend = round(sum(_spend_of(c[4], c[7]) or 0 for c in _ag_camps if c[2] == "meta"), 2)
+    _li_spend = None                                    # gasto de LinkedIn en agosto: pendiente de la plataforma
+    _ag_spend = _meta_spend + (_li_spend or 0)          # gasto conocido (Meta); LinkedIn pendiente
+    _ag_impr = sum(c[8] for c in _ag_camps)
+    _ag_clics = sum(c[9] for c in _ag_camps)
+    _ag_cont = sum(c[4] for c in _ag_camps)
+    _meta_cont = sum(c[4] for c in _ag_camps if c[2] == "meta")
+    _ag_mql = sum(c[5] for c in _ag_camps)
+    _ag_sql = sum(c[6] for c in _ag_camps)
+    _meta_mql = sum(c[5] for c in _ag_camps if c[2] == "meta")
+    _meta_sql = sum(c[6] for c in _ag_camps if c[2] == "meta")
+    _ag_cli = 0
+    _ag_cpm = _eur(_meta_spend / _ag_mql) if _ag_mql else "—"
+    _ag_cps = _eur(_meta_spend / _ag_sql) if _ag_sql else "—"
+    _ag_cpc = _eur(_meta_spend / _meta_cont) if _meta_cont else "—"
+    def _badge(s):
+        return f'<span class="agc-badge {"on" if s=="Activo" else "off"}">{s}</span>'
     _ag_rows = ""
-    for nm, icon, plat, m, s, sp in _ag_camps:
+    for nm, icon, plat, st, cont, m, s, cpc, impr, clics in _ag_camps:
+        sp = _spend_of(cont, cpc)
         _sp_txt = _eur(sp) if sp is not None else '<span style="color:var(--mut)">—</span>'
-        _ag_rows += (f'<tr><td>{icon} {esc(nm)}</td><td class="agc-n">{_sp_txt}</td>'
-                     f'<td class="agc-n">{m}</td><td class="agc-n">{s}</td>'
-                     f'<td class="agc-n">{_cps_cell(sp, s)}</td></tr>')
-    # Subtotal Meta (gasto a nivel plataforma) intercalado tras sus campañas
+        _cpc_txt = _eur(cpc) if cpc is not None else '<span style="color:var(--mut)">—</span>'
+        _ag_rows += (f'<tr><td>{icon} {esc(nm)} {_badge(st)}</td>'
+                     f'<td class="agc-n">{_sp_txt}</td><td class="agc-n">{fmt(cont)}</td>'
+                     f'<td class="agc-n">{_cpc_txt}</td><td class="agc-n">{m}</td><td class="agc-n">{s}</td></tr>')
+    # Subtotal Meta antes de la fila de LinkedIn
     _meta_subtotal = (f'<tr class="agc-sub"><td>Σ Meta Ads</td><td class="agc-n">{_eur(_meta_spend)}</td>'
-                      f'<td class="agc-n">{_meta_mql}</td><td class="agc-n">{_meta_sql}</td>'
-                      f'<td class="agc-n">{_cps_cell(_meta_spend, _meta_sql)}</td></tr>')
-    # Insertar el subtotal Meta justo antes de la fila de LinkedIn
+                      f'<td class="agc-n">{fmt(_meta_cont)}</td>'
+                      f'<td class="agc-n">{_eur(_meta_spend/_meta_cont) if _meta_cont else "—"}</td>'
+                      f'<td class="agc-n">{_meta_mql}</td><td class="agc-n">{_meta_sql}</td></tr>')
     _ag_rows = _ag_rows.replace('<tr><td>🔗', _meta_subtotal + '<tr><td>🔗', 1)
     _imprK = f"{round(_ag_impr/1000)}K"
     ag_camp_html = f"""
 <section>
   <div class="q">04c · ¿Qué está trayendo el paid activo este mes?</div>
   <h2 class="sh">Campañas activas · agosto <span class="tot">· Social Ads · Meta + LinkedIn</span></h2>
-  <div class="sd wide">Campañas de <b>Meta Ads</b> y <b>LinkedIn Ads</b> activas del <b>1 al 13 de agosto</b> (travel, ecommerce y demo). Volumen combinado y desglose por campaña. Cifras de las plataformas de Ads (pueden tener ligero retraso frente al CRM).</div>
+  <div class="sd wide">Campañas de <b>Meta Ads</b> y <b>LinkedIn Ads</b> de <b>agosto</b> (ecommerce, travel y demo). Volumen combinado y desglose por campaña. Cifras de las plataformas de Ads (pueden tener ligero retraso frente al CRM). El <b>gasto por campaña</b> se calcula como <b>contactos × coste por contacto</b> de la plataforma.</div>
   <div class="agc-funnel">
     <div class="agc-tile"><div class="agc-v">{_imprK}</div><div class="agc-l">Impresiones</div></div>
     <div class="agc-arw">{pv(_ag_clics, _ag_impr)}</div>
@@ -4341,17 +4346,17 @@ def render_exec(d):
     <div class="agc-tile"><div class="agc-v">{_ag_cli}</div><div class="agc-l">Clientes</div></div>
   </div>
   <div class="cards" style="margin:14px 0">
-    <div class="stat"><div class="sv tnum">{_eur(_ag_spend)}</div><div class="sl">Gasto total · agosto<br><span style="color:var(--mut)">Meta {_eur(_meta_spend)} + LinkedIn {_eur(_li_spend)}</span></div></div>
+    <div class="stat"><div class="sv tnum">{_eur(_ag_spend)}</div><div class="sl">Gasto total · agosto<br><span style="color:var(--mut)">Meta {_eur(_meta_spend)} · LinkedIn pendiente</span></div></div>
     <div class="stat ok"><div class="sv tnum">{_ag_cpm}</div><div class="sl">Coste por MQL<br><span style="color:var(--mut)">{_ag_mql} MQL generados</span></div></div>
-    <div class="stat warn"><div class="sv tnum">{_ag_cps}</div><div class="sl">Coste por SQL<br><span style="color:var(--mut)">{_ag_sql} SQL generado</span></div></div>
+    <div class="stat warn"><div class="sv tnum">{_ag_cps}</div><div class="sl">Coste por SQL<br><span style="color:var(--mut)">{_ag_sql} SQL generados</span></div></div>
   </div>
   <table class="agc-tbl">
-    <thead><tr><th>Campaña activa</th><th class="agc-n">Gasto</th><th class="agc-n">MQL</th><th class="agc-n">SQL</th><th class="agc-n">€ / SQL</th></tr></thead>
+    <thead><tr><th>Campaña activa</th><th class="agc-n">Gasto</th><th class="agc-n">Contactos</th><th class="agc-n">€ / contacto</th><th class="agc-n">MQL</th><th class="agc-n">SQL</th></tr></thead>
     <tbody>{_ag_rows}
-      <tr class="agc-tot"><td>Total · agosto</td><td class="agc-n">{_eur(_ag_spend)}</td><td class="agc-n">{_ag_mql}</td><td class="agc-n">{_ag_sql}</td><td class="agc-n">{_cps_cell(_ag_spend, _ag_sql)}</td></tr>
+      <tr class="agc-tot"><td>Total · agosto</td><td class="agc-n">{_eur(_ag_spend)}</td><td class="agc-n">{fmt(_ag_cont)}</td><td class="agc-n">{_eur(_ag_spend/_ag_cont) if _ag_cont else "—"}</td><td class="agc-n">{_ag_mql}</td><td class="agc-n">{_ag_sql}</td></tr>
     </tbody>
   </table>
-  <div class="note" style="margin-top:12px">💡 <b>Gasto total {_eur(_ag_spend)}</b> (Meta {_eur(_meta_spend)} + LinkedIn {_eur(_li_spend)}) → <b>{_ag_mql} MQL</b> y <b>{_ag_sql} SQL</b>. Coste por MQL = {_ag_cpm}; coste por SQL = {_ag_cps}. <b>Travel (Meta)</b> es la que más volumen trae; el <b>SQL</b> viene de <b>Travel + video demo</b>. <b>LinkedIn</b> genera tráfico (127 clics a {_eur(_li_spend/_li_clics)} c/u) pero <b>0 contactos en el CRM</b>: la plataforma reporta errores de seguimiento y las descargas del ebook <b>no se están atribuyendo</b> aún — revisar el tracking de LinkedIn Lead Gen. El gasto de Meta no viene desglosado por campaña, por eso se muestra a nivel plataforma (Σ Meta).</div>
+  <div class="note" style="margin-top:12px">💡 <b>Agosto:</b> {fmt(_ag_impr)} impresiones → {fmt(_ag_clics)} clics → <b>{_ag_cont} contactos</b> → <b>{_ag_mql} MQL</b> y <b>{_ag_sql} SQL</b>. <b>Ecommerce (Meta)</b> es la que más volumen trae ({33} contactos · 29 MQL); los <b>SQL</b> vienen de <b>Ecommerce-SQLs</b> (2) y <b>Travel + video demo</b> (1). Gasto de <b>Meta {_eur(_meta_spend)}</b> (calculado por campaña) → coste por MQL {_ag_cpm}, coste por SQL {_ag_cps}. <b>LinkedIn</b> genera tráfico ({165} clics, {fmt(36149)} impresiones) pero <b>0 contactos en el CRM</b>: revisar el <b>tracking de LinkedIn Lead Gen</b> (el ebook no se está atribuyendo). <b>Gasto de LinkedIn en agosto: pendiente</b> de exportar de la plataforma.</div>
 </section>"""
 
     body = f"""
